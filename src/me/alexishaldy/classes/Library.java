@@ -6,9 +6,9 @@ import java.util.HashMap;
 public class Library {
 	private static Library instance;
 	private String name;
-	private HashMap<Integer, Book> bookList = new HashMap<Integer, Book>();
+	private HashMap<Boolean, Book> bookList = new HashMap<Boolean, Book>();
 	private ArrayList<User> userList = new ArrayList<>();
-	private int actualCount;
+	private int lastId;
 	
 	public static Library getLibrary() {
 		if (instance==null)
@@ -18,7 +18,7 @@ public class Library {
 	
 	private Library(String name) {
 		this.setName(name);
-		actualCount=0;
+		lastId = 0;
 	}
 
 	public String getName() {
@@ -60,16 +60,11 @@ public class Library {
 	}
 
 	public void addBook(Book book) {
-		for (Book b : bookList.values()) {
-			if (b.getTitle().equals(book.getTitle()) && b.getAuthor().equals(book.getAuthor()) && b.getDate()==book.getDate()) {
-				bookList.get(b).addNumber();
-				return;
-			}
-		}
-		this.bookList.put(this.bookList.size(), book);
+		this.bookList.put(book.isTaken(), book);
+		lastId=book.getId();
 	}
 	/*
-	 * If not id specified the last book created is deleted
+	 * If not title specified the last book created is deleted
 	*/
 	public void removeBook(String... title) {
 		if (title.length>0)
@@ -79,14 +74,27 @@ public class Library {
 						bookList.remove(b);
 				}
 		else
-			this.bookList.remove(this.bookList.get(actualCount));
+			this.bookList.remove(lastId);
 	}
 	
 	public void addUser(User u) {
 		userList.add(u);
 	}
-
-	public ArrayList<User> getUserList() {
-		return userList;
+	
+	public User getUserByNameOrLastname(String name) {
+		for (int i=0;i<userList.size();i++) {
+			if (userList.get(i).getName().equals(name) || userList.get(i).getLastName().equals(name)) {
+				return userList.get(i);
+			}
+		}
+		
+		return null;
+	}
+	
+	public String listUserAndBooks() {
+		String s = "User list:";
+		
+		
+		return s;
 	}
 }

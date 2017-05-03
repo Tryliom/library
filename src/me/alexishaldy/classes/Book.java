@@ -3,7 +3,7 @@ package me.alexishaldy.classes;
 public class Book {
 	private String title;
 	private String author;
-	private int number;
+	private int id;
 	private int date;
 	private boolean taken;
 	private User owner;
@@ -12,22 +12,28 @@ public class Book {
 		this.setTitle(title);
 		this.setAuthor(author);
 		this.setDate(date);
-	}
-
-	public int getNumber() {
-		return number;
-	}
-
-	public void setNumber(int id) {
-		this.number = id;
+		this.taken = false;
 	}
 	
-	public void addNumber() {
-		this.number++;
+	public Book(String title, String author, int date, User owner) {
+		this.setTitle(title);
+		this.setAuthor(author);
+		this.setDate(date);
+		this.taken = owner!=null;
+		this.owner=owner;
 	}
 	
-	public void remNumber() {
-		this.number--;
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public int generateId() {
+		this.id = (int) Math.round(Math.random()*1000000);
+		return this.id;
 	}
 
 	public int getDate() {
