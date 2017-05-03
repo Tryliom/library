@@ -11,11 +11,14 @@ public class Main {
 		lib.addBook(new Book("Hello world", "John", 1999));
 		lib.addBook(new Book("Hello worlds", "Johna", 1995));
 		display(lib.listBook());
+		
 		lib.removeBook("Hello worlds");
 		display(lib.listBook());
+		
 		lib.addBook(new Book("Hello worlds", "Johna", 1995));
 		lib.removeBook();
 		display(lib.listBook());
+		
 		lib.addBook(new Book("April fools", "Marie", 1888));
 		lib.addBook(new Book("The Java", "Paul", 2015));
 		// Finir le reste avant de commencer le sortedBy

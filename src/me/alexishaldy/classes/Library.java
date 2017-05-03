@@ -32,7 +32,6 @@ public class Library {
 	public String listBook(SortType... type) {
 		if (type.length>0) {
 			String s = "Book list sorted by "+type.toString()+":";
-			//TODO
 			if (type.equals(SortType.Number)) {
 				int i = 1;
 				for (Book b : bookList.values()) {
@@ -60,11 +59,14 @@ public class Library {
 		}
 	}
 
-	public void addBook(Book b) {
-		actualCount++;
-		int id = actualCount;
-		b.setId(id);
-		this.bookList.put(id, b);
+	public void addBook(Book book) {
+		for (Book b : bookList.values()) {
+			if (b.getTitle().equals(book.getTitle()) && b.getAuthor().equals(book.getAuthor()) && b.getDate()==book.getDate()) {
+				bookList.get(b).addNumber();
+				return;
+			}
+		}
+		this.bookList.put(this.bookList.size(), book);
 	}
 	/*
 	 * If not id specified the last book created is deleted

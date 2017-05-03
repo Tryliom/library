@@ -3,7 +3,7 @@ package me.alexishaldy.classes;
 public class Book {
 	private String title;
 	private String author;
-	private int id;
+	private int number;
 	private int date;
 	private boolean taken;
 	private User owner;
@@ -14,12 +14,20 @@ public class Book {
 		this.setDate(date);
 	}
 
-	public int getId() {
-		return id;
+	public int getNumber() {
+		return number;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setNumber(int id) {
+		this.number = id;
+	}
+	
+	public void addNumber() {
+		this.number++;
+	}
+	
+	public void remNumber() {
+		this.number--;
 	}
 
 	public int getDate() {
