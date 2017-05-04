@@ -78,7 +78,6 @@ public class User {
 		if (bookRef.length>0) {			
 			for (int i=0;i<bookRef.length;i++) {
 				for (Book b : lib.getBookList().values()) {
-					System.out.println(b.getTitle()+" "+b.isTaken()+" "+getInt(bookRef[i])+" "+b.getDate()+" "+lib.getBookList().size());
 					if (!b.isTaken() && (getInt(bookRef[i])==b.getId() || getInt(bookRef[i])==b.getDate())) {
 						b.setTaken(true);
 						b.setOwner(this);

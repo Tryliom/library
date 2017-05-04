@@ -1,7 +1,10 @@
 package me.alexishaldy.classes;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 public class Library {
 	private static Library instance;
@@ -40,10 +43,19 @@ public class Library {
 				}		
 			}	
 			//TODO
-			if (type[0].equals(SortType.Year)) {				
+			if (type[0].equals(SortType.Year)) {
+				List<Book> tmpBook = new ArrayList<Book>(bookList.values());
+				Collections.sort(tmpBook, new Comparator<Book>() {
+					@Override
+					public int compare(Book a, Book b) {
+						//TODO: Compare
+						return 1;
+					}
+			    });
+				
 				int i = 1;
-				for (Book b : bookList.values()) {
-						s+="\n\tN°"+i+":\nTitle: "+b.getTitle()+"\nAuthor: "+b.getAuthor()+"\nYear: "+b.getDate();
+				for (Book b : tmpBook) {
+						s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate();
 						i++;
 				}		
 			}
@@ -71,16 +83,13 @@ public class Library {
 		if (title.length>0)
 			for (int i=0;i<title.length;i++)
 				for (Book b : bookList.values()) {
-					if (b.getTitle().equalsIgnoreCase(title[i]))
-						bookList.remove(b);
+					if (b.getTitle().equalsIgnoreCase(title[i])) {
+						bookList.remove(b.getId());
+						return;
+					}
 				}
 		else {
-			for (Book b : bookList.values()) {
-				if (b.getId()==lastId) {
-					bookList.remove(b);
-					return;
-				}
-			}
+			bookList.remove(lastId);
 		}
 			
 	}
