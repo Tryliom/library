@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class Library {
 	private static Library instance;
 	private String name;
-	private HashMap<Boolean, Book> bookList = new HashMap<Boolean, Book>();
+	private HashMap<Integer, Book> bookList = new HashMap<Integer, Book>();
 	private ArrayList<User> userList = new ArrayList<>();
 	private int lastId;
 	
@@ -29,18 +29,18 @@ public class Library {
 		this.name = name;
 	}
 
-	public String listBook(SortType... type) {
+	public String listBook(SortType...type) {
 		if (type.length>0) {
 			String s = "Book list sorted by "+type[0].name()+":";
-			if (type.equals(SortType.Number)) {
+			if (type[0].equals(SortType.Number)) {
 				int i = 1;
 				for (Book b : bookList.values()) {
-						s+="\n\tN°"+i+":\nTitle: "+b.getTitle()+"\nAuthor: "+b.getAuthor()+"\nYear: "+b.getDate();
+						s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate();
 						i++;
 				}		
 			}	
 			//TODO
-			if (type.equals(SortType.Year)) {				
+			if (type[0].equals(SortType.Year)) {				
 				int i = 1;
 				for (Book b : bookList.values()) {
 						s+="\n\tN°"+i+":\nTitle: "+b.getTitle()+"\nAuthor: "+b.getAuthor()+"\nYear: "+b.getDate();
@@ -60,7 +60,8 @@ public class Library {
 	}
 
 	public void addBook(Book book) {
-		this.bookList.put(book.isTaken(), book);
+		book.generateId();
+		this.bookList.put(book.getId(), book);
 		lastId=book.getId();
 	}
 	/*
@@ -73,8 +74,15 @@ public class Library {
 					if (b.getTitle().equalsIgnoreCase(title[i]))
 						bookList.remove(b);
 				}
-		else
-			this.bookList.remove(lastId);
+		else {
+			for (Book b : bookList.values()) {
+				if (b.getId()==lastId) {
+					bookList.remove(b);
+					return;
+				}
+			}
+		}
+			
 	}
 	
 	public void addUser(User u) {
@@ -95,16 +103,20 @@ public class Library {
 	public String listUserAndBooks() {
 		String s = "User list:";
 		for (int i=0;i<userList.size();i++) {
-			s+="\nUser N°"+userList.get(i).getId()+":\n";
+			s+="\n\nUser N°"+userList.get(i).getId()+":\n";
 			// Add info of user
 			s+="Name: "+userList.get(i).getName()+"\nLast Name: "+userList.get(i).getLastName();
 			for (Book b : bookList.values()) {
 				if (b.isTaken() && b.getOwner().equals(userList.get(i))) {
-					s+="\n\tBooks taken:\n\t\tTitle: "+b.getTitle()+"\n\t\tAuthor: "+b.getAuthor()+"\n\t\tDate: "+b.getDate();
+					s+="\n\tBook taken:\n\t\tTitle: "+b.getTitle()+"\n\t\tAuthor: "+b.getAuthor()+"\n\t\tYear: "+b.getDate();
 				}
 			}
 		}
 		
 		return s;
+	}
+
+	public HashMap<Integer, Book> getBookList() {
+		return bookList;
 	}
 }

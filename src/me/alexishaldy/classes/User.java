@@ -40,4 +40,78 @@ public class User {
 		return this.id;
 	}
 	
+	public String returnBook(String...bookRef) {
+		Library lib = Library.getLibrary();
+		int count = 0;
+		if (bookRef.length>0) {			
+			for (int i=0;i<bookRef.length;i++) {
+				for (Book b : lib.getBookList().values()) {
+					if (b.isTaken() && b.getOwner().equals(this) && (getInt(bookRef[i])==b.getId() || getInt(bookRef[i])==b.getDate())) {
+						b.setTaken(false);
+						b.setOwner(null);
+						count++;
+					} else if (b.isTaken() && b.getOwner().equals(this) && (bookRef[i].equals(b.getTitle()) || bookRef[i].equals(b.getAuthor()))) {
+						b.setTaken(false);
+						b.setOwner(null);
+						count++;
+					}
+				}
+			}
+		} else {
+			for (Book b : lib.getBookList().values()) {
+				if (b.isTaken() && b.getOwner().equals(this)) {
+					b.setTaken(false);
+					b.setOwner(null);
+					count++;
+				}
+			}
+		}
+		if (count==0)
+			return "No books taken with this name";
+		else
+			return count+" book(s) returned";
+	}
+	
+	public String takenBook(String...bookRef) {
+		Library lib = Library.getLibrary();
+		int count = 0;
+		if (bookRef.length>0) {			
+			for (int i=0;i<bookRef.length;i++) {
+				for (Book b : lib.getBookList().values()) {
+					System.out.println(b.getTitle()+" "+b.isTaken()+" "+getInt(bookRef[i])+" "+b.getDate()+" "+lib.getBookList().size());
+					if (!b.isTaken() && (getInt(bookRef[i])==b.getId() || getInt(bookRef[i])==b.getDate())) {
+						b.setTaken(true);
+						b.setOwner(this);
+						count++;
+					} else if (!b.isTaken() && (bookRef[i].equals(b.getTitle()) || bookRef[i].equals(b.getAuthor()))) {
+						b.setTaken(true);
+						b.setOwner(this);
+						count++;
+					}
+				}
+			}
+		} else {
+			for (Book b : lib.getBookList().values()) {
+				if (!b.isTaken()) {
+					b.setTaken(true);
+					b.setOwner(this);
+					count++;
+				}
+			}
+		}
+		if (count==0)
+			return "No books can be taken with this name";
+		else
+			return count+" book(s) taken";
+	}
+	
+	public int getInt(String i) {
+		try {
+			int result = Integer.parseInt(i);
+			return result;
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+	
 }

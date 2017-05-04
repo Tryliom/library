@@ -19,14 +19,22 @@ public class Main {
 		lib.removeBook("Hello worlds");
 		display(lib.listBook());
 		
-		lib.addBook(new Book("Hello worlds", "Johna", 1995));
+		lib.addBook(new Book("Hello worlds", "Johna", 1997));
 		lib.removeBook();
 		display(lib.listBook());
 		
 		lib.addBook(new Book("April fools", "Marie", 1888, lib.getUserByNameOrLastname("Alexis")));
 		lib.addBook(new Book("The Java", "Paul", 2015));
+		lib.addBook(new Book("All of Kali", "Jean-Pierre", 2015));
+		lib.addBook(new Book("Guisness World Record 2015", "Tom Card", 2015));
 		// Finir le reste avant de commencer le sortedBy
+		display(lib.listUserAndBooks());
 		display(lib.listBook());
+		display(lib.getUserByNameOrLastname("Alexis").returnBook("April fools"));
+		display(lib.listUserAndBooks());
+		display(lib.getUserByNameOrLastname("Alexis").takenBook("Paul"));
+		display(lib.listUserAndBooks());
+		display(lib.getUserByNameOrLastname("Alexis").takenBook("2015"));
 		display(lib.listUserAndBooks());
 	}
 	
