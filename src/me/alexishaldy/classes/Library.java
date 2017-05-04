@@ -31,11 +31,11 @@ public class Library {
 
 	public String listBook(SortType... type) {
 		if (type.length>0) {
-			String s = "Book list sorted by "+type.toString()+":";
+			String s = "Book list sorted by "+type[0].name()+":";
 			if (type.equals(SortType.Number)) {
 				int i = 1;
 				for (Book b : bookList.values()) {
-						s+="\nN°"+i+":\nTitle: "+b.getTitle()+"\nAuthor: "+b.getAuthor()+"\nYear: "+b.getDate();
+						s+="\n\tN°"+i+":\nTitle: "+b.getTitle()+"\nAuthor: "+b.getAuthor()+"\nYear: "+b.getDate();
 						i++;
 				}		
 			}	
@@ -43,7 +43,7 @@ public class Library {
 			if (type.equals(SortType.Year)) {				
 				int i = 1;
 				for (Book b : bookList.values()) {
-						s+="\nN°"+i+":\nTitle: "+b.getTitle()+"\nAuthor: "+b.getAuthor()+"\nYear: "+b.getDate();
+						s+="\n\tN°"+i+":\nTitle: "+b.getTitle()+"\nAuthor: "+b.getAuthor()+"\nYear: "+b.getDate();
 						i++;
 				}		
 			}
@@ -52,7 +52,7 @@ public class Library {
 			String s = "Book list:";
 			int i = 1;
 			for (Book b : bookList.values()) {
-					s+="\nN°"+i+":\nTitle: "+b.getTitle()+"\nAuthor: "+b.getAuthor()+"\nYear: "+b.getDate();
+					s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate();
 					i++;
 			}		
 			return s;
@@ -78,6 +78,7 @@ public class Library {
 	}
 	
 	public void addUser(User u) {
+		u.generateId();
 		userList.add(u);
 	}
 	
@@ -94,12 +95,12 @@ public class Library {
 	public String listUserAndBooks() {
 		String s = "User list:";
 		for (int i=0;i<userList.size();i++) {
-			s+="\nN°"+i+":\n";
+			s+="\nUser N°"+userList.get(i).getId()+":\n";
 			// Add info of user
-			s+="";
+			s+="Name: "+userList.get(i).getName()+"\nLast Name: "+userList.get(i).getLastName();
 			for (Book b : bookList.values()) {
 				if (b.isTaken() && b.getOwner().equals(userList.get(i))) {
-					s+="\n\tBooks taken"+i+":\n\t\tTitle: "+b.getTitle()+"\n\t\tAuthor: "+b.getAuthor()+"\n\t\tId: "+b.getId()+"\n\t\tDate: "+b.getDate();
+					s+="\n\tBooks taken:\n\t\tTitle: "+b.getTitle()+"\n\t\tAuthor: "+b.getAuthor()+"\n\t\tDate: "+b.getDate();
 				}
 			}
 		}

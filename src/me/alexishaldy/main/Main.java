@@ -2,6 +2,7 @@ package me.alexishaldy.main;
 
 import me.alexishaldy.classes.Book;
 import me.alexishaldy.classes.Library;
+import me.alexishaldy.classes.SortType;
 import me.alexishaldy.classes.User;
 
 public class Main {
@@ -9,18 +10,11 @@ public class Main {
 	public static void main(String[] args) {		
 		Library lib = Library.getLibrary();
 		lib.addUser(new User("Alexis", "Haldy"));
-		
-		
-		boolean o = true;
-		if (o)
-			return;
 		lib.addUser(new User("John", "Hulu"));
 		lib.addUser(new User("Paul", "Jira"));
 		lib.addBook(new Book("Hello world", "John", 1999));
 		lib.addBook(new Book("Hello worlds", "Johna", 1995, lib.getUserByNameOrLastname("Paul")));
-		display(lib.listBook());
-		
-		
+		display(lib.listBook(SortType.Number));			
 		
 		lib.removeBook("Hello worlds");
 		display(lib.listBook());
@@ -33,6 +27,7 @@ public class Main {
 		lib.addBook(new Book("The Java", "Paul", 2015));
 		// Finir le reste avant de commencer le sortedBy
 		display(lib.listBook());
+		display(lib.listUserAndBooks());
 	}
 	
 	

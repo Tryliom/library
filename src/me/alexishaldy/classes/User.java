@@ -35,4 +35,9 @@ public class User {
 		this.id = id;
 	}
 	
+	public int generateId() {
+		this.id = (int) Math.round(Math.random()*1000000);
+		return this.id;
+	}
+	
 }
