@@ -81,7 +81,7 @@ public class Library {
 			    });
 			    int i = 1;
 				for (Book b : tmpBook) {
-						s+="\n\tN°"+i+":\n\tTitlessss: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate();
+						s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate();
 						i++;
 				}	
 			}
