@@ -9,6 +9,11 @@ public class Main {
 	public static void main(String[] args) {		
 		Library lib = Library.getLibrary();
 		lib.addUser(new User("Alexis", "Haldy"));
+		
+		
+		boolean o = true;
+		if (o)
+			return;
 		lib.addUser(new User("John", "Hulu"));
 		lib.addUser(new User("Paul", "Jira"));
 		lib.addBook(new Book("Hello world", "John", 1999));

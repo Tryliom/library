@@ -93,7 +93,16 @@ public class Library {
 	
 	public String listUserAndBooks() {
 		String s = "User list:";
-		
+		for (int i=0;i<userList.size();i++) {
+			s+="\nN°"+i+":\n";
+			// Add info of user
+			s+="";
+			for (Book b : bookList.values()) {
+				if (b.isTaken() && b.getOwner().equals(userList.get(i))) {
+					s+="\n\tBooks taken"+i+":\n\t\tTitle: "+b.getTitle()+"\n\t\tAuthor: "+b.getAuthor()+"\n\t\tId: "+b.getId()+"\n\t\tDate: "+b.getDate();
+				}
+			}
+		}
 		
 		return s;
 	}
