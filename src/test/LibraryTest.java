@@ -19,7 +19,7 @@ public class LibraryTest {
 
 	@Test
 	public void testGetName() {
-		String s = lib.getName();
+		lib.getName();
 	}
 
 	@Test
