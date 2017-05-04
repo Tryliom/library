@@ -1,6 +1,7 @@
 package me.alexishaldy.classes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -44,20 +45,45 @@ public class Library {
 			}	
 			//TODO
 			if (type[0].equals(SortType.Year)) {
-				List<Book> tmpBook = new ArrayList<Book>(bookList.values());
-				Collections.sort(tmpBook, new Comparator<Book>() {
-					@Override
-					public int compare(Book a, Book b) {
-						//TODO: Compare
-						return 1;
-					}
-			    });
+				/*
+				 * First solution
+				Map<Date, Book> tmpBook = new TreeMap<Date, Book>();
+				int mili = 0;
+				for (Book b : bookList.values()) {
+					Calendar calendar = Calendar.getInstance();
+					calendar.clear();
+					calendar.set(Calendar.MILLISECOND, mili);
+					calendar.set(Calendar.YEAR, b.getDate());
+					Date date = calendar.getTime();
+					tmpBook.put(date, b);
+					mili++;
+				}
 				
 				int i = 1;
-				for (Book b : tmpBook) {
+				for (Book b : tmpBook.values()) {
 						s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate();
 						i++;
 				}		
+				*/
+				List<Book> tmpBook = new ArrayList<Book>(bookList.values());
+
+			    Collections.sort(tmpBook, new Comparator<Book>() {
+
+			        public int compare(Book o1, Book o2) {
+			        	if (o1.getDate() == o2.getDate())
+			        		return 0;
+			        	if (o1.getDate() < o2.getDate())
+			        		return -1;
+			        	return 1;
+			        }
+
+
+			    });
+			    int i = 1;
+				for (Book b : tmpBook) {
+						s+="\n\tN°"+i+":\n\tTitlessss: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate();
+						i++;
+				}	
 			}
 			return s;
 		} else {
