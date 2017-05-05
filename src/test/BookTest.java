@@ -1,7 +1,5 @@
 package test;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
 
 import me.alexishaldy.classes.Book;
@@ -11,67 +9,67 @@ public class BookTest {
 	Book b = new Book("Title", "Author", 2017, new User("Alexis", "Haldy"));
 	
 	@Test
-	public final void testGetId() {
+	public  void testGetId() {
 		b.getId();
 	}
 
 	@Test
-	public final void testSetId() {
+	public  void testSetId() {
 		b.setId(1);
 	}
 
 	@Test
-	public final void testGenerateId() {
+	public  void testGenerateId() {
 		b.generateId();
 	}
 
 	@Test
-	public final void testGetDate() {
+	public  void testGetDate() {
 		b.getDate();
 	}
 
 	@Test
-	public final void testSetDate() {
+	public  void testSetDate() {
 		b.setDate(666);
 	}
 
 	@Test
-	public final void testGetAuthor() {
+	public  void testGetAuthor() {
 		b.getAuthor();
 	}
 
 	@Test
-	public final void testSetAuthor() {
+	public  void testSetAuthor() {
 		b.setAuthor("Tom Card");
 	}
 
 	@Test
-	public final void testGetTitle() {
+	public  void testGetTitle() {
 		b.getTitle();
 	}
 
 	@Test
-	public final void testSetTitle() {
+	public  void testSetTitle() {
 		b.setTitle("Le petit Prince de feu");
 	}
 
 	@Test
-	public final void testIsTaken() {
+	public  void testIsTaken() {
 		b.isTaken();
 	}
 
 	@Test
-	public final void testSetTaken() {
+	public  void testSetTaken() {
 		b.setTaken(true);
 	}
 
 	@Test
-	public final void testGetOwner() {
+	public  void testGetOwner() {
 		b.getOwner();
 	}
 
 	@Test
-	public final void testSetOwner() {
+	public  void testSetOwner() {
 		b.setOwner(new User("Iada", "Haïdi"));
 	}
 

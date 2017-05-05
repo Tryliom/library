@@ -40,17 +40,17 @@ public class User {
 		return this.id;
 	}
 	
-	public String returnBook(String...bookRef) {
+	public String returnBook(SubBook sub, String...bookRef) {
 		Library lib = Library.getLibrary();
 		int count = 0;
 		if (bookRef.length>0) {			
 			for (int i=0;i<bookRef.length;i++) {
 				for (Book b : lib.getBookList().values()) {
-					if (b.isTaken() && b.getOwner().equals(this) && (getInt(bookRef[i])==b.getId() || getInt(bookRef[i])==b.getDate())) {
+					if (!b.isTaken() && ((sub.equals(SubBook.Id) && getInt(bookRef[i])==b.getId()) || (sub.equals(SubBook.Year) && getInt(bookRef[i])==b.getDate()))) {
 						b.setTaken(false);
 						b.setOwner(null);
 						count++;
-					} else if (b.isTaken() && b.getOwner().equals(this) && (bookRef[i].equals(b.getTitle()) || bookRef[i].equals(b.getAuthor()))) {
+					} else if (!b.isTaken() && ((sub.equals(SubBook.Title) && bookRef[i].equals(b.getTitle())) || (sub.equals(SubBook.Author) && bookRef[i].equals(b.getAuthor())))) {
 						b.setTaken(false);
 						b.setOwner(null);
 						count++;
@@ -72,17 +72,17 @@ public class User {
 			return count+" book(s) returned";
 	}
 	
-	public String takenBook(String...bookRef) {
+	public String takenBook(SubBook sub, String...bookRef) {
 		Library lib = Library.getLibrary();
 		int count = 0;
 		if (bookRef.length>0) {			
 			for (int i=0;i<bookRef.length;i++) {
 				for (Book b : lib.getBookList().values()) {
-					if (!b.isTaken() && (getInt(bookRef[i])==b.getId() || getInt(bookRef[i])==b.getDate())) {
+					if (!b.isTaken() && ((sub.equals(SubBook.Id) && getInt(bookRef[i])==b.getId()) || (sub.equals(SubBook.Year) && getInt(bookRef[i])==b.getDate()))) {
 						b.setTaken(true);
 						b.setOwner(this);
 						count++;
-					} else if (!b.isTaken() && (bookRef[i].equals(b.getTitle()) || bookRef[i].equals(b.getAuthor()))) {
+					} else if (!b.isTaken() && ((sub.equals(SubBook.Title) && bookRef[i].equals(b.getTitle())) || (sub.equals(SubBook.Author) && bookRef[i].equals(b.getAuthor())))) {
 						b.setTaken(true);
 						b.setOwner(this);
 						count++;

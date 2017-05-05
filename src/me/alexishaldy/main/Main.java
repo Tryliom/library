@@ -3,6 +3,7 @@ package me.alexishaldy.main;
 import me.alexishaldy.classes.Book;
 import me.alexishaldy.classes.Library;
 import me.alexishaldy.classes.SortType;
+import me.alexishaldy.classes.SubBook;
 import me.alexishaldy.classes.User;
 
 public class Main {
@@ -20,6 +21,7 @@ public class Main {
 		display(lib.listBook());
 		
 		lib.addBook(new Book("Hello worlds", "Johna", 1997));
+		display(lib.listBook());
 		lib.removeBook();
 		display(lib.listBook());
 		
@@ -31,11 +33,11 @@ public class Main {
 		// Finir le reste avant de commencer le sortedBy
 		display(lib.listUserAndBooks());
 		display(lib.listBook());
-		display(lib.getUserByNameOrLastname("Alexis").returnBook("April fools"));
+		display(lib.getUserByNameOrLastname("Alexis").returnBook(SubBook.Title, "April fools"));
 		display(lib.listUserAndBooks());
-		display(lib.getUserByNameOrLastname("Alexis").takenBook("Paul"));
-		display(lib.getUserByNameOrLastname("Alexis").takenBook("2015"));
-		display(lib.getUserByNameOrLastname("Alexis").takenBook("A 1 billion jokes"));
+		display(lib.getUserByNameOrLastname("Alexis").takenBook(SubBook.Author, "Paul"));
+		display(lib.getUserByNameOrLastname("Alexis").takenBook(SubBook.Year, "2015"));
+		display(lib.getUserByNameOrLastname("Alexis").takenBook(SubBook.Title, "A 1 billion jokes"));
 		display(lib.listUserAndBooks());
 		display(lib.listBook(SortType.Year));		
 	}
