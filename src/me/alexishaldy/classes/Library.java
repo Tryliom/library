@@ -44,26 +44,6 @@ public class Library {
 			}	
 			//TODO
 			if (type[0].equals(SortType.Year)) {
-				/*
-				 * First solution
-				Map<Date, Book> tmpBook = new TreeMap<Date, Book>();
-				int mili = 0;
-				for (Book b : bookList.values()) {
-					Calendar calendar = Calendar.getInstance();
-					calendar.clear();
-					calendar.set(Calendar.MILLISECOND, mili);
-					calendar.set(Calendar.YEAR, b.getDate());
-					Date date = calendar.getTime();
-					tmpBook.put(date, b);
-					mili++;
-				}
-				
-				int i = 1;
-				for (Book b : tmpBook.values()) {
-						s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate();
-						i++;
-				}		
-				*/
 				List<Book> tmpBook = new ArrayList<Book>(bookList.values());
 
 			    Collections.sort(tmpBook, new Comparator<Book>() {
