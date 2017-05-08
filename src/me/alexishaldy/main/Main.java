@@ -30,7 +30,7 @@ public class Main {
 		lib.addBook(new Book("All of Kali", "Jean-Pierre", 2015));
 		lib.addBook(new Book("Guisness World Record 2015", "Tom Card", 2015));
 		lib.addBook(new Book("A 1 billion jokes", "Tommy", 1777));
-		// Finir le reste avant de commencer le sortedBy
+
 		display(lib.listUserAndBooks());
 		display(lib.listBook());
 		display(lib.getUserByNameOrLastname("Alexis").returnBook(SubBook.Title, "April fools"));
