@@ -31,6 +31,7 @@ public class Main {
 		lib.addBook(new Book("Guisness World Record 2015", "Tom Card", 2015));
 		lib.addBook(new Book("A 1 billion jokes", "Tommy", 1777));
 		lib.addBook(new Book("The power", "FH", 2016));
+		lib.addBook(new Book("The loose", "PP", 2016));
 
 		display(lib.listUserAndBooks());
 		display(lib.listBook());
