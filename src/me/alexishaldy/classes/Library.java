@@ -118,7 +118,6 @@ public class Library {
 		String s = "User list:";
 		for (int i=0;i<userList.size();i++) {
 			s+="\n\nUser N°"+userList.get(i).getId()+":\n";
-			// Add info of user
 			s+="Name: "+userList.get(i).getName()+"\nLast Name: "+userList.get(i).getLastName();
 			for (Book b : bookList.values()) {
 				if (b.isTaken() && b.getOwner().equals(userList.get(i))) {
