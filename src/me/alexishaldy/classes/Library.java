@@ -76,13 +76,18 @@ public class Library {
 		}
 	}
 
+	/**
+	 * @param book Add the book to the Library
+	 * 
+	*/
 	public void addBook(Book book) {
 		book.generateId();
 		this.bookList.put(book.getId(), book);
 		lastId=book.getId();
 	}
-	/*
-	 * If not title specified the last book created is deleted
+	/**
+	 * @param title If not title specified the last book created is deleted
+	 * 
 	*/
 	public void removeBook(String... title) {
 		if (title.length>0)
