@@ -13,6 +13,10 @@ public class Library {
 	private ArrayList<User> userList = new ArrayList<>();
 	private int lastId;
 	
+	/**
+	 * @return Create un singleton of Library
+	 * 
+	*/
 	public static Library getLibrary() {
 		if (instance==null)
 			instance = new Library("Library");
@@ -31,7 +35,11 @@ public class Library {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	/**
+	 * @param type Can choose a type of sorting for books
+	 * 
+	*/
 	public String listBook(SortType...type) {
 		if (type.length>0) {
 			String s = "Book list sorted by "+type[0].name()+":";
@@ -109,6 +117,10 @@ public class Library {
 		userList.add(u);
 	}
 	
+	/**
+	 * @param name Search by name or last name the user
+	 * 
+	*/
 	public User getUserByNameOrLastname(String name) {
 		for (int i=0;i<userList.size();i++) {
 			if (userList.get(i).getName().equals(name) || userList.get(i).getLastName().equals(name)) {
@@ -119,6 +131,10 @@ public class Library {
 		return null;
 	}
 	
+	/**
+	 * @return Display User in String format and his books if he owned them
+	 * 
+	*/
 	public String listUserAndBooks() {
 		String s = "User list:";
 		for (int i=0;i<userList.size();i++) {
