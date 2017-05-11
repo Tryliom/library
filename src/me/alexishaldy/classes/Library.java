@@ -37,6 +37,7 @@ public class Library {
 	}
 	
 	/**
+	 * Blabla
 	 * @param type Can choose a type of sorting for books
 	 * 
 	*/
@@ -50,7 +51,6 @@ public class Library {
 						i++;
 				}		
 			}	
-			//TODO
 			if (type[0].equals(SortType.Year)) {
 				List<Book> tmpBook = new ArrayList<Book>(bookList.values());
 
