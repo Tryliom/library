@@ -60,4 +60,31 @@ public class Utils {
 	public static void display(String s) {
 		System.out.println(s);
 	}
+	
+	public static boolean isInt(String s) {
+		try {
+			Integer.parseInt(s);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

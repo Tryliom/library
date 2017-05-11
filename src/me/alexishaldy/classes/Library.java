@@ -132,6 +132,20 @@ public class Library {
 	}
 	
 	/**
+	 * @param name Search by id
+	 * 
+	*/
+	public User getUserById(int id) {
+		for (int i=0;i<userList.size();i++) {
+			if (userList.get(i).getId()==id) {
+				return userList.get(i);
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * @return Display User in String format and his books if he owned them
 	 * 
 	*/
