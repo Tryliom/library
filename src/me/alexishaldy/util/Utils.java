@@ -69,6 +69,15 @@ public class Utils {
 			return false;
 		}
 	}
+	
+	public static int getInt(String i) {
+		try {
+			int result = Integer.parseInt(i);
+			return result;
+		} catch (Exception e) {
+			return -1;
+		}
+	}
 }
 
 
