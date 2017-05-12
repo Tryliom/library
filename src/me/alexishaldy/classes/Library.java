@@ -135,9 +135,9 @@ public class Library {
 	 * @param name Search by id
 	 * 
 	*/
-	public User getUserById(int id) {
+	public User getUserById(String id) {
 		for (int i=0;i<userList.size();i++) {
-			if (userList.get(i).getId()==id) {
+			if (userList.get(i).getIdentityId().equalsIgnoreCase(id)) {
 				return userList.get(i);
 			}
 		}
@@ -152,7 +152,7 @@ public class Library {
 	public String listUserAndBooks() {
 		String s = "User list:";
 		for (int i=0;i<userList.size();i++) {
-			s+="\n\nUser N°"+userList.get(i).getId()+":\n";
+			s+="\n\nUser "+userList.get(i).getIdentityId()+":\n";
 			s+="Name: "+userList.get(i).getName()+"\nLast Name: "+userList.get(i).getLastName();
 			for (Book b : bookList.values()) {
 				if (b.isTaken() && b.getOwner().equals(userList.get(i))) {

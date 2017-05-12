@@ -36,7 +36,7 @@ public class LibraryTest {
 	@Test
 	public void testAddBook() {
 		lib.addBook(new Book("Title", "Marc", 2017));
-		lib.addBook(new Book("Title", "Marc", 2017, new User("Name", "Last name")));
+		lib.addBook(new Book("Title", "Marc", 2017, new User("Jovial", "Nain", "Pudent", "jovialdu19@gmail.com", "0796588843")));
 	}
 
 	@Test
@@ -49,7 +49,7 @@ public class LibraryTest {
 
 	@Test
 	public void testAddUser() {
-		lib.addUser(new User("User name", "User last name"));
+		lib.addUser(new User("Jovial", "Nain", "Pudent", "jovialdu19@gmail.com", "0796588843"));
 	}
 
 	@Test

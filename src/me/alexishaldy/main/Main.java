@@ -24,20 +24,32 @@ public class Main {
 			
 			if (a[0].equalsIgnoreCase("mkuser") || a[0].equalsIgnoreCase("mku")) {
 				if (a.length>1) {
-					String n="";
-					String ln = "";
+					String n1="";
+					String n2 = "";
+					String n3 = "";
+					String n4 = "";
+					String n5 = "";
 					int count = 0;
 					for (int i=1;i<a.length;i++) {
-						if (i%2==1)
-							n=a[i];
-						else
-							ln=a[i];
-						if (!n.isEmpty() && !ln.isEmpty()) {
+						if (i%5==1)
+							n1=a[i];
+						else if (i%5==2)
+							n2=a[i];
+						else if (i%5==3)
+							n3=a[i];
+						else if (i%5==4)
+							n4=a[i];
+						else if (i%5==0)
+							n5=a[i];
+						if (!n1.isEmpty() && !n2.isEmpty() && !n3.isEmpty() && !n4.isEmpty() && !n5.isEmpty()) {
 							count++;
-							lib.addUser(new User(n, ln));
+							lib.addUser(new User(n1, n2, n3, n4, n5));
 							Utils.display("Utilisateur "+count+" créé !");
-							n="";
-							ln="";
+							n1="";
+							n2="";
+							n3="";
+							n4="";
+							n5="";
 						}
 					}
 				} else {
@@ -46,11 +58,19 @@ public class Main {
 					if (!name.equalsIgnoreCase("-exit")) {
 						String lastname = Reader.readString("Donnez lui un nom\n");
 						if (!lastname.equalsIgnoreCase("-exit")) {
-							lib.addUser(new User(name, lastname));
-							Utils.display("Utilisateur créé !");
+							String username = Reader.readString("Donnez lui un pseudo\n");
+							if (!username.equalsIgnoreCase("-exit")) {
+								String email = Reader.readEmail("Donnez lui un email\n");
+								if (!email.equalsIgnoreCase("-exit")) {
+									String tel = Reader.readNumTel("Donnez lui un numéro de téléphone\n");
+									if (!tel.equalsIgnoreCase("-exit")) {
+										lib.addUser(new User(username, name, lastname, email, tel));
+										Utils.display("Utilisateur "+username+" créé !");
+									}
+								}
+							}
 						}
 					}
-						
 				}
 			}
 			if (a[0].equalsIgnoreCase("mkbook") || a[0].equalsIgnoreCase("mkb")) {
@@ -86,8 +106,8 @@ public class Main {
 						String n2 = Reader.readString("Donnez lui un auteur qui l'a écrit\n");
 						if (!n2.equalsIgnoreCase("-exit")) {
 							int year = Reader.readInt("Donnez lui une année de création\n");
-							int id = Reader.readInt("Donnez lui un id d'user si vous voulez que ce livre lui appartienne dès sa création ou mettez -1 pour ignorer cette option\n");
-							if (id<=-1) {
+							String id = Reader.readString("Donnez lui un id d'user si vous voulez que ce livre lui appartienne dès sa création ou mettez -1 pour ignorer cette option\n");
+							if (id.equalsIgnoreCase("-1")) {
 								lib.addBook(new Book(n1, n2, year));
 								Utils.display("Livre créé !");
 							} else {

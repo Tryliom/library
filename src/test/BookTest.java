@@ -6,7 +6,7 @@ import me.alexishaldy.classes.Book;
 import me.alexishaldy.classes.User;
 
 public class BookTest {
-	Book b = new Book("Title", "Author", 2017, new User("Alexis", "Haldy"));
+	Book b = new Book("Title", "Author", 2017, new User("Jovial", "Nain", "Pudent", "jovialdu19@gmail.com", "0796588843"));
 	
 	@Test
 	public  void testGetId() {
@@ -70,7 +70,7 @@ public class BookTest {
 
 	@Test
 	public  void testSetOwner() {
-		b.setOwner(new User("Iada", "Haïdi"));
+		b.setOwner(new User("Jovial", "Nain", "Pudent", "jovialdu19@gmail.com", "0796588843"));
 	}
 
 }
