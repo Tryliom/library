@@ -6,18 +6,13 @@ import me.alexishaldy.classes.Book;
 import me.alexishaldy.classes.User;
 
 public class BookTest {
-	Book b = new Book("Title", "Author", 2017, new User("Jovial", "Nain", "Pudent", "jovialdu19@gmail.com", "0796588843"));
+	Book b = new Book("Title", "Marc", 2017, "Ma description est géniale", 3, "Dupuis", new User("Jovial", "Nain", "Pudent", "jovialdu19@gmail.com", "0796588843").getIdentityId());
 	
 	@Test
 	public  void testGetId() {
 		b.getId();
 	}
-
-	@Test
-	public  void testSetId() {
-		b.setId(1);
-	}
-
+	
 	@Test
 	public  void testGenerateId() {
 		b.generateId();
@@ -27,50 +22,15 @@ public class BookTest {
 	public  void testGetDate() {
 		b.getDate();
 	}
-
-	@Test
-	public  void testSetDate() {
-		b.setDate(666);
-	}
-
+	
 	@Test
 	public  void testGetAuthor() {
 		b.getAuthor();
 	}
-
-	@Test
-	public  void testSetAuthor() {
-		b.setAuthor("Tom Card");
-	}
-
+	
 	@Test
 	public  void testGetTitle() {
 		b.getTitle();
-	}
-
-	@Test
-	public  void testSetTitle() {
-		b.setTitle("Le petit Prince de feu");
-	}
-
-	@Test
-	public  void testIsTaken() {
-		b.isTaken();
-	}
-
-	@Test
-	public  void testSetTaken() {
-		b.setTaken(true);
-	}
-
-	@Test
-	public  void testGetOwner() {
-		b.getOwner();
-	}
-
-	@Test
-	public  void testSetOwner() {
-		b.setOwner(new User("Jovial", "Nain", "Pudent", "jovialdu19@gmail.com", "0796588843"));
 	}
 
 }

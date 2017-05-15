@@ -9,8 +9,6 @@ public class User {
 	private String identityId;
 	private String email;
 	private String tel;
-	
-	
 
 	public User(String username, String name, String lastName, String email, String tel) {
 		super();
@@ -34,6 +32,10 @@ public class User {
 		return identityId;
 	}
 	
+	public String getUsername() {
+		return username;
+	}
+
 	public String generateId() {
 		this.identityId = this.username+"_"+(int) Math.round(Math.random()*1000000);
 		return this.identityId;
@@ -45,22 +47,19 @@ public class User {
 		if (bookRef.length>0) {			
 			for (int i=0;i<bookRef.length;i++) {
 				for (Book b : lib.getBookList().values()) {
-					if (!b.isTaken() && ((sub.equals(SubBook.Id) && Utils.getInt(bookRef[i])==b.getId()) || (sub.equals(SubBook.Year) && Utils.getInt(bookRef[i])==b.getDate()))) {
-						b.setTaken(false);
-						b.setOwner(null);
+					if (b.getUserId()!=null && ((sub.equals(SubBook.Id) && bookRef[i].equals(b.getId())) || (sub.equals(SubBook.Year) && Utils.getInt(bookRef[i])==b.getDate()))) {
+						
 						count++;
-					} else if (!b.isTaken() && ((sub.equals(SubBook.Title) && bookRef[i].equals(b.getTitle())) || (sub.equals(SubBook.Author) && bookRef[i].equals(b.getAuthor())))) {
-						b.setTaken(false);
-						b.setOwner(null);
+					} else if (b.getUserId()!=null && ((sub.equals(SubBook.Title) && bookRef[i].equals(b.getTitle())) || (sub.equals(SubBook.Author) && bookRef[i].equals(b.getAuthor())))) {
+						b.setUserId(null);
 						count++;
 					}
 				}
 			}
 		} else {
 			for (Book b : lib.getBookList().values()) {
-				if (b.isTaken() && b.getOwner().equals(this)) {
-					b.setTaken(false);
-					b.setOwner(null);
+				if (b.getUserId()!=null && b.getUserId().equals(this)) {
+					b.setUserId(null);
 					count++;
 				}
 			}
@@ -77,22 +76,19 @@ public class User {
 		if (bookRef.length>0) {			
 			for (int i=0;i<bookRef.length;i++) {
 				for (Book b : lib.getBookList().values()) {
-					if (!b.isTaken() && ((sub.equals(SubBook.Id) && Utils.getInt(bookRef[i])==b.getId()) || (sub.equals(SubBook.Year) && Utils.getInt(bookRef[i])==b.getDate()))) {
-						b.setTaken(true);
-						b.setOwner(this);
+					if (b.getUserId()==null && ((sub.equals(SubBook.Id) && bookRef[i].equals(b.getId())) || (sub.equals(SubBook.Year) && Utils.getInt(bookRef[i])==b.getDate()))) {
+						b.setUserId(this.getIdentityId());
 						count++;
-					} else if (!b.isTaken() && ((sub.equals(SubBook.Title) && bookRef[i].equals(b.getTitle())) || (sub.equals(SubBook.Author) && bookRef[i].equals(b.getAuthor())))) {
-						b.setTaken(true);
-						b.setOwner(this);
+					} else if (b.getUserId()==null && ((sub.equals(SubBook.Title) && bookRef[i].equals(b.getTitle())) || (sub.equals(SubBook.Author) && bookRef[i].equals(b.getAuthor())))) {
+						b.setUserId(this.getIdentityId());
 						count++;
 					}
 				}
 			}
 		} else {
 			for (Book b : lib.getBookList().values()) {
-				if (!b.isTaken()) {
-					b.setTaken(true);
-					b.setOwner(this);
+				if (b.getUserId()==null) {
+					b.setUserId(this.getIdentityId());
 					count++;
 				}
 			}

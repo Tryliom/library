@@ -35,8 +35,8 @@ public class LibraryTest {
 
 	@Test
 	public void testAddBook() {
-		lib.addBook(new Book("Title", "Marc", 2017));
-		lib.addBook(new Book("Title", "Marc", 2017, new User("Jovial", "Nain", "Pudent", "jovialdu19@gmail.com", "0796588843")));
+		lib.addBook(new Book("Wolverine", "Marc", 2017, "Ma description est géniale", 3, "Marvel"));
+		lib.addBook(new Book("Wolverine", "Marc", 2017, "Ma description est géniale", 3, "Marvel",new User("Jovial", "Nain", "Pudent", "jovialdu19@gmail.com", "0796588843").getIdentityId()));
 	}
 
 	@Test
@@ -54,8 +54,7 @@ public class LibraryTest {
 
 	@Test
 	public void testGetUserByNameOrLastname() {
-		lib.getUserByNameOrLastname("User name");
-		lib.getUserByNameOrLastname("User last name");
+		lib.getUserByUsername("Username");
 	}
 
 	@Test

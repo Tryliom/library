@@ -52,4 +52,27 @@ public class Reader {
 	        }
 		}	
 	}
+	
+	public static String readBoolean(String possibleResp, String... s) {
+		String output="";
+		String resp[] = possibleResp.split(" ");
+		while (true) {
+			System.out.print(s.length>0 ? s[0] : ""+"\n-> ");
+	        output = scan.nextLine();
+	        if (output.isEmpty() || !Utils.containString(resp, output))
+	        	continue;
+			return output;		
+		}	
+	}
 }
+
+
+
+
+
+
+
+
+
+
+

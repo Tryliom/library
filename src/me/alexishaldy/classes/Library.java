@@ -8,10 +8,12 @@ import java.util.List;
 
 public class Library {
 	private static Library instance;
-	private String name;
-	private HashMap<Integer, Book> bookList = new HashMap<Integer, Book>();
+	private String name; // adresse CIF
+	private String adress;
+	private String CIF;
+	private HashMap<String, Book> bookList = new HashMap<String, Book>();
 	private ArrayList<User> userList = new ArrayList<>();
-	private int lastId;
+	private String lastId;
 	
 	/**
 	 * @return Create un singleton of Library
@@ -19,14 +21,24 @@ public class Library {
 	*/
 	public static Library getLibrary() {
 		if (instance==null)
-			instance = new Library("Library");
+			instance = new Library("Library", "null", "null");
 		return instance;
 	}
 	
-	private Library(String name) {
-		this.setName(name);
-		lastId = 0;
+
+
+	private Library(String name, String adress, String cIF) {
+		this.name = name;
+		this.adress = adress;
+		lastId = "";
+		CIF = cIF;
 	}
+	
+	public static void initLibrary(String name, String adress, String cIF) {
+		instance = new Library(name, adress, cIF);
+	}
+
+
 
 	public String getName() {
 		return name;
@@ -89,7 +101,6 @@ public class Library {
 	 * 
 	*/
 	public void addBook(Book book) {
-		book.generateId();
 		this.bookList.put(book.getId(), book);
 		lastId=book.getId();
 	}
@@ -121,9 +132,9 @@ public class Library {
 	 * @param name Search by name or last name the user
 	 * 
 	*/
-	public User getUserByNameOrLastname(String name) {
+	public User getUserByUsername(String name) {
 		for (int i=0;i<userList.size();i++) {
-			if (userList.get(i).getName().equals(name) || userList.get(i).getLastName().equals(name)) {
+			if (userList.get(i).getUsername().equals(name)) {
 				return userList.get(i);
 			}
 		}
@@ -146,6 +157,16 @@ public class Library {
 	}
 	
 	/**
+	 * @param name Search by id
+	 * 
+	*/
+	public boolean removeUser(User u) {
+		if (userList.remove(u))
+			return true;		
+		return false;
+	}
+	
+	/**
 	 * @return Display User in String format and his books if he owned them
 	 * 
 	*/
@@ -155,7 +176,7 @@ public class Library {
 			s+="\n\nUser "+userList.get(i).getIdentityId()+":\n";
 			s+="Name: "+userList.get(i).getName()+"\nLast Name: "+userList.get(i).getLastName();
 			for (Book b : bookList.values()) {
-				if (b.isTaken() && b.getOwner().equals(userList.get(i))) {
+				if (b.getUserId()!=null && b.getUserId().equals(userList.get(i).getIdentityId())) {
 					s+="\n\tBook taken:\n\t\tTitle: "+b.getTitle()+"\n\t\tAuthor: "+b.getAuthor()+"\n\t\tYear: "+b.getDate();
 				}
 			}
@@ -164,7 +185,7 @@ public class Library {
 		return s;
 	}
 
-	public HashMap<Integer, Book> getBookList() {
+	public HashMap<String, Book> getBookList() {
 		return bookList;
 	}
 }

@@ -2,79 +2,74 @@ package me.alexishaldy.classes;
 
 public class Book {
 	private String title;
-	private String author;
-	private int id;
+	private String author;	
 	private int date;
-	private boolean taken;
-	private User owner;
+	private String desc;
+	private int edition;
+	private String editional;
+	private String userId;
+	private String id;
 	
-	public Book(String title, String author, int date) {
-		this.setTitle(title);
-		this.setAuthor(author);
-		this.setDate(date);
-		this.taken = false;
+	public Book(String title, String author, int date, String desc, int edition, String editional) {
+		this.title = title;
+		this.author = author;
+		this.date = date;
+		this.desc = desc;
+		this.edition = edition;
+		this.editional = editional;
+		this.generateId();
 	}
 	
-	public Book(String title, String author, int date, User owner) {
-		this.setTitle(title);
-		this.setAuthor(author);
-		this.setDate(date);
-		this.taken = owner!=null;
-		this.owner=owner;
-	}
-	
-	public int getId() {
-		return id;
+	public Book(String title, String author, int date, String desc, int edition, String editional, String userId) {
+		this.title = title;
+		this.author = author;
+		this.date = date;
+		this.desc = desc;
+		this.edition = edition;
+		this.editional = editional;
+		this.userId = userId;
+		this.generateId();
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public int generateId() {
-		this.id = (int) Math.round(Math.random()*1000000);
+	public String generateId() {
+		try {
+			this.id = title.substring(0, 1).toUpperCase()+author.substring(0, 1).toUpperCase()+desc.substring(0, 3).toUpperCase()+Math.round(Math.random()*1000000);
+		} catch (Exception e) {
+			this.id = title.substring(0, 1).toUpperCase()+author.substring(0, 1).toUpperCase()+desc.substring(0, 1).toUpperCase()+Math.round(Math.random()*1000000);
+		}
 		return this.id;
 	}
 
 	public int getDate() {
 		return date;
 	}
-
-	public void setDate(int date) {
-		this.date = date;
-	}
-
+	
 	public String getAuthor() {
 		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public String getUserId() {
+		return userId;
 	}
 
-	public boolean isTaken() {
-		return taken;
+	public String getDesc() {
+		return desc;
 	}
 
-	public void setTaken(boolean taken) {
-		this.taken = taken;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public User getOwner() {
-		return owner;
+	public int getEdition() {
+		return edition;
 	}
 
-	public void setOwner(User owner) {
-		this.owner = owner;
+	public String getId() {
+		return id;
 	}
-	
 	
 }

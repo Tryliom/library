@@ -6,20 +6,19 @@ public class Utils {
 		if (s.length>0) {
 			if (s[0].equalsIgnoreCase("mkuser") || s[0].equalsIgnoreCase("mku")) {
 				display("mkuser : Entame les étapes de création d'un utilisateur");
-				display("mkuser <name> <lastname> <name2> ... : Créé un ou plusieurs utilisateurs dans la librairie");
+				display("mkuser <name> <lastname> <username> <email> <phone number> <name2> ... : Créé un ou plusieurs utilisateurs dans la librairie");
 			}
 			if (s[0].equalsIgnoreCase("mkbook") || s[0].equalsIgnoreCase("mkb")) {
 				display("mkbook : Entame les étapes de création d'un livre");
-				display("mkbook <title> <author> <year> <title2> ... : Créé un ou plusieurs livres dans la librairie");
-				display("mkbook <title> <author> <year> <userid> <title2> ... : Créé un ou plusieurs livres qui appartiennent déjà à un utilisateur dans la librairie");
+				display("mkbook <title> <author> <year> <num edition> <editional> <title2> ... : Créé un ou plusieurs livres dans la librairie");
 			}
 			if (s[0].equalsIgnoreCase("rmuser") || s[0].equalsIgnoreCase("rmu")) {
 				display("rmuser : Entame les étapes de destruction d'un utilisateur");
-				display("rmuser <id:name:lastname> ... : Suprimme un ou plusieurs utilisateurs dans la librairie");
+				display("rmuser <Type [id:username]> <arg> ... : Suprimme un ou plusieurs utilisateurs dans la librairie");
 			}
 			if (s[0].equalsIgnoreCase("rmbook") || s[0].equalsIgnoreCase("rmb")) {
 				display("rmbook : Entame les étapes de destruction d'un livre");
-				display("rmbook <Type id:title:author:year> <arg> ... : Suprimme un ou plusieurs livres dans la librairie");
+				display("rmbook <Type [id:title:author:year]> <arg> ... : Suprimme un ou plusieurs livres dans la librairie");
 			}
 			if (s[0].equalsIgnoreCase("editbook") || s[0].equalsIgnoreCase("eb")) {
 				display("editbook : Entame les étapes de modification d'un livre");
@@ -77,6 +76,14 @@ public class Utils {
 		} catch (Exception e) {
 			return -1;
 		}
+	}
+	
+	public static boolean containString(String s[], String match) {
+		for (int i = 0;i<s.length;i++) {
+			if (s[i].equals(match))
+				return true;
+		}
+		return false;
 	}
 }
 
