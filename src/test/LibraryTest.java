@@ -30,13 +30,13 @@ public class LibraryTest {
 	public void testListBook() {
 		lib.listBook();
 		lib.listBook(SortType.Number);
-		lib.listBook(SortType.Year);
+		lib.listBook(SortType.year);
 	}
 
 	@Test
 	public void testAddBook() {
 		lib.addBook(new Book("Wolverine", "Marc", 2017, "Ma description est géniale", 3, "Marvel"));
-		lib.addBook(new Book("Wolverine", "Marc", 2017, "Ma description est géniale", 3, "Marvel",new User("Jovial", "Nain", "Pudent", "jovialdu19@gmail.com", "0796588843").getIdentityId()));
+		lib.addBook(new Book("Wolverine", "Marc", 2017, "Ma description est géniale", 3, "Marvel", new User("Jovial", "Nain", "Pudent", "jovialdu19@gmail.com", "0796588843").getIdentityId()));
 	}
 
 	@Test

@@ -14,7 +14,7 @@ public class Main {
 			actualCmd = Reader.readString();
 			String a[] = actualCmd.split(" ");
 			// Affichages des commandes
-			new CmdManager().sendCommand(a);						
+			new CmdManager().sendCommand(a);
 		}
 		Utils.display("Fermeture de la librairie...");
 		Reader.scan.close();

@@ -2,6 +2,7 @@ package me.alexishaldy.util;
 
 import me.alexishaldy.classes.Book;
 import me.alexishaldy.classes.Library;
+import me.alexishaldy.classes.SortType;
 import me.alexishaldy.classes.User;
 
 public class CmdManager {
@@ -134,11 +135,35 @@ public class CmdManager {
 		
 		if (a[0].equalsIgnoreCase("rmuser") || a[0].equalsIgnoreCase("rmu")) {
 			if (a.length>1) {
-				
+				String type="";
+				String idop = "";
+				int count = 0;
+				for (int i=1;i<a.length;i++) {
+					if (i%2==1)
+						type=a[i];
+					else if (i%2==0)
+						idop=a[i];
+					if (!type.isEmpty() && !idop.isEmpty() && (type.equalsIgnoreCase("id") || type.equalsIgnoreCase("username"))) {
+						count++;
+						if (type.equalsIgnoreCase("id")) {
+							if (!lib.removeUser(lib.getUserById(idop))) {
+								Utils.display("L'utilisateur n'a pas pu être suprimmé...");
+							}
+						} else if (type.equalsIgnoreCase("username")) {
+							if (!lib.removeUser(lib.getUserByUsername(idop))) {
+								Utils.display("L'utilisateur n'a pas pu être suprimmé...");
+							}
+						}
+						type="";
+						idop = "";
+					}
+					if (count>0)
+						Utils.display("Vous avez supprimé "+count+" utilisateur"+(count>1 ? "s" : ""));
+				}
 			} else {
-				String choix = Reader.readBoolean("id username -exit", "Par le pseudo ou l'id ? (id/username)\nSi vous voulez annuler taper '-exit'");
+				String choix = Reader.readBoolean("id username -exit", "Par le pseudo ou l'id ? (id/username)\nSi vous voulez annuler taper '-exit'\n");
 				if (choix.equalsIgnoreCase("id")) {
-					String id = Reader.readString("Donnez-moi son ID");
+					String id = Reader.readString("Donnez-moi son ID\n");
 					if (id.equalsIgnoreCase("-exit")) {
 						if (lib.getUserById(id)!=null) {
 							if (lib.removeUser(lib.getUserById(id))) {
@@ -150,7 +175,7 @@ public class CmdManager {
 							Utils.display("Cet ID n'existe pas...");
 					}
 				} else if (choix.equalsIgnoreCase("username")) {
-					String pseudo = Reader.readString("Donnez-moi son pseudo");
+					String pseudo = Reader.readString("Donnez-moi son pseudo\n");
 					if (pseudo.equalsIgnoreCase("-exit")) {
 						if (lib.getUserByUsername(pseudo)!=null) {
 							if (lib.removeUser(lib.getUserByUsername(pseudo))) {
@@ -164,5 +189,221 @@ public class CmdManager {
 				}
 			}
 		}
+		
+		if (a[0].equalsIgnoreCase("rmbook") || a[0].equalsIgnoreCase("rmb")) {
+			if (a.length>1) {
+				String type="";
+				String idop = "";
+				int count = 0;
+				for (int i=1;i<a.length;i++) {
+					if (i%2==1)
+						type=a[i];
+					else if (i%2==0)
+						idop=a[i];
+					if (!type.isEmpty() && !idop.isEmpty() && (type.equalsIgnoreCase("id") || type.equalsIgnoreCase("username"))) {
+						count++;
+						if (type.equalsIgnoreCase("id")) {
+							if (!lib.removeUser(lib.getUserById(idop))) {
+								Utils.display("L'utilisateur n'a pas pu être suprimmé...");
+							}
+						} else if (type.equalsIgnoreCase("username")) {
+							if (!lib.removeUser(lib.getUserByUsername(idop))) {
+								Utils.display("L'utilisateur n'a pas pu être suprimmé...");
+							}
+						}
+						type="";
+						idop = "";
+					}
+					if (count>0)
+						Utils.display("Vous avez supprimé "+count+" utilisateur"+(count>1 ? "s" : ""));
+				}
+			} else {
+				String choix = Reader.readBoolean("title author year title_author title_author_numedition desc -exit", "Par quel façon ? (title:author:year:title_author:title_author_numedition:desc)\nSi vous voulez annuler taper '-exit'\n");
+				if (choix.equalsIgnoreCase("title")) {
+					String title = Reader.readString("Donnez-moi son titre\n");
+					if (!title.equalsIgnoreCase("-exit")) {
+						String s[] = new String[1];
+						s[0]=title;
+						if (lib.getBook(SortType.title, s)!=null) {
+							if (lib.removeBook(lib.getBook(SortType.title, s))) {
+								Utils.display("Le livre a bien été suprimmé !");
+							} else {
+								Utils.display("Le livre n'a pas pu être suprimmé...");
+							}
+						} else
+							Utils.display("Il n'y a pas de livre avec ce titre...");
+					}
+				} else if (choix.equalsIgnoreCase("author")) {
+					String auth = Reader.readString("Donnez-moi son auteur\n");
+					if (!auth.equalsIgnoreCase("-exit")) {
+						String s[] = new String[1];
+						s[0]=auth;
+						if (lib.getBook(SortType.author, s)!=null) {
+							if (lib.removeBook(lib.getBook(SortType.author, s))) {
+								Utils.display("Le livre a bien été suprimmé !");
+							} else {
+								Utils.display("Le livre n'a pas pu être suprimmé...");
+							}
+						} else
+							Utils.display("Il n'y a pas de livre avec cet auteur...");
+					}
+				} else if (choix.equalsIgnoreCase("year")) {
+					int year = Reader.readInt("Donnez-moi son année de parution\n");
+					if (year!=-1) {
+						String s[] = new String[1];
+						s[0]=String.valueOf(year);
+						if (lib.getBook(SortType.year, s)!=null) {
+							if (lib.removeBook(lib.getBook(SortType.year, s))) {
+								Utils.display("Le livre a bien été suprimmé !");
+							} else {
+								Utils.display("Le livre n'a pas pu être suprimmé...");
+							}
+						} else
+							Utils.display("Il n'y a pas de livre qui existe qui ont cette date de parution...");
+					}
+				} else if (choix.equalsIgnoreCase("title_author")) {
+					String title = Reader.readString("Donnez-moi son titre\n");
+					String auth = Reader.readString("Donnez-moi son auteur\n");
+					if (!auth.equalsIgnoreCase("-exit") && !title.equalsIgnoreCase("-exit")) {
+						String s[] = new String[2];
+						s[0]=title;
+						s[1]=auth;
+						if (lib.getBook(SortType.title_author, s)!=null) {
+							if (lib.removeBook(lib.getBook(SortType.title_author, s))) {
+								Utils.display("Le livre a bien été suprimmé !");
+							} else {
+								Utils.display("Le livre n'a pas pu être suprimmé...");
+							}
+						} else
+							Utils.display("Il n'y a pas de livre qui existe qui ont ces paramètres...");
+					}
+				} else if (choix.equalsIgnoreCase("title_author_numedition")) {
+					String title = Reader.readString("Donnez-moi son titre\n");
+					String auth = Reader.readString("Donnez-moi son auteur\n");
+					int numedit = Reader.readInt("Donnez-moi son numéro d'édition\n");
+					if (!auth.equalsIgnoreCase("-exit") && !title.equalsIgnoreCase("-exit") && numedit!=-1) {
+						String s[] = new String[3];
+						s[0]=title;
+						s[1]=auth;
+						s[2]=String.valueOf(numedit);
+						if (lib.getBook(SortType.title_author_numedition, s)!=null) {
+							if (lib.removeBook(lib.getBook(SortType.title_author_numedition, s))) {
+								Utils.display("Le livre a bien été suprimmé !");
+							} else {
+								Utils.display("Le livre n'a pas pu être suprimmé...");
+							}
+						} else
+							Utils.display("Il n'y a pas de livre qui existe qui ont ces paramètres...");
+					}
+				} else if (choix.equalsIgnoreCase("desc")) {
+					String desc = Reader.readString("Donnez-moi son titre\n");
+					if (!desc.equalsIgnoreCase("-exit")) {
+						String s[] = new String[1];
+						s[0]=desc;
+						if (lib.getBook(SortType.desc, s)!=null) {
+							if (lib.removeBook(lib.getBook(SortType.desc, s))) {
+								Utils.display("Le livre a bien été suprimmé !");
+							} else {
+								Utils.display("Le livre n'a pas pu être suprimmé...");
+							}
+						} else
+							Utils.display("Il n'y a pas de livre qui existe avec cette description...");
+					}
+				}
+			}
+		}
+		
+		if (a[0].equalsIgnoreCase("edituser") || a[0].equalsIgnoreCase("eu")) {
+			if (a.length>1) {
+				String type="";
+				String idop = "";
+				String email = "";
+				String tel = "";
+				int count = 0;
+				for (int i=1;i<a.length;i++) {
+					if (i%2==1)
+						type=a[i];
+					else if (i%2==0)
+						idop=a[i];
+					if (!type.isEmpty() && !idop.isEmpty() && (type.equalsIgnoreCase("id") || type.equalsIgnoreCase("username")) && !email.isEmpty() && !tel.isEmpty()) {
+						count++;
+						User u = null;
+						if (type.equalsIgnoreCase("id")) {
+							u = lib.getUserById(type);
+						} else if (type.equalsIgnoreCase("username")) {
+							u = lib.getUserByUsername(type);
+						}
+						u.setEmail(email);
+						u.setTel(tel);
+						type="";
+						idop = "";
+						email = "";
+						tel = "";
+					}
+					if (count>0)
+						Utils.display("Vous avez éditer "+count+" utilisateur"+(count>1 ? "s" : ""));
+				}
+			} else {
+				String choix = Reader.readBoolean("id username -exit", "Par le pseudo ou l'id ? (id/username)\nSi vous voulez annuler taper '-exit'\n");
+				if (choix.equalsIgnoreCase("id")) {
+					String id = Reader.readString("Donnez-moi son ID\n");
+					if (!id.equalsIgnoreCase("-exit")) {
+						if (lib.getUserById(id)!=null) {
+							User u = lib.getUserById(id);
+							String email = Reader.readEmail("Donnez-moi son nouvel email (Ancien: "+u.getEmail()+")\n");
+							if (!email.equalsIgnoreCase("-exit")) {
+								String tel = Reader.readNumTel("Donnez-moi son nouveau numéro de téléphone (Ancien: "+u.getTel()+")\n");
+								if (!tel.equalsIgnoreCase("-exit")) {
+									u.setEmail(email);
+									u.setTel(tel);
+									Utils.display("L'email et le tel ont bien été changés");
+								}
+							}
+						} else
+							Utils.display("Cet ID n'existe pas...");
+					}
+				} else if (choix.equalsIgnoreCase("username")) {
+					String pseudo = Reader.readString("Donnez-moi son pseudo\n");
+					if (!pseudo.equalsIgnoreCase("-exit")) {
+						if (lib.getUserByUsername(pseudo)!=null) {
+								User u = lib.getUserById(pseudo);
+								String email = Reader.readEmail("Donnez-moi son nouvel email (Ancien: "+u.getEmail()+")\n");
+								if (!email.equalsIgnoreCase("-exit")) {
+									String tel = Reader.readNumTel("Donnez-moi son nouveau numéro de téléphone (Ancien: "+u.getTel()+")\n");
+									if (!tel.equalsIgnoreCase("-exit")) {
+										u.setEmail(email);
+										u.setTel(tel);
+										Utils.display("L'email et le tel ont bien été changés");
+									}
+								}
+						} else
+							Utils.display("Ce pseudo n'existe pas...");
+					}
+				}
+			}
+		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

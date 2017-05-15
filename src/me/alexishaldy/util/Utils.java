@@ -18,15 +18,11 @@ public class Utils {
 			}
 			if (s[0].equalsIgnoreCase("rmbook") || s[0].equalsIgnoreCase("rmb")) {
 				display("rmbook : Entame les étapes de destruction d'un livre");
-				display("rmbook <Type [id:title:author:year]> <arg> ... : Suprimme un ou plusieurs livres dans la librairie");
-			}
-			if (s[0].equalsIgnoreCase("editbook") || s[0].equalsIgnoreCase("eb")) {
-				display("editbook : Entame les étapes de modification d'un livre");
-				display("editbook <Type id:title:author:year> <arg> <new title> <new author> <new year> ... : Modifie un ou plusieurs livres dans la librairie. Laisser vide les '<new *>' si vous voulez laisser comme de base");
+				display("rmbook <Type [title:author:year:title_author:title_author_numedition:desc]> <arg> ... : Suprimme un ou plusieurs livres dans la librairie");
 			}
 			if (s[0].equalsIgnoreCase("edituser") || s[0].equalsIgnoreCase("eu")) {
 				display("edituser : Entame les étapes de modification d'un utilisateur");
-				display("edituser <id:name:lastname> <new name> <new lastname> ... : Modifie un ou plusieurs utilisateurs dans la librairie. Laisser vide les '<new *>' si vous voulez laisser comme de base");
+				display("edituser <id:username> <new mail> <new tel> ... : Modifie un ou plusieurs utilisateurs dans la librairie. Laisser vide les '<new *>' si vous voulez laisser comme de base");
 			}
 			if (s[0].equalsIgnoreCase("displayuser") || s[0].equalsIgnoreCase("dpu")) {
 				display("displayuser : Affiche tous les utilisateurs");
@@ -47,7 +43,6 @@ public class Utils {
 			display("mkbook (mkb)");
 			display("rmuser (rmu)");
 			display("rmbook (rmb)");
-			display("editbook (eb)");
 			display("edituser (eu)");
 			display("displayuser (dpu)");
 			display("displaybook (dpb)");

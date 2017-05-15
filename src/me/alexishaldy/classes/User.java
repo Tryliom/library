@@ -36,6 +36,22 @@ public class User {
 		return username;
 	}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
 	public String generateId() {
 		this.identityId = this.username+"_"+(int) Math.round(Math.random()*1000000);
 		return this.identityId;
