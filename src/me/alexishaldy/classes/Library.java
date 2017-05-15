@@ -246,7 +246,7 @@ public class Library {
 		String s = "User list:";
 		for (int i=0;i<userList.size();i++) {
 			s+="\n\nUser "+userList.get(i).getIdentityId()+":\n";
-			s+="Name: "+userList.get(i).getName()+"\nLast Name: "+userList.get(i).getLastName();
+			s+="Name: "+userList.get(i).getName()+"\nLast Name: "+userList.get(i).getLastName()+"\nEmail: "+userList.get(i).getEmail()+"\nTel: "+userList.get(i).getTel();
 			for (Book b : bookList.values()) {
 				if (b.getUserId()!=null && b.getUserId().equals(userList.get(i).getIdentityId())) {
 					s+="\n\tBook taken:\n\t\tTitle: "+b.getTitle()+"\n\t\tAuthor: "+b.getAuthor()+"\n\t\tYear: "+b.getDate();

@@ -6,7 +6,7 @@ public class Utils {
 		if (s.length>0) {
 			if (s[0].equalsIgnoreCase("mkuser") || s[0].equalsIgnoreCase("mku")) {
 				display("mkuser : Entame les étapes de création d'un utilisateur");
-				display("mkuser <name> <lastname> <username> <email> <phone number> <name2> ... : Créé un ou plusieurs utilisateurs dans la librairie");
+				display("mkuser <username> <name> <lastname> <email> <phone number> <name2> ... : Créé un ou plusieurs utilisateurs dans la librairie");
 			}
 			if (s[0].equalsIgnoreCase("mkbook") || s[0].equalsIgnoreCase("mkb")) {
 				display("mkbook : Entame les étapes de création d'un livre");

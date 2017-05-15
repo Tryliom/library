@@ -366,7 +366,7 @@ public class CmdManager {
 					String pseudo = Reader.readString("Donnez-moi son pseudo\n");
 					if (!pseudo.equalsIgnoreCase("-exit")) {
 						if (lib.getUserByUsername(pseudo)!=null) {
-								User u = lib.getUserById(pseudo);
+								User u = lib.getUserByUsername(pseudo);
 								String email = Reader.readEmail("Donnez-moi son nouvel email (Ancien: "+u.getEmail()+")\n");
 								if (!email.equalsIgnoreCase("-exit")) {
 									String tel = Reader.readNumTel("Donnez-moi son nouveau numéro de téléphone (Ancien: "+u.getTel()+")\n");
@@ -380,7 +380,15 @@ public class CmdManager {
 							Utils.display("Ce pseudo n'existe pas...");
 					}
 				}
-			}
+			}						
+		}
+		
+		if (a[0].equalsIgnoreCase("displayuser") || a[0].equalsIgnoreCase("dpu")) {
+			Utils.display(lib.listUserAndBooks());
+		}
+		
+		if (a[0].equalsIgnoreCase("displaybook") || a[0].equalsIgnoreCase("dpb")) {
+			Utils.display(lib.listBook(SortType.Number));
 		}
 	}
 }
