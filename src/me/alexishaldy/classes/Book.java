@@ -9,6 +9,7 @@ public class Book {
 	private String editional;
 	private String userId;
 	private String id;
+	private String isbn;
 	
 	public Book(String title, String author, int date, String desc, int edition, String editional) {
 		this.title = title;
@@ -18,6 +19,7 @@ public class Book {
 		this.edition = edition;
 		this.editional = editional;
 		this.generateId();
+		this.generateIsbn();
 	}
 	
 	public Book(String title, String author, int date, String desc, int edition, String editional, String userId) {
@@ -29,6 +31,7 @@ public class Book {
 		this.editional = editional;
 		this.userId = userId;
 		this.generateId();
+		this.generateIsbn();
 	}
 
 	public String generateId() {
@@ -38,6 +41,31 @@ public class Book {
 			this.id = title.substring(0, 1).toUpperCase()+author.substring(0, 1).toUpperCase()+desc.substring(0, 1).toUpperCase()+Math.round(Math.random()*1000000);
 		}
 		return this.id;
+	}
+	
+	public String generateIsbn() {
+		int isbn = 0;
+		char c[] = this.title.toCharArray();
+		for (int i=0;i<c.length;i++) {
+			isbn+=c[i];
+		}
+		c = this.author.toCharArray();
+		for (int i=0;i<c.length;i++) {
+			isbn+=c[i];
+		}
+		c = this.desc.toCharArray();
+		for (int i=0;i<c.length;i++) {
+			isbn+=c[i];
+		}
+		c = this.editional.toCharArray();
+		for (int i=0;i<c.length;i++) {
+			isbn+=c[i];
+		}
+		isbn+=this.date;
+		isbn=(isbn%27)*6629+isbn^2*isbn%7^this.date;
+		this.isbn = ""+isbn;
+		System.out.println(isbn);
+		return this.isbn;
 	}
 
 	public int getDate() {
@@ -70,6 +98,14 @@ public class Book {
 
 	public String getId() {
 		return id;
+	}
+
+	public String getEditional() {
+		return editional;
+	}
+
+	public String getIsbn() {
+		return isbn;
 	}
 	
 }

@@ -10,7 +10,7 @@ public class Utils {
 			}
 			if (s[0].equalsIgnoreCase("mkbook") || s[0].equalsIgnoreCase("mkb")) {
 				display("mkbook : Entame les étapes de création d'un livre");
-				display("mkbook <title> <author> <year> <num edition> <editional> <title2> ... : Créé un ou plusieurs livres dans la librairie");
+				display("mkbook <title> <author> <year> <desc> <num edition> <editional> <title2> ... : Créé un ou plusieurs livres dans la librairie");
 			}
 			if (s[0].equalsIgnoreCase("rmuser") || s[0].equalsIgnoreCase("rmu")) {
 				display("rmuser : Entame les étapes de destruction d'un utilisateur");

@@ -13,6 +13,7 @@ public class Library {
 	private String CIF;
 	private HashMap<String, Book> bookList = new HashMap<String, Book>();
 	private ArrayList<User> userList = new ArrayList<>();
+	private ArrayList<Renter> renterList = new ArrayList<>();
 	private String lastId;
 	
 	/**
@@ -59,7 +60,8 @@ public class Library {
 			if (type[0].equals(SortType.Number)) {
 				int i = 1;
 				for (Book b : bookList.values()) {
-						s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate();
+						s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate()+"\n\tDescription: "+b.getDesc()+"\n\tNuméro d'édition: "+b.getEdition()+"\n\tÉditional: "+b.getEditional()+"\n\t"
+								+ "ISBN: "+b.getIsbn();
 						i++;
 				}		
 			}	
@@ -80,7 +82,8 @@ public class Library {
 			    });
 			    int i = 1;
 				for (Book b : tmpBook) {
-						s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate();
+						s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate()+"\n\tDescription: "+b.getDesc()+"\n\tNuméro d'édition: "+b.getEdition()+"\n\tÉditional: "+b.getEditional()+"\n\t"
+								+ "ISBN: "+b.getIsbn();;
 						i++;
 				}	
 			}
@@ -89,7 +92,8 @@ public class Library {
 			String s = "Book list:";
 			int i = 1;
 			for (Book b : bookList.values()) {
-					s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate();
+					s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate()+"\n\tDescription: "+b.getDesc()+"\n\tNuméro d'édition: "+b.getEdition()+"\n\tÉditional: "+b.getEditional()+"\n\t"
+							+ "ISBN: "+b.getIsbn();;
 					i++;
 			}		
 			return s;
