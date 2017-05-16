@@ -64,7 +64,6 @@ public class Book {
 		isbn+=this.date;
 		isbn=(isbn%27)*6629+isbn^2*isbn%7^this.date;
 		this.isbn = ""+isbn;
-		System.out.println(isbn);
 		return this.isbn;
 	}
 

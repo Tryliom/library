@@ -28,9 +28,9 @@ public class LibraryTest {
 
 	@Test
 	public void testListBook() {
-		lib.listBook();
-		lib.listBook(SortType.Number);
-		lib.listBook(SortType.year);
+		lib.listAllBook();
+		lib.listAllBook(SortType.Number);
+		lib.listAllBook(SortType.year);
 	}
 
 	@Test

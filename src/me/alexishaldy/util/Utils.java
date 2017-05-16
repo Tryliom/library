@@ -30,7 +30,11 @@ public class Utils {
 			}
 			if (s[0].equalsIgnoreCase("displaybook") || s[0].equalsIgnoreCase("dpb")) {
 				display("displaybook : Affiche tous les livres");
-				display("displaybook <Type id:title:author:year> <arg> : Affiche seulement les livres avec le critère indiqué");
+				display("displaybook <Type [id:title:author:year]> <arg> : Affiche seulement les livres avec le critère indiqué");
+			}
+			if (s[0].equalsIgnoreCase("takebook") || s[0].equalsIgnoreCase("tb")) {
+				display("displaybook : Affiche tous les livres");
+				display("displaybook <Type [id:username]> <arg user> <Type [title:author:year:title_author:title_author_numedition:desc]> <arg book> : Prend un livre recherché");
 			}
 			if (s[0].equalsIgnoreCase("help") || s[0].equalsIgnoreCase("h")) {
 				display("help : Affiche l'aide");
@@ -46,6 +50,7 @@ public class Utils {
 			display("edituser (eu)");
 			display("displayuser (dpu)");
 			display("displaybook (dpb)");
+			display("takebook (tb)");
 			display("Taper 'help <commande>' pour plus de détails");
 		}
 		display("\n");

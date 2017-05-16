@@ -1,5 +1,7 @@
 package me.alexishaldy.classes;
 
+import java.util.Date;
+
 import me.alexishaldy.util.Utils;
 
 public class User {
@@ -11,7 +13,6 @@ public class User {
 	private String tel;
 
 	public User(String username, String name, String lastName, String email, String tel) {
-		super();
 		this.username = username;
 		this.name = name;
 		this.lastName = lastName;
@@ -64,10 +65,20 @@ public class User {
 			for (int i=0;i<bookRef.length;i++) {
 				for (Book b : lib.getBookList().values()) {
 					if (b.getUserId()!=null && ((sub.equals(SubBook.Id) && bookRef[i].equals(b.getId())) || (sub.equals(SubBook.Year) && Utils.getInt(bookRef[i])==b.getDate()))) {
-						
+						b.setUserId(null);
+						for (int j=0;j<lib.getRenterList().size();j++) {
+							if (lib.getRenterList().get(j).getBook().equals(b)) {
+								lib.getRenterList().get(j).setRealReturnDate(new Date());
+							}
+						}
 						count++;
 					} else if (b.getUserId()!=null && ((sub.equals(SubBook.Title) && bookRef[i].equals(b.getTitle())) || (sub.equals(SubBook.Author) && bookRef[i].equals(b.getAuthor())))) {
 						b.setUserId(null);
+						for (int j=0;j<lib.getRenterList().size();j++) {
+							if (lib.getRenterList().get(j).getBook().equals(b)) {
+								lib.getRenterList().get(j).setRealReturnDate(new Date());
+							}
+						}
 						count++;
 					}
 				}
@@ -94,9 +105,15 @@ public class User {
 				for (Book b : lib.getBookList().values()) {
 					if (b.getUserId()==null && ((sub.equals(SubBook.Id) && bookRef[i].equals(b.getId())) || (sub.equals(SubBook.Year) && Utils.getInt(bookRef[i])==b.getDate()))) {
 						b.setUserId(this.getIdentityId());
+						Date d =  new Date();
+						d.setDate(new Date().getDate()+2);
+						lib.getRenterList().add(new Renter(b, new Date(), d));
 						count++;
 					} else if (b.getUserId()==null && ((sub.equals(SubBook.Title) && bookRef[i].equals(b.getTitle())) || (sub.equals(SubBook.Author) && bookRef[i].equals(b.getAuthor())))) {
 						b.setUserId(this.getIdentityId());
+						Date d =  new Date();
+						d.setDate(new Date().getDate()+2);
+						lib.getRenterList().add(new Renter(b, new Date(), d));
 						count++;
 					}
 				}
@@ -113,6 +130,14 @@ public class User {
 			return "No books can be taken with this name";
 		else
 			return count+" book(s) taken";
+	}
+
+	public void takenBook(Book b) {
+		b.setUserId(this.getIdentityId());
+		Date d =  new Date();
+		d.setDate(new Date().getDate()+2);
+		Library.getLibrary().getRenterList().add(new Renter(b, new Date(), d));
+		
 	}
 	
 }

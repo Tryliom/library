@@ -3,6 +3,7 @@ package me.alexishaldy.classes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,15 +55,33 @@ public class Library {
 	 * @param type Can choose a type of sorting for books
 	 * 
 	*/
-	public String listBook(SortType...type) {
+	public String listRenterBook() {
+		String s = "";
+		for (int j=0;j<getRenterList().size();j++) {
+			Renter r = getRenterList().get(j);
+			Book b = r.getBook();
+			if (r.getRealReturnDate()==null)
+			s+="\nN°"+j+":\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
+					+ "ISBN: "+b.getIsbn()+"\tDate d'emprunt:"+r.getTakenDate()+"\nDate de retour:"+r.getReturnDateMax()+"\n";
+		}
+		
+		return s;
+	}
+	
+	/**
+	 * List book
+	 * @param type Can choose a type of sorting for books
+	 * 
+	*/
+	public String listAllBook(SortType...type) {
 		if (type.length>0) {
 			String s = "Book list sorted by "+type[0].name()+":";
 			if (type[0].equals(SortType.Number)) {
 				int i = 1;
 				for (Book b : bookList.values()) {
-						s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate()+"\n\tDescription: "+b.getDesc()+"\n\tNuméro d'édition: "+b.getEdition()+"\n\tÉditional: "+b.getEditional()+"\n\t"
-								+ "ISBN: "+b.getIsbn();
-						i++;
+					s+="\nN°"+i+":\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
+							+ "ISBN: "+b.getIsbn()+"\n";
+					i++;
 				}		
 			}	
 			if (type[0].equals(SortType.year)) {
@@ -82,8 +101,8 @@ public class Library {
 			    });
 			    int i = 1;
 				for (Book b : tmpBook) {
-						s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate()+"\n\tDescription: "+b.getDesc()+"\n\tNuméro d'édition: "+b.getEdition()+"\n\tÉditional: "+b.getEditional()+"\n\t"
-								+ "ISBN: "+b.getIsbn();;
+						s+="\nN°"+i+":\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
+								+ "ISBN: "+b.getIsbn()+"\n";
 						i++;
 				}	
 			}
@@ -92,9 +111,9 @@ public class Library {
 			String s = "Book list:";
 			int i = 1;
 			for (Book b : bookList.values()) {
-					s+="\n\tN°"+i+":\n\tTitle: "+b.getTitle()+"\n\tAuthor: "+b.getAuthor()+"\n\tYear: "+b.getDate()+"\n\tDescription: "+b.getDesc()+"\n\tNuméro d'édition: "+b.getEdition()+"\n\tÉditional: "+b.getEditional()+"\n\t"
-							+ "ISBN: "+b.getIsbn();;
-					i++;
+				s+="\nN°"+i+":\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
+						+ "ISBN: "+b.getIsbn()+"\n";
+				i++;
 			}		
 			return s;
 		}
@@ -253,7 +272,8 @@ public class Library {
 			s+="Name: "+userList.get(i).getName()+"\nLast Name: "+userList.get(i).getLastName()+"\nEmail: "+userList.get(i).getEmail()+"\nTel: "+userList.get(i).getTel();
 			for (Book b : bookList.values()) {
 				if (b.getUserId()!=null && b.getUserId().equals(userList.get(i).getIdentityId())) {
-					s+="\n\tBook taken:\n\t\tTitle: "+b.getTitle()+"\n\t\tAuthor: "+b.getAuthor()+"\n\t\tYear: "+b.getDate();
+					s+="\n\tBook taken:\n\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
+						+ "ISBN: "+b.getIsbn()+"\n";
 				}
 			}
 		}
@@ -263,5 +283,9 @@ public class Library {
 
 	public HashMap<String, Book> getBookList() {
 		return bookList;
+	}
+
+	public ArrayList<Renter> getRenterList() {
+		return renterList;
 	}
 }

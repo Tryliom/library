@@ -388,8 +388,137 @@ public class CmdManager {
 		}
 		
 		if (a[0].equalsIgnoreCase("displaybook") || a[0].equalsIgnoreCase("dpb")) {
-			Utils.display(lib.listBook(SortType.Number));
+			Utils.display(lib.listAllBook(SortType.Number));
 		}
+		
+		if (a[0].equalsIgnoreCase("takebook") || a[0].equalsIgnoreCase("tb")) {
+			if (a.length>1) {
+				String type="";
+				String idop = "";
+				String type2="";
+				String idbook = "";
+				int count = 0;
+				for (int i=1;i<a.length;i++) {
+					if (i%4==1)
+						type=a[i];
+					else if (i%4==2)
+						idop=a[i];
+					else if (i%4==3)
+						type2=a[i];
+					else if (i%4==0)
+						idbook=a[i];
+					if (!type.isEmpty() && !idop.isEmpty() && !idbook.isEmpty() && (type.equalsIgnoreCase("id") || type.equalsIgnoreCase("username")) && (type2.equalsIgnoreCase("id") || type2.equalsIgnoreCase("username"))) {
+						count++;
+						User u=null;
+						Book b=null;
+						if (type.equalsIgnoreCase("id")) {
+							u = lib.getUserById(idop);
+						} else if (type.equalsIgnoreCase("username")) {
+							u = lib.getUserByUsername(idop);
+						} else {
+							String s[] = new String[1];
+							s[0]=idbook;
+							b = lib.getBook(SortType.valueOf(type2), s);
+						}						
+						u.takenBook(b);
+						idbook="";
+						type2="";
+						type="";
+						idop = "";
+					}
+					if (count>0)
+						Utils.display("Les livres ont été empruntés");
+				}
+			} else {
+				// Prendre l'user
+				User u = null;
+				
+				String choix = Reader.readBoolean("id username -exit", "Par le pseudo ou l'id ? (id/username)\nSi vous voulez annuler taper '-exit'\n");
+				if (choix.equalsIgnoreCase("id")) {
+					String id = Reader.readString("Donnez-moi son ID\n");
+					if (!id.equalsIgnoreCase("-exit")) {
+						if (lib.getUserById(id)!=null)
+							u = lib.getUserById(id);							
+					}
+				} else if (choix.equalsIgnoreCase("username")) {
+					String pseudo = Reader.readString("Donnez-moi son pseudo\n");
+					if (!pseudo.equalsIgnoreCase("-exit")) {
+						if (lib.getUserByUsername(pseudo)!=null)
+							u = lib.getUserByUsername(pseudo);
+					}
+				}
+				
+				choix = Reader.readBoolean("title author year title_author title_author_numedition desc -exit", "Par quel façon ? (title:author:year:title_author:title_author_numedition:desc)\nSi vous voulez annuler taper '-exit'\n");
+				if (choix.equalsIgnoreCase("title")) {
+					String title = Reader.readString("Donnez-moi son titre\n");
+					if (!title.equalsIgnoreCase("-exit")) {
+						String s[] = new String[1];
+						s[0]=title;
+						if (lib.getBook(SortType.title, s)!=null) {
+							u.takenBook(lib.getBook(SortType.title, s));
+						} else
+							Utils.display("Il n'y a pas de livre avec ce titre...");
+					}
+				} else if (choix.equalsIgnoreCase("author")) {
+					String auth = Reader.readString("Donnez-moi son auteur\n");
+					if (!auth.equalsIgnoreCase("-exit")) {
+						String s[] = new String[1];
+						s[0]=auth;
+						if (lib.getBook(SortType.author, s)!=null) {
+							u.takenBook(lib.getBook(SortType.author, s));
+						} else
+							Utils.display("Il n'y a pas de livre avec cet auteur...");
+					}
+				} else if (choix.equalsIgnoreCase("year")) {
+					int year = Reader.readInt("Donnez-moi son année de parution\n");
+					if (year!=-1) {
+						String s[] = new String[1];
+						s[0]=String.valueOf(year);
+						if (lib.getBook(SortType.year, s)!=null) {
+							u.takenBook(lib.getBook(SortType.year, s));
+						} else
+							Utils.display("Il n'y a pas de livre qui existe qui ont cette date de parution...");
+					}
+				} else if (choix.equalsIgnoreCase("title_author")) {
+					String title = Reader.readString("Donnez-moi son titre\n");
+					String auth = Reader.readString("Donnez-moi son auteur\n");
+					if (!auth.equalsIgnoreCase("-exit") && !title.equalsIgnoreCase("-exit")) {
+						String s[] = new String[2];
+						s[0]=title;
+						s[1]=auth;
+						if (lib.getBook(SortType.title_author, s)!=null) {
+							u.takenBook(lib.getBook(SortType.title_author, s));
+						} else
+							Utils.display("Il n'y a pas de livre qui existe qui ont ces paramètres...");
+					}
+				} else if (choix.equalsIgnoreCase("title_author_numedition")) {
+					String title = Reader.readString("Donnez-moi son titre\n");
+					String auth = Reader.readString("Donnez-moi son auteur\n");
+					int numedit = Reader.readInt("Donnez-moi son numéro d'édition\n");
+					if (!auth.equalsIgnoreCase("-exit") && !title.equalsIgnoreCase("-exit") && numedit!=-1) {
+						String s[] = new String[3];
+						s[0]=title;
+						s[1]=auth;
+						s[2]=String.valueOf(numedit);
+						if (lib.getBook(SortType.title_author_numedition, s)!=null) {
+							u.takenBook(lib.getBook(SortType.title_author_numedition, s));
+						} else
+							Utils.display("Il n'y a pas de livre qui existe qui ont ces paramètres...");
+					}
+				} else if (choix.equalsIgnoreCase("desc")) {
+					String desc = Reader.readString("Donnez-moi son titre\n");
+					if (!desc.equalsIgnoreCase("-exit")) {
+						String s[] = new String[1];
+						s[0]=desc;
+						if (lib.getBook(SortType.desc, s)!=null) {
+							u.takenBook(lib.getBook(SortType.desc, s));
+						} else
+							Utils.display("Il n'y a pas de livre qui existe avec cette description...");
+					}
+				}
+			}
+		}
+		
 	}
 }
 
