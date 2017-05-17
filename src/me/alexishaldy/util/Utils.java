@@ -6,23 +6,23 @@ public class Utils {
 		if (s.length>0) {
 			if (s[0].equalsIgnoreCase("mkuser") || s[0].equalsIgnoreCase("mku")) {
 				display("mkuser : Entame les étapes de création d'un utilisateur");
-				display("mkuser <username> <name> <lastname> <email> <phone number> <name2> ... : Créé un ou plusieurs utilisateurs dans la librairie");
+				display("mkuser <username> <name> <lastname> <email> <phone number> : Créé un ou plusieurs utilisateurs dans la librairie");
 			}
 			if (s[0].equalsIgnoreCase("mkbook") || s[0].equalsIgnoreCase("mkb")) {
 				display("mkbook : Entame les étapes de création d'un livre");
-				display("mkbook <title> <author> <year> <desc> <num edition> <editional> <title2> ... : Créé un ou plusieurs livres dans la librairie");
+				display("mkbook <title> <author> <year> <desc> <num edition> <editional> : Créé un ou plusieurs livres dans la librairie");
 			}
 			if (s[0].equalsIgnoreCase("rmuser") || s[0].equalsIgnoreCase("rmu")) {
 				display("rmuser : Entame les étapes de destruction d'un utilisateur");
-				display("rmuser <Type [id:username]> <arg> ... : Suprimme un ou plusieurs utilisateurs dans la librairie");
+				display("rmuser <Type [id:username]> <arg> : Suprimme un ou plusieurs utilisateurs dans la librairie");
 			}
 			if (s[0].equalsIgnoreCase("rmbook") || s[0].equalsIgnoreCase("rmb")) {
 				display("rmbook : Entame les étapes de destruction d'un livre");
-				display("rmbook <Type [title:author:year:title_author:title_author_numedition:desc]> <arg> ... : Suprimme un ou plusieurs livres dans la librairie");
+				display("rmbook <Type [title:author:year:title_author:title_author_numedition:desc]> <arg> : Suprimme un ou plusieurs livres dans la librairie");
 			}
 			if (s[0].equalsIgnoreCase("edituser") || s[0].equalsIgnoreCase("eu")) {
 				display("edituser : Entame les étapes de modification d'un utilisateur");
-				display("edituser <id:username> <new mail> <new tel> ... : Modifie un ou plusieurs utilisateurs dans la librairie. Laisser vide les '<new *>' si vous voulez laisser comme de base");
+				display("edituser <Type [id:username]> <arg> <new mail> <new tel> : Modifie un ou plusieurs utilisateurs dans la librairie. Laisser vide les '<new *>' si vous voulez laisser comme de base");
 			}
 			if (s[0].equalsIgnoreCase("displayuser") || s[0].equalsIgnoreCase("dpu")) {
 				display("displayuser : Affiche tous les utilisateurs");
@@ -33,8 +33,8 @@ public class Utils {
 				display("displaybook <Type [id:title:author:year]> <arg> : Affiche seulement les livres avec le critère indiqué");
 			}
 			if (s[0].equalsIgnoreCase("takebook") || s[0].equalsIgnoreCase("tb")) {
-				display("displaybook : Affiche tous les livres");
-				display("displaybook <Type [id:username]> <arg user> <Type [title:author:year:title_author:title_author_numedition:desc]> <arg book> : Prend un livre recherché");
+				display("takebook : Suit les étapes d'obtention d'un livre");
+				display("takebook <Type [id:username]> <arg user> <Type [title:author:year:title_author:title_author_numedition:desc]> <arg book> : Prend un livre recherché");
 			}
 			if (s[0].equalsIgnoreCase("help") || s[0].equalsIgnoreCase("h")) {
 				display("help : Affiche l'aide");
