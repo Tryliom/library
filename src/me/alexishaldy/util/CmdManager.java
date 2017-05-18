@@ -2,8 +2,8 @@ package me.alexishaldy.util;
 
 import me.alexishaldy.classes.Book;
 import me.alexishaldy.classes.Library;
-import me.alexishaldy.classes.SortType;
 import me.alexishaldy.classes.User;
+import me.alexishaldy.enumerator.SortType;
 
 public class CmdManager {
 	

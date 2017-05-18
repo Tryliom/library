@@ -1,4 +1,4 @@
-package me.alexishaldy.classes;
+package me.alexishaldy.enumerator;
 
 public enum SubBook {
 	Title, Author, Year, Id, None;

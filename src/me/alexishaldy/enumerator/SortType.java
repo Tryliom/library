@@ -1,4 +1,4 @@
-package me.alexishaldy.classes;
+package me.alexishaldy.enumerator;
 
 /**
  * List: Number, title, author, year, title_author, title_author_numedition, desc

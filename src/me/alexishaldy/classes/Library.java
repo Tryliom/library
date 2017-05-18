@@ -6,11 +6,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import me.alexishaldy.enumerator.SortType;
+
 public class Library {
 	private static Library instance;
 	private String name; // adresse CIF
 	private String adress;
-	private String CIF;
+	private String id;
 	private HashMap<String, Book> bookList = new HashMap<String, Book>();
 	private ArrayList<User> userList = new ArrayList<>();
 	private ArrayList<Renter> renterList = new ArrayList<>();
@@ -22,21 +24,20 @@ public class Library {
 	*/
 	public static Library getLibrary() {
 		if (instance==null)
-			instance = new Library("Library", "null", "null");
+			instance = new Library("Library", "null");
 		return instance;
 	}
 	
 
 
-	private Library(String name, String adress, String cIF) {
+	private Library(String name, String adress) {
 		this.name = name;
 		this.adress = adress;
 		lastId = "";
-		CIF = cIF;
 	}
 	
-	public static void initLibrary(String name, String adress, String cIF) {
-		instance = new Library(name, adress, cIF);
+	public static void initLibrary(String name, String adress) {
+		instance = new Library(name, adress);
 	}
 
 
@@ -50,7 +51,7 @@ public class Library {
 	}
 	
 	/**
-	 * List book
+	 * List book in renter list
 	 * @param type Can choose a type of sorting for books
 	 * 
 	*/

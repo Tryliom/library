@@ -2,6 +2,7 @@ package me.alexishaldy.classes;
 
 import java.util.Date;
 
+import me.alexishaldy.enumerator.SubBook;
 import me.alexishaldy.util.Utils;
 
 public class User {
