@@ -12,7 +12,7 @@ public class Library {
 	private static Library instance;
 	private String name; // adresse CIF
 	private String adress;
-	private String id;
+	private int id;
 	private HashMap<String, Book> bookList = new HashMap<String, Book>();
 	private ArrayList<User> userList = new ArrayList<>();
 	private ArrayList<Renter> renterList = new ArrayList<>();
@@ -24,20 +24,21 @@ public class Library {
 	*/
 	public static Library getLibrary() {
 		if (instance==null)
-			instance = new Library("Library", "null");
+			instance = new Library("Library", "Adresse manquante", -1);
 		return instance;
 	}
 	
 
 
-	private Library(String name, String adress) {
+	private Library(String name, String adress, int id) {
 		this.name = name;
 		this.adress = adress;
+		this.id=id;
 		lastId = "";
 	}
 	
-	public static void initLibrary(String name, String adress) {
-		instance = new Library(name, adress);
+	public static void initLibrary(String name, String adress, int id) {
+		instance = new Library(name, adress, id);
 	}
 
 

@@ -44,7 +44,7 @@ public class DBConnector {
 		String pass = "";
 		try {
 			// System.out.println("Creating connection " + CONN_PREFIX + host + ":" + port);
-			_connection = DriverManager.getConnection(CONN_PREFIX + "127.0.0.1:" + port + "?verifyServerCertificate=false&useSSL=true", user, pass);
+			_connection = DriverManager.getConnection(CONN_PREFIX + host + ":" + port + "/Library?verifyServerCertificate=false&useSSL=true", user, pass);
 		} catch (SQLException e) {
 			if (e.getErrorCode() == 2026) {
 				System.err.println("Maximum number of connections exceeded (" + e.getMessage() + ")");
