@@ -62,7 +62,7 @@ public class Book {
 			isbn+=c[i];
 		}
 		isbn+=this.date;
-		isbn=(isbn%27)*6629+isbn^2*isbn%7^this.date;
+		isbn=this.edition+(isbn%27)*6629+isbn^2*isbn%7^this.date;
 		this.isbn = ""+isbn;
 		return this.isbn;
 	}

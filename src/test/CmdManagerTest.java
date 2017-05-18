@@ -66,7 +66,7 @@ public class CmdManagerTest {
 		cmd.sendCommand(("tb username Tryliom title_author The_Fire Francis").split(" "));
 		cmd.sendCommand(("tb username Tryliom title_author_numedition The_Fire Francis 2").split(" "));
 		cmd.sendCommand(("tb username Tryliom desc Toutou").split(" "));
-		// lib.getUserByUsername("Lili").getIdentityId()
+
 		cmd.sendCommand(("tb id "+lib.getUserByUsername("Tryliom").getIdentityId()+" title Title").split(" "));
 		cmd.sendCommand(("tb id "+lib.getUserByUsername("Tryliom").getIdentityId()+" author Author").split(" "));
 		cmd.sendCommand(("tb id "+lib.getUserByUsername("Tryliom").getIdentityId()+" year 1998").split(" "));

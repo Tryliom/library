@@ -1,5 +1,8 @@
 package me.alexishaldy.main;
 
+import java.sql.Connection;
+
+import me.alexishaldy.bdd.DBConnector;
 import me.alexishaldy.classes.Library;
 import me.alexishaldy.util.CmdManager;
 import me.alexishaldy.util.Reader;
@@ -9,6 +12,11 @@ public class Main {
 
 	public static void main(String[] args) {		
 		Library lib = Library.getLibrary();
+		try {
+			Connection db = DBConnector.getConnect();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		String actualCmd = "";
 		while (!actualCmd.equalsIgnoreCase("exit")) {
 			actualCmd = Reader.readString();
