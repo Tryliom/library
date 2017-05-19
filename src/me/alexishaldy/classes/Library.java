@@ -6,16 +6,16 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import me.alexishaldy.bdd.Bdd;
+import me.alexishaldy.enumerator.Reason;
 import me.alexishaldy.enumerator.SortType;
+import me.alexishaldy.util.Utils;
 
 public class Library {
 	private static Library instance;
 	private String name; // adresse CIF
 	private String adress;
 	private int id;
-	private HashMap<String, Book> bookList = new HashMap<String, Book>();
-	private ArrayList<User> userList = new ArrayList<>();
-	private ArrayList<Renter> renterList = new ArrayList<>();
 	private String lastId;
 	
 	/**
@@ -43,6 +43,12 @@ public class Library {
 
 
 
+	public int getId() {
+		return id;
+	}
+
+
+
 	public String getName() {
 		return name;
 	}
@@ -58,13 +64,11 @@ public class Library {
 	*/
 	public String listRenterBook() {
 		String s = "";
-		for (int j=0;j<getRenterList().size();j++) {
-			Renter r = getRenterList().get(j);
-			Book b = r.getBook();
-			if (r.getRealReturnDate()==null)
-			s+="\nN°"+j+":\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
-					+ "ISBN: "+b.getIsbn()+"\tDate d'emprunt:"+r.getTakenDate()+"\nDate de retour:"+r.getReturnDateMax()+"\n";
-		}
+			String a[] = new Bdd().sendCmd(Reason.listrenter).split("\n");
+			for (int i=0;i<a.length;i++) {
+				String r[] = a[i].split("\t");
+				s+="N°"+i+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n"+"\tDate d'emprunt:"+r[6]+"\nDate de retour:"+r[7]+"\n";
+			}	
 		
 		return s;
 	}
@@ -75,191 +79,42 @@ public class Library {
 	 * 
 	*/
 	public String listAllBook(SortType...type) {
+		String s = "";
 		if (type.length>0) {
-			String s = "Book list sorted by "+type[0].name()+":";
-			if (type[0].equals(SortType.Number)) {
-				int i = 1;
-				for (Book b : bookList.values()) {
-					s+="\nN°"+i+":\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
-							+ "ISBN: "+b.getIsbn()+"\n";
-					i++;
-				}		
-			}	
-			if (type[0].equals(SortType.year)) {
-				List<Book> tmpBook = new ArrayList<Book>(bookList.values());
-
-			    Collections.sort(tmpBook, new Comparator<Book>() {
-
-			        public int compare(Book o1, Book o2) {
-			        	if (o1.getDate() == o2.getDate())
-			        		return 0;
-			        	if (o1.getDate() < o2.getDate())
-			        		return -1;
-			        	return 1;
-			        }
-
-
-			    });
-			    int i = 1;
-				for (Book b : tmpBook) {
-						s+="\nN°"+i+":\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
-								+ "ISBN: "+b.getIsbn()+"\n";
-						i++;
-				}	
-			}
-			return s;
-		} else {
-			String s = "Book list:";
-			int i = 1;
-			for (Book b : bookList.values()) {
-				s+="\nN°"+i+":\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
-						+ "ISBN: "+b.getIsbn()+"\n";
-				i++;
-			}		
-			return s;
-		}
-	}
-
-	/**
-	 * Return a book
-	 * @param type Can choose a type of book search
-	 * 
-	*/
-	public Book getBook(SortType type, String arg[]) {		
-		try {
-			if (type.equals(SortType.title)) {
-				for (Book b : bookList.values()) {
-						if (b.getTitle().equalsIgnoreCase(arg[0])) {
-							return b;
-						}
-				}		
-			}	
-			
-			if (type.equals(SortType.author)) {
-				for (Book b : bookList.values()) {
-						if (b.getAuthor().equalsIgnoreCase(arg[0])) {
-							return b;
-						}
-				}		
-			}
-			
-			if (type.equals(SortType.year)) {
-				for (Book b : bookList.values()) {
-						if (b.getDate()==Integer.parseInt(arg[0])) {
-							return b;
-						}
-				}		
-			}
-			
-			if (type.equals(SortType.title_author)) {
-				for (Book b : bookList.values()) {
-						if (b.getTitle().equalsIgnoreCase(arg[0]) && b.getAuthor().equalsIgnoreCase(arg[1])) {
-							return b;
-						}
-				}		
-			}
-			
-			if (type.equals(SortType.title_author_numedition)) {
-				for (Book b : bookList.values()) {
-						if (b.getTitle().equalsIgnoreCase(arg[0]) && b.getAuthor().equalsIgnoreCase(arg[1]) && b.getEdition()==Integer.parseInt(arg[1])) {
-							return b;
-						}
-				}		
-			}
-			//TODO: Remake desc match
-			if (type.equals(SortType.desc)) {
-				// String regex = "^["+arg[0].substring(0, 1).toUpperCase()+arg[0].substring(0, 1).toLowerCase()+"]"+arg[0].substring(1, arg[0].length())+"$";
-				for (Book b : bookList.values()) {
-						if (b.getDesc().equalsIgnoreCase(arg[0])) {
-							return b;
-						}
-				}		
-			}
-			
-		} catch (Exception e) {}
-		return null;
-	}
-	
-	/**
-	 * @param book Add the book to the Library
-	 * 
-	*/
-	public void addBook(Book book) {
-		this.bookList.put(book.getId(), book);
-		lastId=book.getId();
-	}
-	
-	/**
-	 * @param title If not title specified the last book created is deleted
-	 * 
-	*/
-	public void removeBook(String... title) {
-		if (title.length>0)
-			for (int i=0;i<title.length;i++)
-				for (Book b : bookList.values()) {
-					if (b.getTitle().equalsIgnoreCase(title[i])) {
-						bookList.remove(b.getId());
-						return;
-					}
+			s = "Book list sorted by "+type[0].name()+":";
+			if (type[0].equals(SortType.year)) {				
+			    String a[] = new Bdd().sendCmd(Reason.listbookyear).split("\n");
+				for (int i=0;i<a.length;i++) {
+					String r[] = a[i].split("\t");
+					s+="N°"+i+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n\n";
 				}
-		else {
-			bookList.remove(lastId);
+				return s;
+			}			
 		}
-			
-	}
-	
-	/**
-	 * @param b Remove this book
-	 * 
-	*/
-	public Boolean removeBook(Book b) {
-		if (bookList.remove(b) != null) {
-			return true;
-		}
-		return false;
-	}
-	
-	public void addUser(User u) {
-		u.generateId();
-		userList.add(u);
+		if (s.isEmpty())
+			s = "Book list:";
+		String a[] = new Bdd().sendCmd(Reason.listbook).split("\n");
+		for (int i=0;i<a.length;i++) {
+			String r[] = a[i].split("\t");
+			s+="N°"+i+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n\n";
+		}			
+		return s;
 	}
 	
 	/**
 	 * @param name Search by Username
 	 * 
 	*/
-	public User getUserByUsername(String name) {
-		for (int i=0;i<userList.size();i++) {
-			if (userList.get(i).getUsername().equalsIgnoreCase(name)) {
-				return userList.get(i);
-			}
-		}
-		
-		return null;
+	public int getUserIdByUsername(String name) {
+		return Integer.parseInt(new Bdd().sendCmd(Reason.searchuser, name));
 	}
 	
 	/**
-	 * @param name Search by id
+	 * @param user The user we will be delete
 	 * 
 	*/
-	public User getUserById(String id) {
-		for (int i=0;i<userList.size();i++) {
-			if (userList.get(i).getIdentityId().equalsIgnoreCase(id)) {
-				return userList.get(i);
-			}
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * @param user The user we will delete
-	 * 
-	*/
-	public boolean removeUser(User user) {
-		if (userList.remove(user))
-			return true;		
-		return false;
+	public void removeUser(int id) {
+		new Bdd().sendCmd(Reason.rmuser, ""+id);
 	}
 	
 	/**
@@ -267,26 +122,24 @@ public class Library {
 	 * 
 	*/
 	public String listUserAndBooks() {
-		String s = "User list:";
-		for (int i=0;i<userList.size();i++) {
-			s+="\n\nUser "+userList.get(i).getIdentityId()+":\n";
-			s+="Name: "+userList.get(i).getName()+"\nLast Name: "+userList.get(i).getLastName()+"\nEmail: "+userList.get(i).getEmail()+"\nTel: "+userList.get(i).getTel();
-			for (Book b : bookList.values()) {
-				if (b.getUserId()!=null && b.getUserId().equals(userList.get(i).getIdentityId())) {
-					s+="\n\tBook taken:\n\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
-						+ "ISBN: "+b.getIsbn()+"\n";
-				}
+		String s[] = new Bdd().sendCmd(Reason.listuser).split("\n");
+		String res = "~[Liste des utilisateurs]~\n";
+		if (s.length==0) {
+			Utils.display("Erreur: Aucuns utilisateurs");
+		} else {
+			for (int i=0;i<s.length;i++) {
+				String r[] = s[i].split("\t");
+					res+="Username: "+r[0]+"\nName: "+r[1]+"\tLast Name: "+r[2]+"\nEmail: "+r[3]+"\tTel: "+r[4]+"\n\n";
 			}
 		}
+	
+//			for (Book b : bookList.values()) {
+//				if (b.getUserId()!=null && b.getUserId().equals(userList.get(i).getIdentityId())) {
+//					s+="\n\tBook taken:\n\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
+//						+ "ISBN: "+b.getIsbn()+"\n";
+//				}
+//			}
 		
-		return s;
-	}
-
-	public HashMap<String, Book> getBookList() {
-		return bookList;
-	}
-
-	public ArrayList<Renter> getRenterList() {
-		return renterList;
+		return res;
 	}
 }

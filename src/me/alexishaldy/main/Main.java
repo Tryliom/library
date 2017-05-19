@@ -13,7 +13,7 @@ import me.alexishaldy.util.Utils;
 public class Main {
 
 	public static void main(String[] args) {		
-		Library lib = Library.getLibrary();
+		Library lib = null;
 		try {
 			Connection db = DBConnector.getConnect();
 		} catch (Exception e) {
@@ -29,6 +29,7 @@ public class Main {
 			String name = Reader.readString("Donnez son nom pour s'y connecter\n");
 			new Bdd().sendCmd(Reason.colib, name);
 		}
+		lib = Library.getLibrary();
 		while (!actualCmd.equalsIgnoreCase("exit")) {
 			actualCmd = Reader.readString();
 			String a[] = actualCmd.split(" ");

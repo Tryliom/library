@@ -36,7 +36,7 @@ public class CmdManagerTest {
 
 	@Test
 	public void testCmdRmu() {	
-		cmd.sendCommand(("rmu id "+lib.getUserByUsername("Try").getIdentityId()).split(" "));
+		cmd.sendCommand(("rmu id "+lib.getUserIdByUsername("Try")).split(" "));
 		cmd.sendCommand(("rmu username Lili").split(" "));
 	}
 	
@@ -53,8 +53,8 @@ public class CmdManagerTest {
 	@Test
 	public void testCmdEditu() {	
 		cmd.sendCommand("mku Lili Krine Loro llth@gmail.com 0796662341".split(" "));
-		cmd.sendCommand(("eu id "+lib.getUserByUsername("Lili").getIdentityId()+" ii@gmail.com 0796667231").split(" "));
-		cmd.sendCommand(("eu id "+lib.getUserByUsername("Lili").getIdentityId()+" iil@gmail.com").split(" "));
+		cmd.sendCommand(("eu id "+lib.getUserIdByUsername("Lili")+" ii@gmail.com 0796667231").split(" "));
+		cmd.sendCommand(("eu id "+lib.getUserIdByUsername("Lili")+" iil@gmail.com").split(" "));
 	}
 	
 	@Test
@@ -67,12 +67,12 @@ public class CmdManagerTest {
 		cmd.sendCommand(("tb username Tryliom title_author_numedition The_Fire Francis 2").split(" "));
 		cmd.sendCommand(("tb username Tryliom desc Toutou").split(" "));
 
-		cmd.sendCommand(("tb id "+lib.getUserByUsername("Tryliom").getIdentityId()+" title Title").split(" "));
-		cmd.sendCommand(("tb id "+lib.getUserByUsername("Tryliom").getIdentityId()+" author Author").split(" "));
-		cmd.sendCommand(("tb id "+lib.getUserByUsername("Tryliom").getIdentityId()+" year 1998").split(" "));
-		cmd.sendCommand(("tb id "+lib.getUserByUsername("Tryliom").getIdentityId()+" title_author The_Fire Francis").split(" "));
-		cmd.sendCommand(("tb id "+lib.getUserByUsername("Tryliom").getIdentityId()+" title_author_numedition The_Fire Francis 2").split(" "));
-		cmd.sendCommand(("tb id "+lib.getUserByUsername("Tryliom").getIdentityId()+" desc Toutou").split(" "));
+		cmd.sendCommand(("tb id "+lib.getUserIdByUsername("Tryliom")+" title Title").split(" "));
+		cmd.sendCommand(("tb id "+lib.getUserIdByUsername("Tryliom")+" author Author").split(" "));
+		cmd.sendCommand(("tb id "+lib.getUserIdByUsername("Tryliom")+" year 1998").split(" "));
+		cmd.sendCommand(("tb id "+lib.getUserIdByUsername("Tryliom")+" title_author The_Fire Francis").split(" "));
+		cmd.sendCommand(("tb id "+lib.getUserIdByUsername("Tryliom")+" title_author_numedition The_Fire Francis 2").split(" "));
+		cmd.sendCommand(("tb id "+lib.getUserIdByUsername("Tryliom")+" desc Toutou").split(" "));
 	}
 	
 	@Test
