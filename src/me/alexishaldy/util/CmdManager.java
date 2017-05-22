@@ -1,7 +1,5 @@
 package me.alexishaldy.util;
 
-import java.awt.print.Book;
-
 import me.alexishaldy.bdd.Bdd;
 import me.alexishaldy.classes.Library;
 import me.alexishaldy.enumerator.Reason;
@@ -11,6 +9,7 @@ public class CmdManager {
 	
 	public void sendCommand(String a[]) {
 		Library lib = Library.getLibrary();
+		
 		if (a[0].equalsIgnoreCase("help") || a[0].equalsIgnoreCase("h")) {
 			if (a.length>1) {
 				Utils.displayHelp(a[1]);
@@ -25,7 +24,7 @@ public class CmdManager {
 				String n3=a[3];
 				String n4=a[4];
 				String n5=a[5];					
-				if (lib.getUserIdByUsername(n1)!=-1) {
+				if (lib.getUserIdByUsername(n1)==-1) {
 					String s[] = new String[6];
 					s[0] = n1;
 					s[1] = n2;
@@ -50,11 +49,11 @@ public class CmdManager {
 								String tel = Reader.readNumTel("Donnez lui un numéro de téléphone\n");
 								if (!tel.equalsIgnoreCase("-exit")) {
 									String s[] = new String[6];
-									s[0] = name;
-									s[1] = lastname;
-									s[2] = username;
-									s[3] = email;
-									s[4] = tel;
+									s[0] = name.replace("'", "\\'");
+									s[1] = lastname.replace("'", "\\'");
+									s[2] = username.replace("'", "\\'");
+									s[3] = email.replace("'", "\\'");
+									s[4] = tel.replace("'", "\\'");
 									s[5] = ""+lib.getId();
 									new Bdd().sendCmd(Reason.adduser, s);
 								}
@@ -79,12 +78,12 @@ public class CmdManager {
 				numedit=Utils.getInt(a[5]);
 				edit=a[6].replaceAll("_", " ");
 				String s[] = new String[7];
-				s[0] = title;
-				s[1] = author;
+				s[0] = title.replace("'", "\\'");
+				s[1] = author.replace("'", "\\'");
 				s[2] = ""+year;
-				s[3] = desc;
+				s[3] = desc.replace("'", "\\'");
 				s[4] = ""+numedit;
-				s[5] = edit;
+				s[5] = edit.replace("'", "\\'");
 				s[6] = ""+lib.getId();
 				new Bdd().sendCmd(Reason.addbook, s);
 			} else {
@@ -100,12 +99,12 @@ public class CmdManager {
 								String edit = Reader.readString("Donnez lui une édition\n");
 								if (!edit.equalsIgnoreCase("-exit")) {
 									String s[] = new String[7];
-									s[0] = title;
-									s[1] = author;
+									s[0] = title.replace("'", "\\'");
+									s[1] = author.replace("'", "\\'");
 									s[2] = ""+year;
-									s[3] = desc;
+									s[3] = desc.replace("'", "\\'");
 									s[4] = ""+numedit;
-									s[5] = edit;
+									s[5] = edit.replace("'", "\\'");
 									s[6] = ""+lib.getId();
 									new Bdd().sendCmd(Reason.addbook, s);
 								}								
@@ -168,12 +167,12 @@ public class CmdManager {
 						idop+=a[i]+" ";
 					}
 				}
-				int id = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, type+"§"+idop.replaceAll(" ", "§").replaceAll("_", " ").split("§")));
+				int id = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (type+"§"+idop.replaceAll(" ", "§").replaceAll("_", " ")).split("§")));
 				if (id==-1) {
-					Utils.display("Livre invalide");
+					Utils.display("Livre inexistant: "+a[2]);
 				} else {
 					new Bdd().sendCmd(Reason.rmbook, ""+id);
-					Utils.display("1 livre supprimé !");
+					Utils.display("livre "+a[2]+" supprimé !");
 				}
 			} else {
 				String choix = Reader.readBoolean("title author year title_author title_author_numedition desc -exit", "Par quel façon ? (title:author:year:title_author:title_author_numedition:desc)\nSi vous voulez annuler taper '-exit'\n");
@@ -227,12 +226,15 @@ public class CmdManager {
 						s[1]=desc;
 					}
 				}
+				for (int i=0;i<s.length;i++) {
+					s[i] = s[i].replace("'", "\\'");
+				}
 				int id = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, s));
 				if (id==-1) {
-					Utils.display("Livre invalide");
+					Utils.display("Livre inexistant");
 				} else {
 					new Bdd().sendCmd(Reason.rmbook, ""+id);
-					Utils.display("1 livre supprimé !");
+					Utils.display("Le livre a bien été supprimé !");
 				}
 			}
 		}

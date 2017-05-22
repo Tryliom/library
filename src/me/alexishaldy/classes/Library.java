@@ -81,7 +81,7 @@ public class Library {
 	public String listAllBook(SortType...type) {
 		String s = "";
 		if (type.length>0) {
-			s = "Book list sorted by "+type[0].name()+":";
+			s = "Book list sorted by "+type[0].name()+":\n";
 			if (type[0].equals(SortType.year)) {				
 			    String a[] = new Bdd().sendCmd(Reason.listbookyear).split("\n");
 				for (int i=0;i<a.length;i++) {
@@ -96,7 +96,8 @@ public class Library {
 		String a[] = new Bdd().sendCmd(Reason.listbook).split("\n");
 		for (int i=0;i<a.length;i++) {
 			String r[] = a[i].split("\t");
-			s+="N°"+i+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n\n";
+			if (!a[i].isEmpty())
+				s+="N°"+i+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n\n";
 		}			
 		return s;
 	}
@@ -129,6 +130,7 @@ public class Library {
 		} else {
 			for (int i=0;i<s.length;i++) {
 				String r[] = s[i].split("\t");
+				if (!s[i].isEmpty())
 					res+="Username: "+r[0]+"\nName: "+r[1]+"\tLast Name: "+r[2]+"\nEmail: "+r[3]+"\tTel: "+r[4]+"\n\n";
 			}
 		}

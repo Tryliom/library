@@ -130,7 +130,7 @@ public class Bdd {
 			try {
 				String sql = "DELETE FROM User WHERE id = "+s[0]+" AND library_id = "+Library.getLibrary().getId();
 				PreparedStatement stat = co.prepareStatement(sql);
-				ResultSet rs = stat.executeQuery();;
+				stat.executeUpdate();
 			} catch (Exception e) {
 				Utils.display("Erreur rmuser: "+e.getMessage());
 			}
@@ -141,7 +141,7 @@ public class Bdd {
 			try {
 				String sql = "DELETE FROM Book WHERE id = "+s[0]+" AND library_id = "+Library.getLibrary().getId();
 				PreparedStatement stat = co.prepareStatement(sql);
-				ResultSet rs = stat.executeQuery();
+				stat.executeUpdate();
 			} catch (Exception e) {
 				Utils.display("Erreur rmbook: "+e.getMessage());
 			}
@@ -158,7 +158,7 @@ public class Bdd {
 					sql = "SELECT id FROM Book WHERE author = '"+s[1]+"'"+" AND library_id = "+Library.getLibrary().getId();
 					break;
 				case desc:
-					sql = "SELECT id FROM Book WHERE desc = '"+s[1]+"'"+" AND library_id = "+Library.getLibrary().getId();
+					sql = "SELECT id FROM Book WHERE description = '"+s[1]+"'"+" AND library_id = "+Library.getLibrary().getId();
 					break;
 				case title:
 					sql = "SELECT id FROM Book WHERE title = '"+s[1]+"'"+" AND library_id = "+Library.getLibrary().getId();
@@ -167,7 +167,7 @@ public class Bdd {
 					sql = "SELECT id FROM Book WHERE title = '"+s[1]+"' AND author = '"+s[2]+"'"+" AND library_id = "+Library.getLibrary().getId();
 					break;
 				case title_author_numedition:
-					sql = "SELECT id FROM Book WHERE title = '"+s[1]+"' AND author = '"+s[2]+"' AND edition = "+s[2]+" AND library_id = "+Library.getLibrary().getId();
+					sql = "SELECT id FROM Book WHERE title = '"+s[1]+"' AND author = '"+s[2]+"' AND edition = "+s[3]+" AND library_id = "+Library.getLibrary().getId();
 					break;
 				case year:
 					sql = "SELECT id FROM Book WHERE date = "+s[1]+" AND library_id = "+Library.getLibrary().getId();
@@ -184,10 +184,9 @@ public class Bdd {
 					return "-1";
 				}
 			} catch (Exception e) {
-				Utils.display("Erreur searchbook: "+e.getMessage());
+				Utils.display("Erreur searchbook: "+e.getMessage());			
 			}
 			break;
-			
 		case edituser:
 			// Args: id, email, tel
 			try {

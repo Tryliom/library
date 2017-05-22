@@ -8,7 +8,7 @@ public class Reader {
 	public static String readString(String... s) {
 		String output="";
 		while (true) {
-			System.out.print(s.length>0 ? s[0] : ""+"\n-> ");
+			System.out.print((s.length>0 ? s[0] : "")+"\n-> ");
 	        output = scan.nextLine();
 	        if (output.isEmpty())
 	        	continue;
@@ -19,7 +19,7 @@ public class Reader {
 	public static String readEmail(String... s) {
 		String output="";
 		while (true) {
-			System.out.print(s.length>0 ? s[0] : ""+"\n-> ");
+			System.out.print((s.length>0 ? s[0] : "")+"\n-> ");
 	        output = scan.nextLine();
 	        if (output.isEmpty() || !output.contains("@"))
 	        	continue;
@@ -30,10 +30,10 @@ public class Reader {
 	public static String readNumTel(String... s) {
 		String output="";
 		while (true) {
-			System.out.print(s.length>0 ? s[0] : ""+"\n-> ");
+			System.out.print((s.length>0 ? s[0] : "")+"\n-> ");
 	        output = scan.nextLine();
-	        String match = "^0[0-9]{2}? [0-9]{3}? ([0-9]{2}? ){2}$";
-	        if (output.isEmpty() || !output.matches(match))
+	        String match = "^(0|\\+41|0041)[0-9]{9}$";
+	        if (output.isEmpty() || !output.replaceAll(" ", "").matches(match))
 	        	continue;
 			return output;		
 		}	
@@ -42,7 +42,7 @@ public class Reader {
 	public static int readInt(String... s) {
 		String output="";
 		while (true) {
-			System.out.print(s.length>0 ? s[0] : ""+"\n-> ");
+			System.out.print((s.length>0 ? s[0] : "")+"\n-> ");
 			output = scan.nextLine();
 	        try {
 	        	int i = Integer.parseInt(output);
@@ -57,7 +57,7 @@ public class Reader {
 		String output="";
 		String resp[] = possibleResp.split(" ");
 		while (true) {
-			System.out.print(s.length>0 ? s[0] : ""+"\n-> ");
+			System.out.print((s.length>0 ? s[0] : "")+"\n-> ");
 	        output = scan.nextLine();
 	        if (output.isEmpty() || !Utils.containString(resp, output))
 	        	continue;
