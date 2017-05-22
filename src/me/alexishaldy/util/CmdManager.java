@@ -7,6 +7,10 @@ import me.alexishaldy.enumerator.SortType;
 
 public class CmdManager {
 	
+	/**
+	 * Permet d'envoyer une commande à executer
+	 * @param a Commande séparée en arguments par espace
+	 */
 	public void sendCommand(String a[]) {
 		Library lib = Library.getLibrary();
 		
