@@ -6,6 +6,8 @@ package me.alexishaldy.bdd;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.mysql.jdbc.Statement;
 
@@ -109,7 +111,7 @@ public class Bdd {
 		case searchuser:
 			// Args: username
 			try {
-				String sql = "SELECT id FROM User WHERE username = '"+s[0]+"'"+" AND library_id = "+Library.getLibrary().getId();
+				String sql = "SELECT id FROM User WHERE username = '"+s[0]+"' AND library_id = "+Library.getLibrary().getId();
 				PreparedStatement stat = co.prepareStatement(sql);
 				ResultSet rs = stat.executeQuery();;
 				long id = 0;
@@ -200,7 +202,7 @@ public class Bdd {
 			
 		case listuser:
 			try {
-				String sql = "SELECT username, name, lastname, email, tel FROM user WHERE library_id = "+Library.getLibrary().getId();
+				String sql = "SELECT username, name, lastname, email, tel, id FROM user WHERE library_id = "+Library.getLibrary().getId();
 				PreparedStatement stat = co.prepareStatement(sql);
 				ResultSet rs = stat.executeQuery();;
 				String a = "";
@@ -210,6 +212,7 @@ public class Bdd {
 				    a+=rs.getString(3)+"\t";
 				    a+=rs.getString(4)+"\t";
 				    a+=rs.getString(5)+"\t";
+				    a+=rs.getLong(6)+"\t";
 				    a+="\n";
 				}
 				return a;
@@ -274,8 +277,8 @@ public class Bdd {
 				    a+=rs.getInt(5)+"\t";
 				    a+=rs.getString(6)+"\t";
 				    String sql2 = "SELECT taken_date, max_return_date FROM renter WHERE user_id = "+rs.getLong(7)+" AND book_id = "+rs.getLong(8)+" AND library_id = "+Library.getLibrary().getId();
-					PreparedStatement stat2 = co.prepareStatement(sql);
-					ResultSet rs2 = stat.executeQuery();
+					PreparedStatement stat2 = co.prepareStatement(sql2);
+					ResultSet rs2 = stat2.executeQuery();
 					if (rs2 != null && rs2.next()) {
 					    a+=rs2.getDate(1)+"\t";
 					    a+=rs2.getDate(2)+"\t";
@@ -284,14 +287,16 @@ public class Bdd {
 				}
 				return a;
 			} catch (Exception e) {
-				Utils.display("Erreur listbookyear: "+e.getMessage());
+				Utils.display("Erreur listrenter: "+e.getMessage());
 			}
 			break;
 			
 		case takebook:
 			// Args: username, name, lastname, email, tel, lib id
 			try {
-				String sql = "INSERT INTO Renter(book_id, user_id, taken_date, max_return_date, library_id) VALUES ("+s[0]+", "+s[1]+", NOW(), NOW()+"+(3600000*48)+", "+Library.getLibrary().getId()+")";
+				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date date = new Date();
+				String sql = "INSERT INTO Renter(book_id, user_id, taken_date, max_return_date, library_id) VALUES ("+s[1]+", "+s[0]+", '"+f.format(date.getTime())+"', '"+f.format(date.getTime()+(3600000*48))+"', "+Library.getLibrary().getId()+")";
 				PreparedStatement stat = co.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				int i = stat.executeUpdate();
 				if (i!=0) {
@@ -303,9 +308,42 @@ public class Bdd {
 			} catch (Exception e) {
 				Utils.display("Erreur takebook: "+e.getMessage());
 			}
+			
+			try {
+				String sql = "UPDATE Book SET user_id = "+s[0]+" WHERE id = "+s[1]+" AND library_id = "+Library.getLibrary().getId();
+				Utils.display(sql);
+				PreparedStatement stat = co.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				int i = stat.executeUpdate();
+				if (i!=0) {
+					Utils.display("true");
+				} else {
+					Utils.display("false");
+				}
+				
+			} catch (Exception e) {
+				Utils.display("Erreur takebook2: "+e.getMessage());
+			}
 			break;
 			
-		default:
+		case listbookbyuser:
+			try {
+				String sql = "SELECT title, author, date, description, edition, editeur FROM book WHERE user_id = "+s[0]+" AND library_id = "+Library.getLibrary().getId();
+				PreparedStatement stat = co.prepareStatement(sql);
+				ResultSet rs = stat.executeQuery();;
+				String a = "";
+				while (rs != null && rs.next()) {
+				    a+=rs.getString(1)+"\t";
+				    a+=rs.getString(2)+"\t";
+				    a+=rs.getInt(3)+"\t";
+				    a+=rs.getString(4)+"\t";
+				    a+=rs.getInt(5)+"\t";
+				    a+=rs.getString(6)+"\t";
+				    a+="\n";
+				}
+				return a;
+			} catch (Exception e) {
+				Utils.display("Erreur listbookbyuser: "+e.getMessage());
+			}
 			break;
 		
 		

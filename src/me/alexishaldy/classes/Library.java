@@ -1,11 +1,5 @@
 package me.alexishaldy.classes;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-
 import me.alexishaldy.bdd.Bdd;
 import me.alexishaldy.enumerator.Reason;
 import me.alexishaldy.enumerator.SortType;
@@ -63,11 +57,15 @@ public class Library {
 	 * 
 	*/
 	public String listRenterBook() {
-		String s = "";
+		String s = "Renter list:\n";
 			String a[] = new Bdd().sendCmd(Reason.listrenter).split("\n");
 			for (int i=0;i<a.length;i++) {
-				String r[] = a[i].split("\t");
-				s+="N°"+i+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n"+"\tDate d'emprunt:"+r[6]+"\nDate de retour:"+r[7]+"\n";
+				String r[] = a[i].split("\t");				
+				if (r.length>0) {
+					s+="N°"+(i+1)+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n"+"Date d'emprunt: "+r[6]+"\tDate de retour: "+r[7]+"\n\n";
+				} else {
+					s+="Aucun emprunts répértoriés";
+				}
 			}	
 		
 		return s;
@@ -130,17 +128,17 @@ public class Library {
 		} else {
 			for (int i=0;i<s.length;i++) {
 				String r[] = s[i].split("\t");
-				if (!s[i].isEmpty())
+				if (!s[i].isEmpty()) {
 					res+="Username: "+r[0]+"\nName: "+r[1]+"\tLast Name: "+r[2]+"\nEmail: "+r[3]+"\tTel: "+r[4]+"\n\n";
+					String a[] = new Bdd().sendCmd(Reason.listbookbyuser, r[5]).split("\n");
+					for (int j=0;j<a.length;j++) {
+						String t[] = a[j].split("\t");
+						if (!a[j].isEmpty())
+							res+="N°"+j+":\nTitle: "+t[0]+"\tAuthor: "+t[1]+"\nYear: "+t[2]+"\tDescription: "+t[3]+"\nNuméro d'édition: "+t[4]+"\tÉditional: "+t[5]+"\n\n";
+					}
+				}
 			}
-		}
-	
-//			for (Book b : bookList.values()) {
-//				if (b.getUserId()!=null && b.getUserId().equals(userList.get(i).getIdentityId())) {
-//					s+="\n\tBook taken:\n\nTitle: "+b.getTitle()+"\tAuthor: "+b.getAuthor()+"\nYear: "+b.getDate()+"\tDescription: "+b.getDesc()+"\nNuméro d'édition: "+b.getEdition()+"\tÉditional: "+b.getEditional()+"\n"
-//						+ "ISBN: "+b.getIsbn()+"\n";
-//				}
-//			}
+		}	
 		
 		return res;
 	}

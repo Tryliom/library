@@ -20,14 +20,18 @@ public class Main {
 			e.printStackTrace();
 		}
 		String actualCmd = "";
-		String resp = Reader.readBoolean("new exist", "Nouvelle librairie ou déjà existante ? (new/exist)\n");
-		if (resp.equalsIgnoreCase("new")) {
-			String name = Reader.readString("Donnez son nom\n");
-			String adress = Reader.readString("Donnez son adresse\n");
-			new Bdd().sendCmd(Reason.newlib, (name+"§"+adress).split("§"));
-		} else {
-			String name = Reader.readString("Donnez son nom pour s'y connecter\n");
-			new Bdd().sendCmd(Reason.colib, name);
+		new Bdd().sendCmd(Reason.colib, "nagra");
+		boolean b = false;
+		if (b) {
+			String resp = Reader.readBoolean("new exist", "Nouvelle librairie ou déjà existante ? (new/exist)\n");
+			if (resp.equalsIgnoreCase("new")) {
+				String name = Reader.readString("Donnez son nom\n");
+				String adress = Reader.readString("Donnez son adresse\n");
+				new Bdd().sendCmd(Reason.newlib, (name+"§"+adress).split("§"));
+			} else {
+				String name = Reader.readString("Donnez son nom pour s'y connecter\n");
+				new Bdd().sendCmd(Reason.colib, name);
+			}
 		}
 		lib = Library.getLibrary();
 		while (!actualCmd.equalsIgnoreCase("exit")) {

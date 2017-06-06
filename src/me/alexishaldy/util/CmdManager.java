@@ -319,12 +319,13 @@ public class CmdManager {
 				int idu = -1;
 				if (type.equalsIgnoreCase("id")) {
 					idu = Integer.parseInt(idop);
+					Utils.display("1");
 				} else if (type.equalsIgnoreCase("username")) {
 					idu = lib.getUserIdByUsername(idop);
-				} else {
-					int idb = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (type2+"§"+idbook).split("§")));
-					new Bdd().sendCmd(Reason.takebook, (idu+"§"+idb).split("§"));
-				}						
+					Utils.display("2 "+idu);
+				}
+				int idb = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (type2+"§"+idbook).split("§")));
+				new Bdd().sendCmd(Reason.takebook, (idu+"§"+idb).split("§"));					
 				
 			} else {
 				int idu = -1;
