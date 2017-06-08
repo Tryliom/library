@@ -194,7 +194,7 @@ public class Bdd {
 			try {
 				String sql = "UPDATE User SET email = '"+s[1]+"', tel = '"+s[2]+"' WHERE id = "+s[0]+" AND library_id = "+Library.getLibrary().getId();
 				PreparedStatement stat = co.prepareStatement(sql);
-				ResultSet rs = stat.executeQuery();
+				stat.executeUpdate();
 			} catch (Exception e) {
 				Utils.display("Erreur edituser: "+e.getMessage());
 			}
@@ -268,6 +268,7 @@ public class Bdd {
 				String sql = "SELECT title, author, date, description, edition, editeur, user_id, id FROM book WHERE user_id IS NOT NULL AND library_id = "+Library.getLibrary().getId();
 				PreparedStatement stat = co.prepareStatement(sql);
 				ResultSet rs = stat.executeQuery();
+				String tot = "";
 				String a = "";
 				while (rs != null && rs.next()) {
 				    a+=rs.getString(1)+"\t";
@@ -282,10 +283,14 @@ public class Bdd {
 					if (rs2 != null && rs2.next()) {
 					    a+=rs2.getDate(1)+"\t";
 					    a+=rs2.getDate(2)+"\t";
+					} else {
+						a="";
 					}
 				    a+="\n";
+				    tot+=a;
+				    a = "";
 				}
-				return a;
+				return tot;
 			} catch (Exception e) {
 				Utils.display("Erreur listrenter: "+e.getMessage());
 			}
@@ -311,17 +316,39 @@ public class Bdd {
 			
 			try {
 				String sql = "UPDATE Book SET user_id = "+s[0]+" WHERE id = "+s[1]+" AND library_id = "+Library.getLibrary().getId();
-				Utils.display(sql);
 				PreparedStatement stat = co.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-				int i = stat.executeUpdate();
-				if (i!=0) {
-					Utils.display("true");
-				} else {
-					Utils.display("false");
-				}
+				stat.executeUpdate();
 				
 			} catch (Exception e) {
 				Utils.display("Erreur takebook2: "+e.getMessage());
+			}
+			break;
+			
+		case returnbook:
+			// Args: username, name, lastname, email, tel, lib id
+			try {
+				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date date = new Date();
+				String sql = "UPDATE renter SET return_date = '"+f.format(date.getTime())+"' WHERE user_id = "+s[0]+" AND book_id ="+s[1]+" AND return_date IS NULL AND library_id = "+Library.getLibrary().getId();
+				PreparedStatement stat = co.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				int i = stat.executeUpdate();
+				if (i!=0) {
+					Utils.display("Le livre a été rendu");
+				} else {
+					Utils.display("Erreur lors du retour du livre");
+				}
+				
+			} catch (Exception e) {
+				Utils.display("Erreur returnbook: "+e.getMessage());
+			}
+			
+			try {
+				String sql = "UPDATE Book SET user_id = NULL WHERE id = "+s[1]+" AND user_id = "+s[0]+" AND library_id = "+Library.getLibrary().getId();
+				PreparedStatement stat = co.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				stat.executeUpdate();
+				
+			} catch (Exception e) {
+				Utils.display("Erreur returnbook2: "+e.getMessage());
 			}
 			break;
 			

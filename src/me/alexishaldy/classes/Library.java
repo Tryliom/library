@@ -61,7 +61,7 @@ public class Library {
 			String a[] = new Bdd().sendCmd(Reason.listrenter).split("\n");
 			for (int i=0;i<a.length;i++) {
 				String r[] = a[i].split("\t");				
-				if (r.length>0) {
+				if (r.length>1) {
 					s+="N°"+(i+1)+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n"+"Date d'emprunt: "+r[6]+"\tDate de retour: "+r[7]+"\n\n";
 				} else {
 					s+="Aucun emprunts répértoriés";
@@ -84,7 +84,7 @@ public class Library {
 			    String a[] = new Bdd().sendCmd(Reason.listbookyear).split("\n");
 				for (int i=0;i<a.length;i++) {
 					String r[] = a[i].split("\t");
-					s+="N°"+i+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n\n";
+					s+="N°"+(i+1)+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n\n";
 				}
 				return s;
 			}			
@@ -95,7 +95,7 @@ public class Library {
 		for (int i=0;i<a.length;i++) {
 			String r[] = a[i].split("\t");
 			if (!a[i].isEmpty())
-				s+="N°"+i+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n\n";
+				s+="N°"+(i+1)+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n\n";
 		}			
 		return s;
 	}
@@ -134,7 +134,7 @@ public class Library {
 					for (int j=0;j<a.length;j++) {
 						String t[] = a[j].split("\t");
 						if (!a[j].isEmpty())
-							res+="N°"+j+":\nTitle: "+t[0]+"\tAuthor: "+t[1]+"\nYear: "+t[2]+"\tDescription: "+t[3]+"\nNuméro d'édition: "+t[4]+"\tÉditional: "+t[5]+"\n\n";
+							res+="\tN°"+(j+1)+":\n\tTitle: "+t[0]+"\t\tAuthor: "+t[1]+"\n\tYear: "+t[2]+"\t\tDescription: "+t[3]+"\n\tNuméro d'édition: "+t[4]+"\t\tÉditional: "+t[5]+"\n\n";
 					}
 				}
 			}

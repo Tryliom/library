@@ -35,6 +35,10 @@ public class Utils {
 			if (s[0].equalsIgnoreCase("takebook") || s[0].equalsIgnoreCase("tb")) {
 				display("takebook : Suit les étapes d'obtention d'un livre");
 				display("takebook <Type [id:username]> <arg user> <Type [title:author:year:title_author:title_author_numedition:desc]> <arg book> : Prend un livre recherché");
+			}			
+			if (s[0].equalsIgnoreCase("returnbook") || s[0].equalsIgnoreCase("rb")) {
+				display("returnbook : Suit les étapes de retour d'un livre");
+				display("returnbook <Type [id:username]> <arg user> <Type [title:author:year:title_author:title_author_numedition:desc]> <arg book> : Retourne le livre recherché");
 			}
 			if (s[0].equalsIgnoreCase("help") || s[0].equalsIgnoreCase("h")) {
 				display("help : Affiche l'aide");
@@ -48,9 +52,10 @@ public class Utils {
 			display("rmuser (rmu)");
 			display("rmbook (rmb)");
 			display("edituser (eu)");
+			display("takebook (tb)");
+			display("returnbook (rb)");
 			display("displayuser (dpu)");
 			display("displaybook (dpb)");
-			display("takebook (tb)");
 			display("Taper 'help <commande>' pour plus de détails");
 		}
 		display("\n");

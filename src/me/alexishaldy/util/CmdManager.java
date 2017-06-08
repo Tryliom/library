@@ -148,14 +148,14 @@ public class CmdManager {
 					}
 				} else if (choix.equalsIgnoreCase("username")) {
 					String pseudo = Reader.readString("Donnez-moi son pseudo\n");
-					if (pseudo.equalsIgnoreCase("-exit")) {
-					int id = lib.getUserIdByUsername(pseudo);					
-					if (id==-1) {
-						Utils.display("L'utilisateur n'a pas pu être suprimmé...");
-					} else {
-						lib.removeUser(id);
-						Utils.display("L'utilisateur a été supprimé");
-					}
+					if (!pseudo.equalsIgnoreCase("-exit")) {
+						int id = lib.getUserIdByUsername(pseudo);					
+						if (id==-1) {
+							Utils.display("L'utilisateur n'a pas pu être suprimmé...");
+						} else {
+							lib.removeUser(id);
+							Utils.display("L'utilisateur a été supprimé");
+						}
 					}
 				}
 			}
@@ -319,10 +319,8 @@ public class CmdManager {
 				int idu = -1;
 				if (type.equalsIgnoreCase("id")) {
 					idu = Integer.parseInt(idop);
-					Utils.display("1");
 				} else if (type.equalsIgnoreCase("username")) {
 					idu = lib.getUserIdByUsername(idop);
-					Utils.display("2 "+idu);
 				}
 				int idb = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (type2+"§"+idbook).split("§")));
 				new Bdd().sendCmd(Reason.takebook, (idu+"§"+idb).split("§"));					
@@ -374,10 +372,85 @@ public class CmdManager {
 						new Bdd().sendCmd(Reason.takebook, (idu+"§"+idb).split("§"));
 					}
 				} else if (choix.equalsIgnoreCase("desc")) {
-					String desc = Reader.readString("Donnez-moi son titre\n");
+					String desc = Reader.readString("Donnez-moi sa description\n");
 					if (!desc.equalsIgnoreCase("-exit")) {
 						int idb = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (choix+"§"+desc).split("§")));
 						new Bdd().sendCmd(Reason.takebook, (idu+"§"+idb).split("§"));
+					}
+				}
+			}
+		}
+		
+		if (a[0].equalsIgnoreCase("returnbook") || a[0].equalsIgnoreCase("rb")) {
+			if (a.length>1) {
+				String type="";
+				String idop = "";
+				String type2="";
+				String idbook = "";
+				type=a[1];
+				idop=a[2];
+				type2=a[3];
+				idbook=a[4];
+				int idu = -1;
+				if (type.equalsIgnoreCase("id")) {
+					idu = Integer.parseInt(idop);
+				} else if (type.equalsIgnoreCase("username")) {
+					idu = lib.getUserIdByUsername(idop);
+				}
+				int idb = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (type2+"§"+idbook).split("§")));
+				new Bdd().sendCmd(Reason.returnbook, (idu+"§"+idb).split("§"));					
+				
+			} else {
+				int idu = -1;
+				String choix = Reader.readBoolean("id username -exit", "Par le pseudo ou l'id ? (id/username)\nSi vous voulez annuler taper '-exit'\n");
+				if (choix.equalsIgnoreCase("id")) {
+					idu = Reader.readInt("Donnez-moi son ID\n");
+				} else if (choix.equalsIgnoreCase("username")) {
+					String pseudo = Reader.readString("Donnez-moi son pseudo\n");
+					if (!pseudo.equalsIgnoreCase("-exit")) {
+						idu = Integer.parseInt(new Bdd().sendCmd(Reason.searchuser, pseudo));
+					}
+				}
+				
+				choix = Reader.readBoolean("title author year title_author title_author_numedition desc -exit", "Par quel façon ? (title:author:year:title_author:title_author_numedition:desc)\nSi vous voulez annuler taper '-exit'\n");
+				if (choix.equalsIgnoreCase("title")) {
+					String title = Reader.readString("Donnez-moi son titre\n");
+					if (!title.equalsIgnoreCase("-exit")) {
+						int idb = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (choix+"§"+title).split("§")));
+						new Bdd().sendCmd(Reason.returnbook, (idu+"§"+idb).split("§"));
+					}
+				} else if (choix.equalsIgnoreCase("author")) {
+					String auth = Reader.readString("Donnez-moi son auteur\n");
+					if (!auth.equalsIgnoreCase("-exit")) {
+						int idb = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (choix+"§"+auth).split("§")));
+						new Bdd().sendCmd(Reason.returnbook, (idu+"§"+idb).split("§"));
+					}
+				} else if (choix.equalsIgnoreCase("year")) {
+					int year = Reader.readInt("Donnez-moi son année de parution\n");
+					if (year!=-1) {
+						int idb = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (choix+"§"+year).split("§")));
+						new Bdd().sendCmd(Reason.returnbook, (idu+"§"+idb).split("§"));
+					}
+				} else if (choix.equalsIgnoreCase("title_author")) {
+					String title = Reader.readString("Donnez-moi son titre\n");
+					String auth = Reader.readString("Donnez-moi son auteur\n");
+					if (!auth.equalsIgnoreCase("-exit") && !title.equalsIgnoreCase("-exit")) {
+						int idb = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (choix+"§"+title+"§"+auth).split("§")));
+						new Bdd().sendCmd(Reason.returnbook, (idu+"§"+idb).split("§"));
+					}
+				} else if (choix.equalsIgnoreCase("title_author_numedition")) {
+					String title = Reader.readString("Donnez-moi son titre\n");
+					String auth = Reader.readString("Donnez-moi son auteur\n");
+					int numedit = Reader.readInt("Donnez-moi son numéro d'édition\n");
+					if (!auth.equalsIgnoreCase("-exit") && !title.equalsIgnoreCase("-exit") && numedit!=-1) {
+						int idb = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (choix+"§"+title+"§"+auth+"§"+numedit).split("§")));
+						new Bdd().sendCmd(Reason.returnbook, (idu+"§"+idb).split("§"));
+					}
+				} else if (choix.equalsIgnoreCase("desc")) {
+					String desc = Reader.readString("Donnez-moi sa description\n");
+					if (!desc.equalsIgnoreCase("-exit")) {
+						int idb = Integer.parseInt(new Bdd().sendCmd(Reason.searchbook, (choix+"§"+desc).split("§")));
+						new Bdd().sendCmd(Reason.returnbook, (idu+"§"+idb).split("§"));
 					}
 				}
 			}
