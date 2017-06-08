@@ -62,7 +62,7 @@ public class Library {
 			for (int i=0;i<a.length;i++) {
 				String r[] = a[i].split("\t");				
 				if (r.length>1) {
-					s+="N°"+(i+1)+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n"+"Date d'emprunt: "+r[6]+"\tDate de retour: "+r[7]+"\n\n";
+					s+="N°"+(i+1)+":\nTitle: "+r[0]+"\tAuthor: "+r[1]+"\nYear: "+r[2]+"\tDescription: "+r[3]+"\nNuméro d'édition: "+r[4]+"\tÉditional: "+r[5]+"\n"+"Date d'emprunt: "+r[6]+"\tDate de retour: "+r[7]+"\nRetour du livre le "+r[8]+"\n\n";
 				} else {
 					s+="Aucun emprunts répértoriés";
 				}

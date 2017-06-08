@@ -265,24 +265,26 @@ public class Bdd {
 			
 		case listrenter:
 			try {
-				String sql = "SELECT title, author, date, description, edition, editeur, user_id, id FROM book WHERE user_id IS NOT NULL AND library_id = "+Library.getLibrary().getId();
+				String sql = "SELECT title, author, date, description, edition, editeur, id FROM book WHERE library_id = "+Library.getLibrary().getId();
 				PreparedStatement stat = co.prepareStatement(sql);
 				ResultSet rs = stat.executeQuery();
 				String tot = "";
 				String a = "";
 				while (rs != null && rs.next()) {
-				    a+=rs.getString(1)+"\t";
-				    a+=rs.getString(2)+"\t";
-				    a+=rs.getInt(3)+"\t";
-				    a+=rs.getString(4)+"\t";
-				    a+=rs.getInt(5)+"\t";
-				    a+=rs.getString(6)+"\t";
-				    String sql2 = "SELECT taken_date, max_return_date FROM renter WHERE user_id = "+rs.getLong(7)+" AND book_id = "+rs.getLong(8)+" AND library_id = "+Library.getLibrary().getId();
+				    String sql2 = "SELECT taken_date, max_return_date, return_date FROM renter WHERE book_id = "+rs.getLong(7)+" AND library_id = "+Library.getLibrary().getId();
 					PreparedStatement stat2 = co.prepareStatement(sql2);
 					ResultSet rs2 = stat2.executeQuery();
 					if (rs2 != null && rs2.next()) {
+						a+=rs.getString(1)+"\t";
+					    a+=rs.getString(2)+"\t";
+					    a+=rs.getInt(3)+"\t";
+					    a+=rs.getString(4)+"\t";
+					    a+=rs.getInt(5)+"\t";
+					    a+=rs.getString(6)+"\t";
 					    a+=rs2.getDate(1)+"\t";
 					    a+=rs2.getDate(2)+"\t";
+					    Date d = rs2.getDate(3);
+					    a+=(d!=null ? d : "---")+"\t";
 					} else {
 						a="";
 					}
