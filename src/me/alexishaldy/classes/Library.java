@@ -1,10 +1,15 @@
 package me.alexishaldy.classes;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+
 import me.alexishaldy.bdd.Bdd;
 import me.alexishaldy.enumerator.Reason;
 import me.alexishaldy.enumerator.SortType;
 import me.alexishaldy.util.Utils;
 
+@Path("/library")
 public class Library {
 	private static Library instance;
 	private String name; // adresse CIF
@@ -41,8 +46,16 @@ public class Library {
 		return id;
 	}
 
+	@GET
+	@Produces("text/plain")
+	@Path("/adress")
+	public String getAdress() {
+		return this.adress;
+	}
 
-
+	@GET
+	@Produces("text/plain")
+	@Path("/name")
 	public String getName() {
 		return name;
 	}

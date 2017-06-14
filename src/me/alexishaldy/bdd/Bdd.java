@@ -77,7 +77,7 @@ public class Bdd {
 		case adduser:
 			// Args: username, name, lastname, email, tel, lib id
 			try {
-				String sql = "INSERT INTO User(name, lastname, username, email, tel, library_id) VALUES ('"+s[0]+"', '"+s[1]+"', '"+s[2]+"', '"+s[3]+"', '"+s[4]+"', "+s[5]+")";
+				String sql = "INSERT INTO User(name, lastname, username, email, tel, library_id, password) VALUES ('"+s[0]+"', '"+s[1]+"', '"+s[2]+"', '"+s[3]+"', '"+s[4]+"', "+s[5]+", '"+Utils.encryptPassword(s[6])+"')";
 				PreparedStatement stat = co.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				int i = stat.executeUpdate();
 				if (i!=0) {

@@ -52,6 +52,13 @@ public class CmdManager {
 							if (!email.equalsIgnoreCase("-exit")) {
 								String tel = Reader.readNumTel("Donnez lui un numéro de téléphone\n");
 								if (!tel.equalsIgnoreCase("-exit")) {
+									String pass = "y";
+									String pass2 = "x";
+									while (!pass.equals(pass2) ) {
+										pass = Reader.readString("Donnez lui un mot de passe\n");
+										pass2 = Reader.readString("Validez le une deuxième fois\n");
+									}
+
 									String s[] = new String[6];
 									s[0] = name.replace("'", "\\'");
 									s[1] = lastname.replace("'", "\\'");
@@ -59,6 +66,7 @@ public class CmdManager {
 									s[3] = email.replace("'", "\\'");
 									s[4] = tel.replace("'", "\\'");
 									s[5] = ""+lib.getId();
+									s[6] = pass;
 									new Bdd().sendCmd(Reason.adduser, s);
 								}
 							}

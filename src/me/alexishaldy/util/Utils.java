@@ -1,6 +1,37 @@
 package me.alexishaldy.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Formatter;
+
 public class Utils {
+	
+	public final static String SEP = System.getProperty("file.separator");
+	public static final String DB_CONF = "conf" + SEP + "db.properties";
+	public static final String REST_CONF = "conf" + SEP + "rest.properties";
+	public static final String SWAGGER_FILE = "conf" + SEP + "swagger.json";
+	
+	public static String readFile(String fileName) throws IOException {
+		FileInputStream fis = new FileInputStream(new File(fileName));
+		InputStreamReader isr = new InputStreamReader(fis);
+		BufferedReader br = new BufferedReader(isr);
+		String result = new String();
+		String line;
+		
+		while ((line = br.readLine()) != null)
+			result += line + "\n";
+		br.close();
+		isr.close();
+		fis.close();
+		
+		return result;
+	}
 	
 	public static void displayHelp(String...s) {
 		if (s.length>0) {
@@ -89,6 +120,39 @@ public class Utils {
 				return true;
 		}
 		return false;
+	}
+	
+	public static String encryptPassword(String password)
+	{
+	    String sha1 = "";
+	    try
+	    {
+	        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+	        crypt.reset();
+	        crypt.update(password.getBytes("UTF-8"));
+	        sha1 = byteToHex(crypt.digest());
+	    }
+	    catch(NoSuchAlgorithmException e)
+	    {
+	        e.printStackTrace();
+	    }
+	    catch(UnsupportedEncodingException e)
+	    {
+	        e.printStackTrace();
+	    }
+	    return sha1;
+	}
+
+	public static String byteToHex(final byte[] hash)
+	{
+	    Formatter formatter = new Formatter();
+	    for (byte b : hash)
+	    {
+	        formatter.format("%02x", b);
+	    }
+	    String result = formatter.toString();
+	    formatter.close();
+	    return result;
 	}
 }
 

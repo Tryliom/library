@@ -12,7 +12,7 @@ import me.alexishaldy.util.Utils;
 
 public class Main {
 
-	public static void main(String[] args) {		
+	public static void main(String[] args) {	
 		Library lib = null;
 		try {
 			Connection db = DBConnector.getConnect();
