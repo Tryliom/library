@@ -54,18 +54,7 @@ public abstract class DBConnection {
 	 * @return			Table content retrieved from the database
 	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred
 	 */
-	public abstract Column getTable(final String db, final String tableName) throws DBException;
-	
-	/**
-	 * This method allows getting the information contained in a table or as a result of a query. The
-	 * only constraint for this method is that the result can have one single column (otherwise, only
-	 * the first column will be retrieved).
-	 * @param query		Query used to get the table with a single column
-	 * @param db		Database used to run the query
-	 * @return			Information retrieved after running the query
-	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred
-	 */
-	public abstract Vector<String> getList(final String query, final String db) throws DBException;
+	public abstract Column getTable(final String tableName) throws DBException;
 
 	/**
 	 * This method allows getting the information contained in a table or as a result of a query. The
@@ -83,6 +72,10 @@ public abstract class DBConnection {
 	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred
 	 */
 	public abstract Map<String, Boolean> getSystemDBs() throws DBException;
+
+	public abstract boolean execQuery(String query) throws DBException;
+	
+	public abstract Vector<String> selectQuery(String query) throws DBException;
 
 	
 }

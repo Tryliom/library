@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
+import java.util.HashMap;
 
 public class Utils {
 	
@@ -153,6 +154,14 @@ public class Utils {
 	    String result = formatter.toString();
 	    formatter.close();
 	    return result;
+	}
+	
+	public static HashMap<Integer, String> putInMap(String[] s) {
+		HashMap<Integer, String> hm = new HashMap<Integer, String>();
+		for (int i=0;i<s.length;i++) {
+			hm.put(i, s[i]);
+		}
+		return hm;
 	}
 }
 

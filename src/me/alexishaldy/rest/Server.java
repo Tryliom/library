@@ -2,6 +2,7 @@ package me.alexishaldy.rest;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -22,7 +23,7 @@ import me.alexishaldy.util.Utils;
 @SuppressWarnings("restriction")
 public class Server {
  	
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, IllegalArgumentException, URISyntaxException {
 
     	// Get the host from the properties file, or set a default one
     	String host;
@@ -36,22 +37,26 @@ public class Server {
     	// Get the port from the properties file, or set a default one if it is not found or not correct
     	int port;    	
     	try {
-    		port = 8080;
+    		port = 6080;
     	} catch (Exception e) {
     		System.err.println("[ERROR] " + e.getMessage() + "\nUsing a default one <8080>");
-    		port = 8080;
+    		port = 6080;
     	}
 
         // Define handler path
-        ResourceConfig resourceConfig = new PackagesResourceConfig("main.java.rest");
+        ResourceConfig resourceConfig = new PackagesResourceConfig("me.alexishaldy.rest");
 
         // Set the handlers for the REST server
         URI uri = getURI(host, port);
         HttpServer httpServer =  HttpServerFactory.create(uri, resourceConfig);
         
         // Start the server
-        System.out.println("Starting server on " + uri.toString() + "... (see application.wadl for further details)");
+        //System.out.println("Starting server on " + uri.toString() + "... (see application.wadl for further details)");
+        try {
         httpServer.start();
+        } catch (Throwable t) {
+        	httpServer.stop(0);
+        }
     }
  
     /**
@@ -61,7 +66,7 @@ public class Server {
      * @return		Returns the URI for the application
      */
     private static URI getURI(String host, int port) {
-        return UriBuilder.fromUri("http://" + host + "/DBtoREST").port(port).build();
+        return UriBuilder.fromUri("http://" + host + "/").port(port).build();
     }
  
 }

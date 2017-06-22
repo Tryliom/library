@@ -50,6 +50,26 @@ public class DBExecutor {
 		
 		return filteredList;
 	}
+	
+	/**
+	 * This method execute a sql insert, update and delete.
+	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred
+	 * @exception		Exception	A generic exception has occurred
+	 */
+	public static boolean execQuery(String sql) throws DBException, Exception {
+		// Get a connection from the pool
+		DBConnectionPool connectionPool = DBConnectionPool.getInstance();
+		DBConnection connection = connectionPool.popConnection();
+		
+		// Execute query
+		Boolean b = connection.execQuery(sql);
+		
+	
+		// Put back the connection to the pool
+		connectionPool.pushConnection(connection);
+		
+		return b;
+	}
 
 	/**
 	 * This method retrieves the list of tables which are in a specific database name
@@ -64,7 +84,28 @@ public class DBExecutor {
 		DBConnection connection = connectionPool.popConnection();
 		
 	    // Get the list of tables
-	    Vector<String> result = connection.getList("SHOW TABLES from " + db, db);
+	    Vector<String> result = connection.getList("SHOW TABLES from " + db);
+	    
+		// Put back the connection to the pool
+		connectionPool.pushConnection(connection);
+		
+		return result;
+	}
+	
+	/**
+	 * This method retrieves the list of items which are in a specific table name
+	 * @param 			table		Table name
+	 * @return 			item		Item in the table
+	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred
+	 * @exception		Exception	A generic exception has occurred
+	 */
+	public static Vector<String> selectQuery(final String sql) throws DBException, Exception {
+		// Get a connection from the pool
+		DBConnectionPool connectionPool = DBConnectionPool.getInstance();
+		DBConnection connection = connectionPool.popConnection();
+		
+	    // Get the list of tables
+	    Vector<String> result = connection.selectQuery(sql);
 	    
 		// Put back the connection to the pool
 		connectionPool.pushConnection(connection);
@@ -72,6 +113,48 @@ public class DBExecutor {
 		return result;
 	}
 
+	/**
+	 * This method retrieves the list of items which are in a specific table name
+	 * @param 			table		Table name
+	 * @return 			item		Item in the table
+	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred
+	 * @exception		Exception	A generic exception has occurred
+	 */
+	public static Vector<String> selectAll(final String table) throws DBException, Exception {
+		// Get a connection from the pool
+		DBConnectionPool connectionPool = DBConnectionPool.getInstance();
+		DBConnection connection = connectionPool.popConnection();
+		
+	    // Get the list of tables
+	    Vector<String> result = connection.selectQuery("SELECT * FROM "+table);
+	    
+		// Put back the connection to the pool
+		connectionPool.pushConnection(connection);
+		
+		return result;
+	}
+	
+	/**
+	 * This method retrieves the list of tables which are in a specific database name
+	 * @param 			db		Database name
+	 * @return 			tables	Table names in the database
+	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred
+	 * @exception		Exception	A generic exception has occurred
+	 */
+	public static Vector<String> selectById(final String table, final String id) throws DBException, Exception {
+		// Get a connection from the pool
+		DBConnectionPool connectionPool = DBConnectionPool.getInstance();
+		DBConnection connection = connectionPool.popConnection();
+		
+	    // Get the list of tables
+	    Vector<String> result = connection.selectQuery("SELECT * FROM "+table+" WHERE id = "+id);
+	    
+		// Put back the connection to the pool
+		connectionPool.pushConnection(connection);
+		
+		return result;
+	}
+	
 	/**
 	 * This method retrieves the content of a table from a database
 	 * @param 			db		Database name
@@ -86,7 +169,7 @@ public class DBExecutor {
 		DBConnection connection = connectionPool.popConnection();
 		
 	    // Get the table contents
-	    Column result = connection.getTable(db, tableName);
+	    Column result = connection.getTable(tableName);
 		
 		// Put back the connection to the pool
 		connectionPool.pushConnection(connection);

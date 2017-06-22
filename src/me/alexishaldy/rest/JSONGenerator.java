@@ -1,12 +1,16 @@
 package me.alexishaldy.rest;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import me.alexishaldy.db.table.Column;
+import me.alexishaldy.rest.RestHandler.BookEnum;
 
 
 /**
@@ -66,6 +70,30 @@ public class JSONGenerator {
 		jsonObject.put(root, elements);
 
 		return jsonObject;
+	}
+	
+	public static String getJsonWithTable(Vector<String> list, HashMap<Integer, String> numByName) {
+		String s = "";
+		try {
+			Vector<HashMap<String, String>> library = new Vector<>();
+			int pos = 0;
+			HashMap<String, String> libraryMap = null;
+			for (String element : list) {
+				int posElement = pos % numByName.size();
+				if (posElement == 0) {
+					libraryMap = new HashMap<>();
+					library.addElement(libraryMap);
+				}
+				libraryMap.put(numByName.get(posElement), element);
+				++pos;
+			}
+	
+			ObjectMapper mapper = new ObjectMapper();
+			s = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(library);
+		} catch (Exception e) {
+			s=e.getMessage();
+		}
+		return s;
 	}
 	
 	/**

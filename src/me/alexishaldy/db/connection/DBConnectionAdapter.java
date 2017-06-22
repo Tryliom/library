@@ -26,7 +26,7 @@ public class DBConnectionAdapter extends DBConnection {
 	/**
 	 * Driver name
 	 */
-	public static final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
+	public static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
 	/**
 	 * Connection prefix (used only to connect to the MySQL database)
 	 */
@@ -60,7 +60,7 @@ public class DBConnectionAdapter extends DBConnection {
 		super(host, port, user, pass);
 		try {
 			System.out.println("Creating connection " + CONN_PREFIX + host + ":" + port);
-			_connection = DriverManager.getConnection(CONN_PREFIX + host + ":" + port + "?verifyServerCertificate=false&useSSL=true&autoReconnect=true&maxReconnects=10", user, pass);
+			_connection = DriverManager.getConnection(CONN_PREFIX + host + ":" + port + "/library?verifyServerCertificate=false&useSSL=true&autoReconnect=true&maxReconnects=10", user, pass);
 		} catch (SQLException e) {
 			if (e.getErrorCode() == 2026) {
 				System.err.println("Maximum number of connections exceeded (" + e.getMessage() + ")");
@@ -77,20 +77,19 @@ public class DBConnectionAdapter extends DBConnection {
 	 * The method derives from the base class <code>DBConnection</code>
 	 * @see DBConnection
 	 * @param query		Query used to get the table with a single column
-	 * @param db		Database used to run the query
 	 * @return result	Information retrieved after running the query
 	 * @exception DBException Throws an exception in case a problem with the DB has occurred
 	 */
 	@Override
-	public Vector<String> getList(String query, String db) throws DBException {
+	public Vector<String> getList(String query) throws DBException {
 		
 		Statement statement;
 		ResultSet resultSet;
 		
 		try {
 			// If the database has been defined, we set it
-			if (!db.isEmpty())
-				_connection.setSchema(db);
+//			if (!db.isEmpty())
+//				_connection.setSchema(db);
 			
 			// Create the statement and run the query
 			statement = _connection.createStatement();
@@ -105,24 +104,59 @@ public class DBConnectionAdapter extends DBConnection {
 			
 			return result;
 		} catch (SQLException sqle) {
-			System.err.println(sqle.getMessage());
 			throw new DBException(sqle.getMessage(), sqle.getErrorCode());
 		}
 	}
-
-	/**
-	 * This method allows getting the information contained in a table or as a result of a query. The
-	 * only constraint for this method is that the result can have one single column (otherwise, only
-	 * the first column will be retrieved).
-	 * The method derives from the base class <code>DBConnection</code>
-	 * @see DBConnection
-	 * @param query		Query used to get the table with a single column
-	 * @return result	Information retrieved after running the query
-	 * @exception DBException Throws an exception in case a problem with the DB has occurred
-	 */
+	
 	@Override
-	public Vector<String> getList(String query) throws DBException {
-		return getList(query, "");
+	public boolean execQuery(String query) throws DBException {
+		
+		Statement statement;
+		int rs;
+		
+		try {
+			// Create the statement and run the query
+			statement = _connection.createStatement();
+			rs = statement.executeUpdate(query);
+			return rs==1 ? true : false;
+		} catch (SQLException sqle) {
+			throw new DBException(sqle.getMessage(), sqle.getErrorCode());
+		}
+	}
+	
+	@Override
+	public Vector<String> selectQuery(String query) throws DBException {
+		
+		Statement statement;
+		ResultSet resultSet;
+		int rs;
+		
+		try {
+			// If the database has been defined, we set it
+
+			
+			statement = _connection.createStatement();
+			resultSet = statement.executeQuery(query);
+			Vector<String> result = new Vector<String>();
+			
+			// Retrieve the results
+			while (resultSet.next()) {
+				// Trouver moyen de get tous les string de la table				
+				int i = 0;
+				while (true) {
+					i++;
+					try {
+						result.addElement(resultSet.getString(i));
+					} catch (Exception e) {
+						break;
+					}
+				}
+			}
+			
+			return result;
+		} catch (SQLException sqle) {
+			throw new DBException(sqle.getMessage(), sqle.getErrorCode());
+		}
 	}
 
 	/**
@@ -134,18 +168,11 @@ public class DBConnectionAdapter extends DBConnection {
 	 * return			Table content retrieved from the database
 	 */
 	@Override
-	public Column getTable(String db, String tableName) throws DBException {
+	public Column getTable(String tableName) throws DBException {
 		Statement statement;
 		ResultSet resultSet;
 		
 		try {
-			// First, we need to get the structure of the table
-			// We request to the database how is the structure of the database and initialize
-			// the output.
-			if (!db.isEmpty()) {
-				_connection.setSchema(db);
-				_connection.setCatalog(db);
-			}
 			statement = _connection.createStatement();
 			resultSet = statement.executeQuery("DESC " + tableName);
 			Column output = null;
