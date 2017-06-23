@@ -14,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import me.alexishaldy.classes.Library;
 import me.alexishaldy.db.connection.DBExecutor;
 import me.alexishaldy.enumerator.SortType;
 import me.alexishaldy.util.Utils;
@@ -162,22 +161,22 @@ public class RestHandler {
 			case Number:
 				break;
 			case author:
-				sql = "SELECT id FROM Book WHERE author = '"+args[0]+"'"+" AND library_id = "+Library.getLibrary().getId();
+				sql = "SELECT id FROM Book WHERE author = '"+args[0]+"'"+" AND library_id = "+lib;
 				break;
 			case desc:
-				sql = "SELECT id FROM Book WHERE description = '"+args[0]+"'"+" AND library_id = "+Library.getLibrary().getId();
+				sql = "SELECT id FROM Book WHERE description = '"+args[0]+"'"+" AND library_id = "+lib;
 				break;
 			case title:
-				sql = "SELECT id FROM Book WHERE title = '"+args[0]+"'"+" AND library_id = "+Library.getLibrary().getId();
+				sql = "SELECT id FROM Book WHERE title = '"+args[0]+"'"+" AND library_id = "+lib;
 				break;
 			case title_author:
-				sql = "SELECT id FROM Book WHERE title = '"+args[0]+"' AND author = '"+args[1]+"'"+" AND library_id = "+Library.getLibrary().getId();
+				sql = "SELECT id FROM Book WHERE title = '"+args[0]+"' AND author = '"+args[1]+"'"+" AND library_id = "+lib;
 				break;
 			case title_author_numedition:
-				sql = "SELECT id FROM Book WHERE title = '"+args[0]+"' AND author = '"+args[1]+"' AND edition = "+args[2]+" AND library_id = "+Library.getLibrary().getId();
+				sql = "SELECT id FROM Book WHERE title = '"+args[0]+"' AND author = '"+args[1]+"' AND edition = "+args[2]+" AND library_id = "+lib;
 				break;
 			case year:
-				sql = "SELECT id FROM Book WHERE date = "+args[0]+" AND library_id = "+Library.getLibrary().getId();
+				sql = "SELECT id FROM Book WHERE date = "+args[0]+" AND library_id = "+lib;
 				break;				
 			}
 			Vector<String> list = DBExecutor.selectQuery(sql);
