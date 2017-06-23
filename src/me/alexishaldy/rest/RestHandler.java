@@ -275,6 +275,20 @@ public class RestHandler {
 		}
 	}
 	
+	@PUT
+	@Path("/user/admin/update/{username}/{password}/{token}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response userExist(@PathParam("username") String pseudo, @PathParam("password") String pass, @PathParam("token") String token) {		
+		try {			
+			Boolean b = DBExecutor.execQuery("UPDATE user SET SELECT token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\"");
+			if (!b)
+				throw new Exception("Compte inexistant");
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
 	@SuppressWarnings("static-method")
 	@POST	
 	@Path("/user/add")
