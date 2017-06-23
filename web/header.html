@@ -1,0 +1,16 @@
+<body>
+<div id=all>
+<nav>
+	<?php	
+	echo "[ <a href='index.php' ".isPage('index.php').">Home</a> ~";
+	if (isset($_SESSION['lib'])) {
+		if (isset($_SESSION['token']) && isValid($bdd, $_SESSION['token'])) {
+			echo "<a href='user.php' ".isPage('user.php').">Espace utilisateur</a> ~";
+		} else {
+			echo "<a href='login.php' ".isPage('login.php').">Login / Register</a> ~";
+		}
+		echo "<a href='library.php' ".isPage('library.php').">Library</a>";
+	}
+	if (!isset($_SESSION['lib']) && !isset($_SESSION['token'])) { echo " <a href='admin_panel.php' ".isPage('admin_panel.php').">Admin Panel</a> ]"; } else { echo "]"; } ?>
+</nav>
+</nav>

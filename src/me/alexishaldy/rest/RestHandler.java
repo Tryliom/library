@@ -277,9 +277,23 @@ public class RestHandler {
 	@PUT
 	@Path("/user/admin/update/{username}/{password}/{token}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response userExist(@PathParam("username") String pseudo, @PathParam("password") String pass, @PathParam("token") String token) {		
+	public Response userAdminExist(@PathParam("username") String pseudo, @PathParam("password") String pass, @PathParam("token") String token) {		
 		try {			
-			Boolean b = DBExecutor.execQuery("UPDATE user SET SELECT token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\"");
+			Boolean b = DBExecutor.execQuery("UPDATE user SET token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\" AND level_access >= 7");
+			if (!b)
+				throw new Exception("Compte inexistant");
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@PUT
+	@Path("/user/member/update/{username}/{password}/{token}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response userMemberExist(@PathParam("username") String pseudo, @PathParam("password") String pass, @PathParam("token") String token, @PathParam("library_id") String lib) {		
+		try {			
+			Boolean b = DBExecutor.execQuery("UPDATE user SET token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\" AND library_id = "+lib);
 			if (!b)
 				throw new Exception("Compte inexistant");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
