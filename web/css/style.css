@@ -47,6 +47,19 @@ table td#user, table p#user {
 	text-align:left;
 }
 
+table#list {
+	border-width:3px; 
+	border-style:solid dotted; 
+	border-color:black;
+	background-color:#eeeeff;
+	width:80%;
+	
+}
+
+table#list td {
+	text-align:left;
+}
+
 #bookmanager {
 	width:100%;
 	padding:12px 24px;
@@ -60,9 +73,21 @@ table td#user, table p#user {
 	cursor: pointer;
 }
 
+#bookmanager_selected {
+	background-color: white;
+    color: #555;
+	width:100%;
+	padding:12px 24px;
+	border: 2px solid #555;
+	text-decoration:none;
+	display:inline-block;
+	border-radius:3px;
+	cursor: pointer;
+}
+
 #bookmanager:hover {
 	background-color: white;
-    color: black;
+    color: #555;
 	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 

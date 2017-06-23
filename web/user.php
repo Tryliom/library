@@ -4,9 +4,10 @@
 <?php
 require_once("bdd.php");
 require_once("lib.php");
+require_once("need_acc.php");
 
 if (isset($_REQUEST['logout'])) {
-	$_SESSION['token'] = "";
+	$_SESSION['token'] = null;
 	header("Location: index.php");
 }
 
