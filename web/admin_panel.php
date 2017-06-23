@@ -58,7 +58,7 @@ if (isset($_SESSION['token_admin'])) {
 			curl_close ($ch);
 			if ($s=="true") {
 				$_SESSION['token_admin'] = $token;				
-				//header("Location: admin_panel.php");
+				header("Location: admin_panel.php");
 			} else {
 				echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: $s</p>";
 			}

@@ -1,5 +1,5 @@
 <head><link href="css\style.css" rel="stylesheet" media="all" type="text/css"></head>
-<title>Library Home</title>
+<title>Espace utilisateur</title>
 
 <?php
 require_once("bdd.php");
