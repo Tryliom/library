@@ -60,6 +60,15 @@ table#list td {
 	text-align:left;
 }
 
+#text {
+	padding:10px 15px;
+	text-decoration:none;
+	display:inline-block;
+	border: 2px solid #555;
+	font-size:20px;
+	width:80%;
+}
+
 #bookmanager {
 	width:100%;
 	padding:12px 24px;

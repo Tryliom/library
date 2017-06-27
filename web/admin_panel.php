@@ -9,7 +9,7 @@ if (isset($_SESSION['token_admin']) && isset($_REQUEST['logout'])) {
 }
 
 
-if (isset($_SESSION['token_admin'])) {
+if (isset($_SESSION['token_admin']) && isValidAdmin($_SESSION['token_admin'])) {
 	// Vérifier si la token est encore valide
 	
 	
@@ -18,6 +18,7 @@ if (isset($_SESSION['token_admin'])) {
 		<p>- Ajout de nouvelles librairies</p>
 		<p>- Effacement de librairies</p>
 		<p>- Gérer les utilisateurs (Créer/enlever des Admin)</p>
+		<p>- Ajout / effacement de livresp>
 	";
 	echo "<div>
 
