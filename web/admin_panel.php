@@ -9,17 +9,24 @@ if (isset($_SESSION['token_admin']) && isset($_REQUEST['logout'])) {
 }
 
 
-if (isset($_SESSION['token_admin']) && isValidAdmin($_SESSION['token_admin'])) {
-	// Vérifier si la token est encore valide
+if (isset($_SESSION['token_admin']) && isValidAdmin($_SESSION['token_admin'])) {	
+	require_once("list_lib.php");
 	
 	
-	echo "<p style='color:#22ff22'>Connecté au panel Administrateur</p>";
-	echo "<h1>Prochainement</h1>
-		<p>- Ajout de nouvelles librairies</p>
-		<p>- Effacement de librairies</p>
-		<p>- Gérer les utilisateurs (Créer/enlever des Admin)</p>
-		<p>- Ajout / effacement de livresp>
-	";
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// Disconnect
 	echo "<div>
 
 	<form action='' method=post><table cellspacing='10'>
