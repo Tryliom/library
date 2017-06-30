@@ -3,25 +3,27 @@ if (strpos($_SERVER['PHP_SELF'], 'list_lib.php') !== false) {
     header("Location: index.php");
 }
 
+$list_idlib = "";
+
 if (isset($_REQUEST['lib_list']) && isset($_REQUEST['update'])) {
 	$name = $_REQUEST['name'];
 	$adress = $_REQUEST['adress'];
 	$id = $_REQUEST['id'];
 	$ch = curl_init();
 	
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/library/edit/$name/$adress/$id");
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/library/edit");
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "name=$name&adress=$adress&library_id=$id");
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
 		echo "<p style='color:#33ff33'>Données mises à jour !</p>";
 	} else {
-		echo "<p style='color:#ff3333'>Erreur: $s ; ".("http://localhost:6080/library/edit/$name/$adress/$id")."</p>";
+		echo "<p style='color:#ff3333'>Erreur: $s</p>";
 	}
 }
 
-// WORK
 if (isset($_REQUEST['lib_list']) && isset($_REQUEST['delete'])) {
 	$id = $_REQUEST['id'];
 	$ch = curl_init();
@@ -50,7 +52,54 @@ if (isset($_REQUEST['lib_add']) && isset($_REQUEST['add'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p style='color:#33ff33'>Librairie supprimée !</p>";
+		echo "<p style='color:#33ff33'>Librairie ajoutée !</p>";
+	} else {
+		echo "<p style='color:#ff3333'>Erreur $s</p>";
+	}
+}
+
+if (isset($_REQUEST['book_add']) && isset($_REQUEST['add'])) {
+	$title = $_REQUEST['title'];
+	$author = $_REQUEST['author'];
+	$date = $_REQUEST['date'];
+	$desc = $_REQUEST['desc'];
+	$edition = $_REQUEST['edition'];
+	$editeur = $_REQUEST['editor'];
+	$lid = $_REQUEST['lib'];
+	$ch = curl_init();
+
+	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/book/add");
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "title=$title&author=$author&date=$date&description=$desc&edition=$edition&editeur=$editeur&library_id=$lid");
+	$s = curl_exec ($ch);
+	curl_close ($ch);
+	if ($s==="true") {
+		echo "<p style='color:#33ff33'>Livre ajouté !</p>";
+	} else {
+		echo "<p style='color:#ff3333'>Erreur $s</p>";
+	}
+}
+
+if (isset($_REQUEST['book_list']) && isset($_REQUEST['update'])) {
+	$title = $_REQUEST['title'];
+	$author = $_REQUEST['author'];
+	$date = $_REQUEST['date'];
+	$desc = $_REQUEST['desc'];
+	$edition = $_REQUEST['edition'];
+	$editeur = $_REQUEST['editor'];
+	$lid = $_REQUEST['lib'];
+	$id = $_REQUEST['id'];
+	$ch = curl_init();
+
+	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/book/edit");
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "title=$title&author=$author&date=$date&description=$desc&edition=$edition&editeur=$editeur&library_id=$lid&id=$id");
+	$s = curl_exec ($ch);
+	curl_close ($ch);
+	if ($s==="true") {
+		echo "<p style='color:#33ff33'>Livre modifié !</p>";
 	} else {
 		echo "<p style='color:#ff3333'>Erreur $s</p>";
 	}
@@ -71,6 +120,7 @@ $jd= json_decode($json_source);
 		$lid = $jd[$i]->id;
 		$adress = $jd[$i]->adress;
 		$name = $jd[$i]->name;
+		$list_idlib .= $lid."g";
 		$m .= "
 			<tr>
 				<form method='post'>
@@ -132,7 +182,8 @@ $jd= json_decode($json_source);
 		$user_id = $jd[$i]->user_id;
 		$lib = $jd[$i]->library_id;
 		$m .= "
-		<form name='book_list' method=post>
+		<form method=post>
+		<input type='hidden' name='book_list' />
 		<input type='hidden' value='$bid' name='id'/>
 		<td ".setWidth($title)."><input id='textmin' type='text' name='title' value='$title' /></td>
 		<td ".setWidth($author)."><input id='textmin' type='text' name='author' value='$author' /></td>
@@ -144,14 +195,24 @@ $jd= json_decode($json_source);
 		<td> <input style='width:100%;' id='button' type='submit' value='Sauvegarder' name='update' /> <input style='width:100%;' id='button' type='submit' value='Supprimer' name='delete' /> </td>
 		</form></tr>";
 	}
-	$b = "<form name='book_add' method=post><tr>
+	$b = "<tr><form name='book_add' method=post>
+	<input type='hidden' name='book_add' />
 	<td><input id='textmin' type='text' name='title' /></td>
 	<td><input id='textmin' type='text' name='author' /></td>
 	<td><input id='textmin' type='text' name='date' /></td>
 	<td><input id='textmin' type='text' name='edition' /></td>
 	<td><input id='textmin' type='text' name='editor' /></td>
 	<td><input id='textmin' type='text' name='desc' /></td>
-	<td><input id='textmin' type='text' name='lib' /></td>
+	<td>
+	<select style='width:110%;' id='text' name='lib'>
+	";
+	$list_idlib = preg_split("[g]", $list_idlib);
+	for ($j=0;$j<sizeof($list_idlib);$j++) {
+		$b .= "<option value='".$list_idlib[$j]."'>".$list_idlib[$j]."</option>";
+	}
+	$b .= "
+	</select>
+	</td>
 	<td><input style='width:100%;' id='button' type='submit' value='Ajouter un nouveau livre' name='add' /></td></tr></form></table>";
 		echo "$h $m $b";
 	
