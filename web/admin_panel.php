@@ -11,21 +11,6 @@ if (isset($_SESSION['token_admin']) && isset($_REQUEST['logout'])) {
 
 if (isset($_SESSION['token_admin']) && isValidAdmin($_SESSION['token_admin'])) {	
 	require_once("list_lib.php");
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// Disconnect
 	echo "<div>
 
@@ -39,15 +24,7 @@ if (isset($_SESSION['token_admin']) && isValidAdmin($_SESSION['token_admin'])) {
 	</table></form>
 
 
-	</div>";
-	
-	
-	
-	
-	
-	
-	
-	
+	</div>";	
 } else {
 	if (isset($_REQUEST['login'])) {
 		$w = 1;

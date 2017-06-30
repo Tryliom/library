@@ -15,8 +15,11 @@ switch ($level_access) {
 	case 0:
 		$rank="§bMembre";
 		break;
-	case 7:
+	case 6:
 		$rank="§cAdmin";
+		break;
+	case 7:
+		$rank="§cSuper Admin";
 		break;
 }
 ?>

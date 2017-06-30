@@ -68,7 +68,7 @@ $jd= json_decode($json_source);
 			<input type='hidden' value='$bid' name='id'/>
 			<input type='hidden' value='5' name='$choice'/>
 			<td>$title</td><td>$author</td><td>$date</td><td>$edition</td><td>$editor</td><td>$desc</td>
-			<td><input id='button' type='submit' value='$name' name='$n' $dis /></td>
+			<td><input id='button' style='width:100%;' type='submit' value='$name' name='$n' $dis /></td>
 			</form></tr>";
 	}
 	$b = "</table>";
