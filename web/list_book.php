@@ -3,6 +3,7 @@ if (strpos($_SERVER['PHP_SELF'], 'list_book.php') !== false) {
     header("Location: index.php");
 }
 
+
 if (isset($_REQUEST['take'])) {
 	$bid = $_REQUEST['id'];
 	$uid = $id;
