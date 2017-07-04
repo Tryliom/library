@@ -76,6 +76,14 @@ table#list td {
 	border: 2px solid #555;
 	font-size:15px;
 	width:80%;
+	background-color: #eeeeff;
+}
+
+#textdisp {
+	padding:10px 15px;
+	text-decoration:none;
+	border: 2px solid #555;
+	font-size:15px;
 }
 
 #bookmanager {

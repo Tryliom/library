@@ -62,8 +62,8 @@ echo "<div>
 	<td id=user><input id='textmin' type='text' name='tel' value='".$tel."' /></td>
 </tr>
 <tr>
-	<td><input id=button type=submit name=logout value='Se déconnecter'/></td>
-	<td><input id=button type=submit name=save value='Sauvegarder'/></td>
+	<td><input style='width:100%;' id=button type=submit name=logout value='Se déconnecter'/></td>
+	<td><input style='width:100%;' id=button type=submit name=save value='Sauvegarder'/></td>
 </tr>
 </table></form>
 

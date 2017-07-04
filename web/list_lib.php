@@ -18,9 +18,9 @@ if (isset($_REQUEST['lib_list']) && isset($_REQUEST['update'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p style='color:#33ff33'>Données mises à jour !</p>";
+		echo "<p id='text' style='color:#33ff33'>Données mises à jour !</p>";
 	} else {
-		echo "<p style='color:#ff3333'>Erreur: $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur: $s</p>";
 	}
 }
 
@@ -34,9 +34,9 @@ if (isset($_REQUEST['lib_list']) && isset($_REQUEST['delete'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p style='color:#33ff33'>Librairie supprimée !</p>";
+		echo "<p id='text' style='color:#33ff33'>Librairie supprimée !</p>";
 	} else {
-		echo "<p style='color:#ff3333'>Erreur</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur</p>";
 	}
 }
 
@@ -52,9 +52,9 @@ if (isset($_REQUEST['lib_add']) && isset($_REQUEST['add'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p style='color:#33ff33'>Librairie ajoutée !</p>";
+		echo "<p id='text' style='color:#33ff33'>Librairie ajoutée !</p>";
 	} else {
-		echo "<p style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
 	}
 }
 
@@ -75,9 +75,9 @@ if (isset($_REQUEST['book_add']) && isset($_REQUEST['add'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p style='color:#33ff33'>Livre ajouté !</p>";
+		echo "<p id='text' style='color:#33ff33'>Livre ajouté !</p>";
 	} else {
-		echo "<p style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
 	}
 }
 
@@ -99,9 +99,9 @@ if (isset($_REQUEST['book_list']) && isset($_REQUEST['update'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p style='color:#33ff33'>Livre modifié !</p>";
+		echo "<p id='text' style='color:#33ff33'>Livre modifié !</p>";
 	} else {
-		echo "<p style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
 	}
 }
 
@@ -126,13 +126,13 @@ $jd= json_decode($json_source);
 				<form method='post'>
 					<input type='hidden' name='lib_list' />
 					<td ".setWidth($lid).">
-						<input id='text' type='text' value='$lid' name='id' />
+						<input id='textmin' type='text' value='$lid' name='id' />
 					</td>
 					<td ".setWidth($name).">
-						<input id='text' type='text' name='name' value='$name' />
+						<input id='textmin' type='text' name='name' value='$name' />
 					</td>
 					<td ".setWidth($adress).">
-						<input id='text' type='text' name='adress' value='$adress' />
+						<input id='textmin' type='text' name='adress' value='$adress' />
 					</td>
 					<td> 
 						<input style='width:100%;' id='button' type='submit' value='Sauvegarder' name='update' />
@@ -146,13 +146,13 @@ $jd= json_decode($json_source);
 			<input type='hidden' name='lib_add' />
 			<tr>
 				<td>
-					<input id='text' type='text' name='id' disabled/>
+					<input id='textmin' type='text' name='id' disabled/>
 				</td>
 				<td>
-					<input id='text' type='text' name='name' />
+					<input id='textmin' type='text' name='name' />
 				</td>
 				<td>
-					<input id='text' type='text' name='adress' />
+					<input id='textmin' type='text' name='adress' />
 				</td>
 				<td>
 					<input style='width:100%;' id='button' type='submit' value='Ajouter une nouvelle librairie' name='add' />
@@ -204,7 +204,7 @@ $jd= json_decode($json_source);
 	<td><input id='textmin' type='text' name='editor' /></td>
 	<td><input id='textmin' type='text' name='desc' /></td>
 	<td>
-	<select style='width:110%;' id='text' name='lib'>
+	<select style='width:110%;' id='textmin' name='lib'>
 	";
 	$list_idlib = preg_split("[g]", $list_idlib);
 	for ($j=0;$j<sizeof($list_idlib);$j++) {

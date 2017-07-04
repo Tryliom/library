@@ -20,9 +20,9 @@ if (isset($_REQUEST['add'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p style='color:#33ff33'>Livre ajouté !</p>";
+		echo "<p id='text' style='color:#33ff33'>Livre ajouté !</p>";
 	} else {
-		echo "<p style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
 	}
 }
 
@@ -44,9 +44,9 @@ if (isset($_REQUEST['update'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p style='color:#33ff33'>Livre modifié !</p>";
+		echo "<p id='text' style='color:#33ff33'>Livre modifié !</p>";
 	} else {
-		echo "<p style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
 	}
 }
 
@@ -60,9 +60,9 @@ if (isset($_REQUEST['delete'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p style='color:#33ff33'>Livre supprimé !</p>";
+		echo "<p id='text' style='color:#33ff33'>Livre supprimé !</p>";
 	} else {
-		echo "<p style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
 	}
 }
 
@@ -92,7 +92,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 			<td ".setWidth($edition)."><input id='textmin' type='text' name='edition' value='$edition' /></td>
 			<td ".setWidth($editor)."><input id='textmin' type='text' name='editor' value='$editor' /></td>
 			<td ".setWidth($desc)."><input id='textmin' type='text' name='desc' value=\"$desc\" /></td>
-			<td>
+			<td id='textdisp'>
 				".($user_id>0 ? "Oui" : "Non")."
 			</td>
 			<td>
@@ -112,7 +112,7 @@ $b = "<tr><form method=post>
 	<td><input id='textmin' type='text' name='edition' /></td>
 	<td><input id='textmin' type='text' name='editor' /></td>
 	<td><input id='textmin' type='text' name='desc' /></td>
-	<td>
+	<td id='textdisp'>
 		---
 	</td>
 	<td><input style='width:100%;' id='button' type='submit' value='Ajouter un nouveau livre' name='add' /></td></tr></form>";

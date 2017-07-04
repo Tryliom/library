@@ -3,10 +3,9 @@ if (strpos($_SERVER['PHP_SELF'], 'list_renter.php') !== false) {
     header("Location: index.php");
 }
 
-
 if (isset($_REQUEST['return'])) {
 	$bid = $_REQUEST['id'];
-	$uid = $id;
+	$uid = $_REQUEST['uid'];
 	$lib = $_SESSION['lib'];
 	$ch = curl_init();
 
@@ -16,9 +15,9 @@ if (isset($_REQUEST['return'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p style='color:#33ff33'>Vous avez rendu le livre !</p>";
+		echo "<p id='text' style='color:#33ff33'>Vous avez rendu le livre !</p>";
 	} else {
-		echo "<p style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
 	}
 }
 
@@ -36,30 +35,24 @@ for ($i=0;$i<sizeof($jd);$i++) {
 	$editor = $jd[$i]->editor;
 	$user_id = $jd[$i]->user_id;
 	$lib = $jd[$i]->library_id;
-
-	if ($user_id>0 && $user_id==$id) {
-		$name = "Rendre";
-		$dis = "";
-		$n = "return";
-
-		if ($lib===$_SESSION['lib'])
-			$m .= "
+	
+	if ($lib===$_SESSION['lib'] && $user_id>0)
+		$m .= "
 			<form method=post>
 			<input type='hidden' value='$bid' name='id'/>
+			<input type='hidden' value='$user_id' name='uid'/>
 			<input type='hidden' value='5' name='$choice'/>
-			<td>$title</td><td>$author</td><td>$date</td><td>$edition</td><td>$editor</td><td>$desc</td>
-			<td><input id='button' style='width:100%;' type='submit' value='$name' name='$n' $dis /></td>
+			<td id='textdisp'>$title</td><td id='textdisp'>$author</td><td id='textdisp'>$date</td><td id='textdisp'>$edition</td><td id='textdisp'>$editor</td><td id='textdisp'>$desc</td>
+			<td><input id='button' style='width:100%;' type='submit' value='Libérer' name='return' /></td>
 			</form></tr>";
-		
-	}
 }
 
 $b =  "</table>";
 
 if ($m==="") 
-		echo "<p>Aucun livres empruntés</p>";
-	else
-		echo "$h $m $b";
+	echo "<p>Aucun livres empruntés</p>";
+else
+	echo "$h $m $b";
 
 ?>
 

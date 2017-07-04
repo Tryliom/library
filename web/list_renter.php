@@ -16,9 +16,9 @@ if (isset($_REQUEST['return'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p style='color:#33ff33'>Vous avez rendu le livre !</p>";
+		echo "<p id='text' style='color:#33ff33'>Vous avez rendu le livre !</p>";
 	} else {
-		echo "<p style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
 	}
 }
 
@@ -47,7 +47,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 			<form method=post>
 			<input type='hidden' value='$bid' name='id'/>
 			<input type='hidden' value='5' name='$choice'/>
-			<td>$title</td><td>$author</td><td>$date</td><td>$edition</td><td>$editor</td><td>$desc</td>
+			<td id='textdisp'>$title</td><td id='textdisp'>$author</td><td id='textdisp'>$date</td><td id='textdisp'>$edition</td><td id='textdisp'>$editor</td><td id='textdisp'>$desc</td>
 			<td><input id='button' style='width:100%;' type='submit' value='$name' name='$n' $dis /></td>
 			</form></tr>";
 		

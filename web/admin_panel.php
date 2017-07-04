@@ -45,10 +45,10 @@ if (isset($_SESSION['token_admin']) && isValidAdmin($_SESSION['token_admin'])) {
 				$_SESSION['token_admin'] = $token;				
 				header("Location: admin_panel.php");
 			} else {
-				echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: $s</p>";
+				echo "<p id='text' style='color:#ff2222'>Erreur lors de la connexion au compte: $s</p>";
 			}
 		} else
-			echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: Pseudo ou mot de passe vide</p>";
+			echo "<p id='text' style='color:#ff2222'>Erreur lors de la connexion au compte: Pseudo ou mot de passe vide</p>";
 	}
 
 	echo "<div>
@@ -57,11 +57,11 @@ if (isset($_SESSION['token_admin']) && isValidAdmin($_SESSION['token_admin'])) {
 	<h1>Se connecter</h1>
 	<tr>
 		<td>Pseudo : </td>
-		<td><input type=text name=username value='".getPost("username")."'/></td>
+		<td><input id='textmin' type=text name=username value='".getPost("username")."'/></td>
 	</tr>
 	<tr>
 		<td>Mot de passe : </td>
-		<td><input type=password name=pass value='".getPost("pass")."'/></td>
+		<td><input id='textmin' type=password name=pass value='".getPost("pass")."'/></td>
 	</tr>
 	<tr>
 		<td></td>
