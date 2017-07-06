@@ -5,6 +5,70 @@ if (strpos($_SERVER['PHP_SELF'], 'list_lib.php') !== false) {
 
 $list_idlib = "";
 
+if (isset($_REQUEST['add']) && isset($_REQUEST['user'])) {
+	$pseudo = $_REQUEST['pseudo'];
+	$name = $_REQUEST['name'];
+	$lastname = $_REQUEST['lastname'];
+	$email = $_REQUEST['email'];
+	$tel = $_REQUEST['tel'];
+	$level = $_REQUEST['level'];
+	$pass = sha1($_REQUEST['password']);
+	$lid = $_SESSION['lib'];
+	$ch = curl_init();
+
+	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/add");
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&email=$email&tel=$tel&level_access=$level&library_id=$lid&password=$pass&token=42");
+	$s = curl_exec ($ch);
+	curl_close ($ch);
+	if ($s==="true") {
+		echo "<p id='text' style='color:#33ff33'>Livre ajouté !</p>";
+	} else {
+		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
+	}
+}
+
+if (isset($_REQUEST['update']) && isset($_REQUEST['user'])) {
+	$pseudo = $_REQUEST['pseudo'];
+	$name = $_REQUEST['name'];
+	$lastname = $_REQUEST['lastname'];
+	$email = $_REQUEST['email'];
+	$tel = $_REQUEST['tel'];
+	$level = $_REQUEST['level'];
+	$uid = $_REQUEST['id'];
+	$lib = $_REQUEST['lib'];
+	$ch = curl_init();
+
+	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/edit/superadmin");
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&email=$email&tel=$tel&level_access=$level&id=$uid&library_id=$lib");
+	$s = curl_exec ($ch);
+	curl_close ($ch);
+	if ($s==="true") {
+		echo "<p id='text' style='color:#33ff33'>Utilisateur modifié !</p>";
+	} else {
+		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
+	}
+}
+
+if (isset($_REQUEST['delete']) && isset($_REQUEST['user'])) {
+	$id = $_REQUEST['id'];
+	$ch = curl_init();
+
+	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/delete/$id");
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$s = curl_exec ($ch);
+	curl_close ($ch);
+	if ($s==="true") {
+		echo "<p id='text' style='color:#33ff33'>Utilisateur supprimé !</p>";
+	} else {
+		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
+	}
+}
+
 if (isset($_REQUEST['lib_list']) && isset($_REQUEST['update'])) {
 	$name = $_REQUEST['name'];
 	$adress = $_REQUEST['adress'];
@@ -215,6 +279,118 @@ $jd= json_decode($json_source);
 	</td>
 	<td><input style='width:100%;' id='button' type='submit' value='Ajouter un nouveau livre' name='add' /></td></tr></form></table>";
 		echo "$h $m $b";
+	
+	
+	
+
+	$json_source = file_get_contents('http://localhost:6080/user/get/');
+	$jd= json_decode($json_source);
+	$h = "<h1>Gestion des utilisateurs</h1>
+	<table id='list' cellspacing='10'><th>Pseudo</th><th>Prénom</th><th>Nom</th><th>Mot de passe</th><th>Email</th><th>Téléphone</th><th>Niveau d'accès</th><th>Librairie ID</th><th>Options</th><tr>";
+	$m = "";
+	for ($i=0;$i<sizeof($jd);$i++) {
+		$uid = $jd[$i]->id;
+		$pseudo = $jd[$i]->username;
+		$name = $jd[$i]->name;
+		$lastname = $jd[$i]->lastname;
+		$pass = $jd[$i]->password;
+		$email = $jd[$i]->email;
+		$tel = $jd[$i]->tel;
+		$level = $jd[$i]->level_access;
+		$lib = $jd[$i]->library_id;
+		$m .= "
+			<form method=post>
+				<input type='hidden' value='$uid' name='id'/>
+				<input type='hidden' name='user'/>
+				<td ".setWidth($pseudo).">
+					<input id='textmin' type='text' name='pseudo' value='$pseudo' />
+				</td>
+				<td ".setWidth($name).">
+					<input id='textmin' type='text' name='name' value='$name' />
+				</td>
+				<td ".setWidth($lastname).">
+					<input id='textmin' type='text' name='lastname' value='$lastname' />
+				</td>
+				<td ".setWidth("HIDDEN").">
+					<input id='textmin' type='text' name='pass' value='HIDDEN' disabled />
+				</td>
+				<td ".setWidth($email).">
+					<input id='textmin' type='text' name='email' value='$email' />
+				</td>
+				<td ".setWidth($tel).">
+					<input id='textmin' type='text' name='tel' value='$tel' />
+				</td>
+				<td ".setWidth($level)."))>
+					<input id='textmin' type='text' name='level' value='$level' />
+					".(setColor(getTextByLvl($level)))."
+				</td>
+				<td ".setWidth($lib).">
+					<input id='textmin' type='text' name='lib' value='$lib' />
+				</td>
+				<td>
+					<input id='button' style='width:100%;' type='submit' value='Sauvegarder' name='update' />
+					<input id='button' style='width:100%;' type='submit' value='Supprimer' name='delete' />
+				</td>
+			</form>
+		</tr>";
+	}
+
+
+	$b = "
+	<tr>
+		<form method=post>
+			<input type='hidden' name='user'/>
+			<td>
+				<input id='textmin' type='text' name='pseudo' />
+			</td>
+			<td>
+				<input id='textmin' type='text' name='name' />
+			</td>
+			<td>
+				<input id='textmin' type='text' name='lastname' />
+			</td>
+			<td>
+				<input id='textmin' type='text' name='password' />
+			</td>
+			<td>
+				<input id='textmin' type='text' name='email' />
+			</td>
+			<td>
+				<input id='textmin' type='text' name='tel' />
+			</td>
+			<td>
+				<input id='textmin' type='text' name='level' />
+			</td>
+			<td>
+			<select style='width:110%;' id='textmin' name='lib'>
+			";
+			for ($j=0;$j<sizeof($list_idlib);$j++) {
+				$b .= "<option value='".$list_idlib[$j]."'>".$list_idlib[$j]."</option>";
+			}
+			$b .= "
+			</select>
+			</td>
+			<td>
+				<input style='width:100%;' id='button' type='submit' value='Ajouter un nouvel utilisateur' name='add' />
+			</td>
+		</form>
+	</tr>";
+	if ($m==="") 
+		echo "<p id='text'>Aucun utilisateurs disponibles</p>";
+	else
+		echo "$h $m $b";
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	function setWidth($s) {

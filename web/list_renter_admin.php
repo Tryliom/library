@@ -50,7 +50,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 $b =  "</table>";
 
 if ($m==="") 
-	echo "<p>Aucun livres empruntés</p>";
+	echo "<p id='text'>Aucun livres empruntés</p>";
 else
 	echo "$h $m $b";
 

@@ -117,7 +117,7 @@ $b = "<tr><form method=post>
 	</td>
 	<td><input style='width:100%;' id='button' type='submit' value='Ajouter un nouveau livre' name='add' /></td></tr></form>";
 if ($m==="") 
-	echo "<p>Aucun livres disponibles</p>";
+	echo "<p id='text'>Aucun livres disponibles</p>";
 else
 	echo "$h $m $b";
 

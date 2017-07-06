@@ -148,7 +148,7 @@ $b = "
 	</form>
 </tr>";
 if ($m==="") 
-	echo "<p>Aucun livres disponibles</p>";
+	echo "<p id='text'>Aucun livres disponibles</p>";
 else
 	echo "$h $m $b";
 

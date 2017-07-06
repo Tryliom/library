@@ -86,4 +86,15 @@ function getPost($str) {
 	return isset($_REQUEST[$str]) ? $_REQUEST[$str] : "";
 }
 
+function getTextByLvl($level) {
+	switch ($level) {
+	case 0:
+		return "§bMembre";
+	case 6:
+		return "§cAdmin";
+	case 7:
+		return "§cSuper Admin";
+	}
+}
+
 ?>

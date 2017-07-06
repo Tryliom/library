@@ -23,7 +23,6 @@ if (isset($_REQUEST['warn_user'])) {
 echo "
 <div>
 <h1 style='color:#f77;'>Mode Admin</h1>
-<p>Tous les boutons doivent encore être codés</p>
 <table cellspacing='10'><tr style='width:100%;'><td>
 <form method='post'><table id='user' cellspacing=15><h1>Gestion des livres</h1>
 <input type='hidden' name='admin' />

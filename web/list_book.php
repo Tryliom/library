@@ -16,7 +16,7 @@ if (isset($_REQUEST['take'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p id='text' style='color:#33ff33'>Vous venez d'emprunter un nouveau livre !</p><p style='color:#33ff33'>N'oubliez pas de le rendre dans 2 jours !</p>";
+		echo "<p id='text' style='color:#33ff33'>Vous venez d'emprunter un nouveau livre !</p><p id='text' style='color:#33ff33'>N'oubliez pas de le rendre dans 2 jours !</p>";
 	} else {
 		echo "<p id='text' style='color:#ff3333'>Erreur</p>";
 	}
@@ -74,7 +74,7 @@ $jd= json_decode($json_source);
 	}
 	$b = "</table>";
 	if ($m==="") 
-		echo "<p>Aucun livres disponibles</p>";
+		echo "<p id='text'>Aucun livres disponibles</p>";
 	else
 		echo "$h $m $b";
 ?>
