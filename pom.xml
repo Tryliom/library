@@ -43,6 +43,9 @@
         </executions>
         <configuration>
          	<mainClass>me.alexishaldy.test.AllTest</mainClass>
+         	<includes>
+               <include>**/*Test.java</include>
+            </includes>
         </configuration>      
       </plugin>
    </plugins>
