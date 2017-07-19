@@ -23,7 +23,7 @@ import me.alexishaldy.util.Utils;
 @SuppressWarnings("restriction")
 public class Server {
  	
-    public static void main(String[]... args) throws IOException, IllegalArgumentException, URISyntaxException {
+    public static void main(String[] args) throws IOException, IllegalArgumentException, URISyntaxException {
 
     	// Get the host from the properties file, or set a default one
     	String host = "localhost";

@@ -11,13 +11,14 @@ public class ServerTest {
 
 	@Test
 	public void server() {
+		String s[] = "test test".split(" ");
 		try {
-			Server.main();
+			Server.main(s);
 		} catch (IllegalArgumentException | IOException | URISyntaxException e) {
 			fail(e.getMessage());
 		}
 		try {
-			Server.main();
+			Server.main(s);
 			fail();
 		} catch (IllegalArgumentException | IOException | URISyntaxException e) {}
 	}
