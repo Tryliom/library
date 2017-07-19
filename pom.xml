@@ -39,11 +39,11 @@
             <goals>
               <goal>test</goal>
             </goals>
-            <configuration>
-	         	<mainClass>me.alexishaldy.test.AllTest</mainClass>
-	        </configuration>
           </execution>
-        </executions>      
+        </executions>
+        <configuration>
+         	<mainClass>me.alexishaldy.test.AllTest</mainClass>
+        </configuration>      
       </plugin>
    </plugins>
   </build>
