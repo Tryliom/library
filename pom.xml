@@ -44,10 +44,10 @@
         <configuration>
          	<mainClass>me.alexishaldy.test.AllTest</mainClass>
          	<includes>
-               <include>**/*Test.java</include>
+               <include>me/alexishaldy/test/AllTest.java</include>
             </includes>
             <testSuite>Suite.class</testSuite>
-			<testClass>test.me.alexishaldy.test.AllTest.java</testClass>
+			<testClass>test.me.alexishaldy.test.AllTest</testClass>
         </configuration>      
       </plugin>
    </plugins>
