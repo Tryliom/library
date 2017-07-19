@@ -46,6 +46,8 @@
          	<includes>
                <include>**/*Test.java</include>
             </includes>
+            <testSuite>Suite.class</testSuite>
+			<testClass>test.me.alexishaldy.test.AllTest.java</testClass>
         </configuration>      
       </plugin>
    </plugins>
