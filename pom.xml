@@ -38,6 +38,13 @@
           <includes>
             <include>AllTest.java</include>
           </includes>
+          <executions>
+          <execution>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
         </configuration>
       </plugin>
    </plugins>
