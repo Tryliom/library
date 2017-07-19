@@ -42,7 +42,7 @@
           </execution>
         </executions>       
         <configuration>
-         <mainClass>test.me.alexishaldy.rest.Server</mainClass>
+         <mainClass>me.alexishaldy.rest.Server</mainClass>
         </configuration>
       </plugin>
    </plugins>
