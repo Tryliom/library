@@ -1,9 +1,10 @@
 package me.alexishaldy.rest;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,48 +16,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import me.alexishaldy.db.connection.DBExecutor;
+import me.alexishaldy.enumerator.HttpResponseCode;
 import me.alexishaldy.enumerator.SortType;
+import me.alexishaldy.exception.DBException;
 import me.alexishaldy.util.Utils;
 
 @Path("/")
 public class RestHandler {
-
-	enum BookEnum {
-		title(0),
-		author(1),
-		date(2),
-		description(3),
-		edition(4),
-		editor(5);
-		private int key;
-		private BookEnum(int key) {this.key = key;};
-		public int getKey() { return key;};
-	};
 	
 	final String CURR_DIR = this.getClass().getClassLoader().getResource("").getPath();
 	
-	private enum HttpResponseCode {
-		OK(200), 
-		NOK(400);
-		
-		private int code;
-		
-		/**
-		 * Class Constructor
-		 * @param code	Http status value
-		 */
-		HttpResponseCode(int code) {
-			this.code = code;
-		}
-		
-		/**
-		 * Get the associated status
-		 * @return Http status
-		 */
-		public int getValue() {
-			return this.code;
-		}
-	}
+	
 	
 	/**
 	 * This method defines a response with CORS (cross-origin resource sharing) enabled
@@ -65,7 +35,7 @@ public class RestHandler {
 	 * @param status	Response status
 	 * @return			Response including the headers to enable CORS and the body.
 	 */
-	private static Response getResponseWithHeaders(String content, HttpResponseCode status) {
+	static Response getResponseWithHeaders(String content, HttpResponseCode status) {
 		return Response.ok(content).
 				status(status.getValue()).
 				header("Access-Control-Allow-Origin","*").
@@ -83,43 +53,17 @@ public class RestHandler {
 			final String fileName = CURR_DIR + Utils.SEP + ".." + Utils.SEP + ".." + Utils.SEP + Utils.SWAGGER_FILE;
 			return getResponseWithHeaders(Utils.readFile(fileName), HttpResponseCode.OK);
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
 	}
 	
 	
-	@SuppressWarnings("static-method")
-	@GET
-	@Path("/alldbs")
+	@POST // Ne pas mettre les {} dans l'url
+	@Path("/book/add")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getDBsJSON() {
-		try {
-			Vector<String> dbs = DBExecutor.getDBs();
-			return getResponseWithHeaders(JSONGenerator.getJson("databases", dbs), HttpResponseCode.OK);
-		} catch (Exception e) {
-			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
-		}
-	}
-	
-	@SuppressWarnings("static-method")
-	@GET
-	@Path("/alltables/{dbName}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTablesJson(@PathParam("dbName") String dbName) {
-		try {
-			Vector<String> tables = DBExecutor.getTables(dbName);
-			return getResponseWithHeaders(JSONGenerator.getJson("tables", tables), HttpResponseCode.OK);
-		} catch (Exception e) {
-			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
-		}
-	}
-	
-	@SuppressWarnings("static-method")
-	@POST	
-	@Path("/book/add/{title}/{author}/{date}/{description}/{edition}/{editeur}/{library_id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response addBook(@PathParam("title") String title, @PathParam("author") String author, @PathParam("date") String date, @PathParam("description") String desc,
-			@PathParam("edition") String edition, @PathParam("editeur") String editeur, @PathParam("library_id") String lib) {
+	public Response addBook(@FormParam("title") String title, @FormParam("author") String author, @FormParam("date") String date, @FormParam("description") String desc,
+			@FormParam("edition") String edition, @FormParam("editeur") String editeur, @FormParam("library_id") String lib) {
 		try {
 			Boolean b = DBExecutor.execQuery("INSERT INTO book(title, author, date, description, edition, editeur, library_id) VALUES (\""+title+"\", \""+author+"\", \""+date+"\", "
 					+ "\""+desc+"\", "+edition+", \""+editeur+"\", "+lib+");");
@@ -131,15 +75,15 @@ public class RestHandler {
 		}
 	}
 	
-	@SuppressWarnings("static-method")
-	@PUT
-	@Path("/book/edit/{title}/{author}/{date}/{description}/{edition}/{editeur}/{library_id}/{id}")
+	
+	@POST
+	@Path("/book/edit")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response editBook(@PathParam("title") String title, @PathParam("author") String author, @PathParam("date") String date, @PathParam("description") String desc,
-			@PathParam("edition") String edition, @PathParam("editeur") String editeur, @PathParam("library_id") String lib, @PathParam("id") String id) {
+	public Response editBook(@FormParam("title") String title, @FormParam("author") String author, @FormParam("date") String date, @FormParam("description") String desc,
+			@FormParam("edition") String edition, @FormParam("editeur") String editeur, @FormParam("library_id") String lib, @FormParam("id") String id) {
 		try {
-			Boolean b = DBExecutor.execQuery("UPDATE book SET title = \""+title+"\", author = \""+author+"\", date = \""+date+"\", description = \""+desc+"\", edition = "+edition+", editeur = \""+editeur+"\", library_id = "+lib+")"
-					+ " WHERE library_id = "+lib+" AND id = ");
+			Boolean b = DBExecutor.execQuery("UPDATE book SET title = \""+title+"\", author = \""+author+"\", date = \""+date+"\", description = \""+desc+"\", edition = "+edition+", editeur = \""+editeur+"\", library_id = "+lib+""
+					+ " WHERE id = "+id);
 			if (!b)
 				throw new Exception("Update failed");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
@@ -148,35 +92,33 @@ public class RestHandler {
 		}
 	}
 	
-	@SuppressWarnings("static-method")
+	
 	@POST
-	@Path("/book/search/{type}/{arg}/{library_id}")
+	@Path("/book/search")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response searchBook(@PathParam("type") String type, @PathParam("arg") String arg, @PathParam("library_id") String lib) {
+	public Response searchBook(@FormParam("type") String type, @FormParam("arg") String arg, @FormParam("library_id") String lib) {
 		String[] args = arg.split("¨");
+		String sql = "";
 		
-		try {
-			String sql = "";
+		try {			
 			switch (SortType.valueOf(type)) {
-			case Number:
-				break;
 			case author:
-				sql = "SELECT id FROM Book WHERE author = '"+args[0]+"'"+" AND library_id = "+lib;
+				sql = "SELECT id FROM book WHERE author = '"+args[0]+"' AND library_id = "+lib;
 				break;
 			case desc:
-				sql = "SELECT id FROM Book WHERE description = '"+args[0]+"'"+" AND library_id = "+lib;
+				sql = "SELECT id FROM book WHERE description = '"+args[0]+"' AND library_id = "+lib;
 				break;
 			case title:
-				sql = "SELECT id FROM Book WHERE title = '"+args[0]+"'"+" AND library_id = "+lib;
+				sql = "SELECT id FROM book WHERE title = '"+args[0]+"' AND library_id = "+lib;
 				break;
 			case title_author:
-				sql = "SELECT id FROM Book WHERE title = '"+args[0]+"' AND author = '"+args[1]+"'"+" AND library_id = "+lib;
+				sql = "SELECT id FROM book WHERE title = '"+args[0]+"' AND author = '"+args[1]+"' AND library_id = "+lib;
 				break;
 			case title_author_numedition:
-				sql = "SELECT id FROM Book WHERE title = '"+args[0]+"' AND author = '"+args[1]+"' AND edition = "+args[2]+" AND library_id = "+lib;
+				sql = "SELECT id FROM book WHERE title = '"+args[0]+"' AND author = '"+args[1]+"' AND edition = '"+args[2]+"' AND library_id = "+lib;
 				break;
 			case year:
-				sql = "SELECT id FROM Book WHERE date = "+args[0]+" AND library_id = "+lib;
+				sql = "SELECT id FROM book WHERE date = "+args[0]+" AND library_id = "+lib;
 				break;				
 			}
 			Vector<String> list = DBExecutor.selectQuery(sql);
@@ -184,18 +126,20 @@ public class RestHandler {
 			
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
 		} catch (Exception e) {
+System.out.println(e.toString() + "...");
+			//			System.out.println(e+" "+sql);
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
 	}
 
-	@SuppressWarnings("static-method")
+	
 	@GET
 	@Path("/book/get/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getBookById(@PathParam("id") String id) {
 		try {
 			Vector<String> list = DBExecutor.selectById("book", id);
-			HashMap<Integer, String> hash = Utils.putInMap("id".split(" "));	
+			HashMap<Integer, String> hash = Utils.putInMap("id title author date description edition editor user_id library_id".split(" "));	
 			
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
 		} catch (Exception e) {
@@ -203,7 +147,7 @@ public class RestHandler {
 		}
 	}
 	
-	@SuppressWarnings("static-method")
+	
 	@GET
 	@Path("/book/get")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -218,7 +162,7 @@ public class RestHandler {
 		}
 	}
 	
-	@SuppressWarnings("static-method")
+	
 	@GET
 	@Path("/user/get")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -239,7 +183,7 @@ public class RestHandler {
 	public Response getUserById(@PathParam("id") String id) {
 		try {
 			Vector<String> list = DBExecutor.selectById("user", id);
-			HashMap<Integer, String> hash = Utils.putInMap("id".split(" "));	
+			HashMap<Integer, String> hash = Utils.putInMap("id username name lastname password email tel library_id token level_access".split(" "));	
 			
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
 		} catch (Exception e) {
@@ -289,11 +233,11 @@ public class RestHandler {
 	}
 	
 	@PUT
-	@Path("/user/member/update/{username}/{password}/{token}")
+	@Path("/user/member/update/{username}/{password}/{token}/{library_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response userMemberExist(@PathParam("username") String pseudo, @PathParam("password") String pass, @PathParam("token") String token, @PathParam("library_id") String lib) {		
 		try {			
-			Boolean b = DBExecutor.execQuery("UPDATE user SET token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\" AND library_id = "+lib);
+			Boolean b = DBExecutor.execQuery("UPDATE user SET token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\" AND (library_id = "+lib+" OR level_access >= 7)");
 			if (!b)
 				throw new Exception("Compte inexistant");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
@@ -302,7 +246,7 @@ public class RestHandler {
 		}
 	}
 	
-	@SuppressWarnings("static-method")
+	
 	@POST	
 	@Path("/user/add")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -319,7 +263,7 @@ public class RestHandler {
 		}
 	}
 	
-	@SuppressWarnings("static-method")
+	
 	@PUT
 	@Path("/user/edit/{email}/{tel}/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -334,13 +278,125 @@ public class RestHandler {
 		}
 	}
 	
-	@SuppressWarnings("static-method")
-	@DELETE
-	@Path("/user/delete/{id}/{library_id}")
+	@POST
+	@Path("/user/edit/admin")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response editUserByAdmin(@FormParam("username") String username, @FormParam("name") String name, @FormParam("lastname") String lastname, 
+			@FormParam("level_access") String level, @FormParam("email") String email, @FormParam("tel") String tel, @FormParam("id") String id) {
+		try {
+			Boolean b = DBExecutor.execQuery("UPDATE user SET email = \""+email+"\", tel = \""+tel+"\", username = \""+username+"\", name = \""+name+"\", lastname = \""+lastname+"\", level_access = "+(Integer.parseInt(level)>6 ? "6" : level)+" WHERE id = "+id+";");
+			if (!b)
+				throw new Exception("Update failed");
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@POST
+	@Path("/user/edit/superadmin")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response editUserBySuperAdmin(@FormParam("username") String username, @FormParam("name") String name, @FormParam("lastname") String lastname, 
+			@FormParam("level_access") String level, @FormParam("email") String email, @FormParam("tel") String tel, @FormParam("id") String id, @FormParam("library_id") String lib) {
+		try {
+			Boolean b = DBExecutor.execQuery("UPDATE user SET email = \""+email+"\", tel = \""+tel+"\", username = \""+username+"\", name = \""+name+"\","
+					+ " lastname = \""+lastname+"\", level_access = "+level+", library_id = "+lib+" WHERE id = "+id+";");
+			if (!b)
+				throw new Exception("Update failed");
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@PUT
+	@Path("/user/return/{book_id}/{user_id}/{library_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response returnBook(@PathParam("book_id") String bid, @PathParam("user_id") String uid, @PathParam("library_id") String lib) {
+		try {
+			Boolean b = DBExecutor.execQuery("UPDATE book SET user_id = NULL WHERE id = \""+bid+"\" AND library_id = "+lib+";");
+			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Boolean c = DBExecutor.execQuery("UPDATE renter SET return_date = '"+formater.format(new Date().getTime())+"' WHERE return_date IS NULL AND book_id = "+bid+" AND user_id = "+uid+" AND library_id = "+lib+";");
+			if (!b || !c)
+				throw new Exception("Update failed");
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	
+	@PUT
+	@Path("/user/take/{book_id}/{user_id}/{library_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response takeBook(@PathParam("book_id") String bid, @PathParam("user_id") String uid, @PathParam("library_id") String lib) {
+		try {
+			Boolean b = DBExecutor.execQuery("UPDATE book SET user_id = "+uid+" WHERE id = \""+bid+"\" AND library_id = "+lib+";");
+			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Boolean c = DBExecutor.execQuery("INSERT INTO renter(book_id, user_id, taken_date, max_return_date, library_id) VALUES ("+bid+", "+uid+", "
+					+ "'"+formater.format(new Date().getTime())+"', '"+formater.format(new Date().getTime()+(60000*60*48))+"', "+lib+");");
+			if (!b || !c)
+				throw new Exception("Update failed");
+			else
+				return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	
+	@GET
+	@Path("/user/verif/member/{token}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response verifyTokenMember(@PathParam("token") String token) {
+		try {
+			Vector<String> list = DBExecutor.selectQuery("SELECT username FROM user WHERE token = \""+token+"\"");
+			
+			HashMap<Integer, String> hash = Utils.putInMap("username".split(" "));	
+			
+			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@GET
+	@Path("/renter/get/{library_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getRenter(@PathParam("library_id") String lib) {
+		try {
+			Vector<String> list = DBExecutor.selectQuery("SELECT (NOW()-max_return_date) AS max_return_date, book_id, user_id FROM renter WHERE return_date IS NULL AND NOW()-max_return_date>0 AND library_id = "+lib);
+			
+			HashMap<Integer, String> hash = Utils.putInMap("max_return_date book_id user_id".split(" "));	
+			
+			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@GET
+	@Path("/user/verif/admin/{token}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response verifyTokenAdmin(@PathParam("token") String token) {
+		try {
+			Vector<String> list = DBExecutor.selectQuery("SELECT username FROM user WHERE token = \""+token+"\" AND level_access >= 7");
+			
+			HashMap<Integer, String> hash = Utils.putInMap("username".split(" "));	
+			
+			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	
+	@PUT
+	@Path("/user/delete/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteUser(@PathParam("library_id") String lib, @PathParam("id") String id) {
 		try {
-			Boolean b = DBExecutor.execQuery("DELETE user WHERE id = "+id+" AND library_id = "+lib+";");
+			Boolean b = DBExecutor.execQuery("DELETE FROM user WHERE id = "+id+";");
 			if (!b)
 				throw new Exception("Delete failed");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
@@ -349,13 +405,14 @@ public class RestHandler {
 		}
 	}
 	
-	@SuppressWarnings("static-method")
-	@DELETE
-	@Path("/book/delete/{id}/{library_id}")
+	
+	@PUT
+	@Path("/book/delete/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteBook(@PathParam("library_id") String lib, @PathParam("id") String id) {
+	public Response deleteBook(@PathParam("id") String id) {
 		try {
-			Boolean b = DBExecutor.execQuery("DELETE book WHERE id = "+id+" AND library_id = "+lib+";");
+			Boolean b = DBExecutor.execQuery("DELETE FROM book WHERE id = "+id+";");
+			System.out.println("dfs");
 			if (!b)
 				throw new Exception("Delete failed");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
@@ -364,22 +421,7 @@ public class RestHandler {
 		}
 	}
 	
-	@SuppressWarnings("static-method")
-	@POST
-	@Path("/library/add/{name}/{adress}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response addLib(@PathParam("name") String name, @PathParam("adress") String adress) {
-		try {
-			Boolean b = DBExecutor.execQuery("INSERT INTO library(name, adress) VALUES (\""+name+"\", \""+adress+"\");");
-			if (!b)
-				throw new Exception("Insert failed");
-			return getResponseWithHeaders("true", HttpResponseCode.OK);
-		} catch (Exception e) {
-			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
-		}
-	}
 	
-	@SuppressWarnings("static-method")
 	@GET
 	@Path("/library/get")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -395,7 +437,7 @@ public class RestHandler {
 		}
 	}
 
-	@SuppressWarnings("static-method")
+	
 	@GET
 	@Path("/library/list/book/{library_id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -411,5 +453,47 @@ public class RestHandler {
 		}
 	}
 	
+	@POST
+	@Path("/library/edit")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response editLib(@FormParam("name") String name, @FormParam("adress") String adress, @FormParam("library_id") String lib) {
+		try {
+			String sql = "UPDATE library SET name = \""+name+"\", adress = \""+adress+"\"  WHERE id = "+lib;
+			Boolean b = DBExecutor.execQuery(sql);
+			if (!b)
+				throw new Exception("Insert failed: "+sql);
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@PUT
+	@Path("/library/delete/{library_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteLib(@PathParam("library_id") String lib) {
+		try {
+			Boolean b = DBExecutor.execQuery("DELETE FROM library WHERE id = "+lib+";");
+			if (!b)
+				throw new Exception("Insert failed");
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@POST
+	@Path("/library/add")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addLib(@FormParam("name") String name, @FormParam("adress") String adress) {
+		try {
+			Boolean b = DBExecutor.execQuery("INSERT INTO library(name, adress) VALUES (\""+name+"\", \""+adress+"\");");
+			if (!b)
+				throw new Exception("Insert failed");
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
 	
 }

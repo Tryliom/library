@@ -10,17 +10,13 @@ $lastname = $jd[0]->lastname;
 $email = $jd[0]->email;
 $tel = $jd[0]->tel;
 $level_access = $jd[0]->level_access;
-$rank = getTextByLvl($level_access);
-
-
-function getTextByLvl($level) {
-	switch ($level) {
+$rank = "";
+switch ($level_access) {
 	case 0:
-		return "§bMembre";
-	case 6:
-		return "§cAdmin";
+		$rank="§bMembre";
+		break;
 	case 7:
-		return "§cSuper Admin";
-	}
+		$rank="§cAdmin";
+		break;
 }
 ?>

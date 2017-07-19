@@ -9,9 +9,16 @@ if (isset($_SESSION['token_admin']) && isset($_REQUEST['logout'])) {
 }
 
 
-if (isset($_SESSION['token_admin']) && isValidAdmin($_SESSION['token_admin'])) {	
-	require_once("list_lib.php");
-	// Disconnect
+if (isset($_SESSION['token_admin'])) {
+	// Vérifier si la token est encore valide
+	
+	
+	echo "<p style='color:#22ff22'>Connecté au panel Administrateur</p>";
+	echo "<h1>Prochainement</h1>
+		<p>- Ajout de nouvelles librairies</p>
+		<p>- Effacement de librairies</p>
+		<p>- Gérer les utilisateurs (Créer/enlever des Admin)</p>
+	";
 	echo "<div>
 
 	<form action='' method=post><table cellspacing='10'>
@@ -24,7 +31,15 @@ if (isset($_SESSION['token_admin']) && isValidAdmin($_SESSION['token_admin'])) {
 	</table></form>
 
 
-	</div>";	
+	</div>";
+	
+	
+	
+	
+	
+	
+	
+	
 } else {
 	if (isset($_REQUEST['login'])) {
 		$w = 1;
@@ -43,12 +58,12 @@ if (isset($_SESSION['token_admin']) && isValidAdmin($_SESSION['token_admin'])) {
 			curl_close ($ch);
 			if ($s=="true") {
 				$_SESSION['token_admin'] = $token;				
-				header("Location: admin_panel.php");
+				//header("Location: admin_panel.php");
 			} else {
-				echo "<p id='text' style='color:#ff2222'>Erreur lors de la connexion au compte: $s</p>";
+				echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: $s</p>";
 			}
 		} else
-			echo "<p id='text' style='color:#ff2222'>Erreur lors de la connexion au compte: Pseudo ou mot de passe vide</p>";
+			echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: Pseudo ou mot de passe vide</p>";
 	}
 
 	echo "<div>
@@ -57,11 +72,11 @@ if (isset($_SESSION['token_admin']) && isValidAdmin($_SESSION['token_admin'])) {
 	<h1>Se connecter</h1>
 	<tr>
 		<td>Pseudo : </td>
-		<td><input id='textmin' type=text name=username value='".getPost("username")."'/></td>
+		<td><input type=text name=username value='".getPost("username")."'/></td>
 	</tr>
 	<tr>
 		<td>Mot de passe : </td>
-		<td><input id='textmin' type=password name=pass value='".getPost("pass")."'/></td>
+		<td><input type=password name=pass value='".getPost("pass")."'/></td>
 	</tr>
 	<tr>
 		<td></td>
@@ -84,17 +99,6 @@ function generateToken($length) {
 
 function getPost($str) {
 	return isset($_REQUEST[$str]) ? $_REQUEST[$str] : "";
-}
-
-function getTextByLvl($level) {
-	switch ($level) {
-	case 0:
-		return "§bMembre";
-	case 6:
-		return "§cAdmin";
-	case 7:
-		return "§cSuper Admin";
-	}
 }
 
 ?>

@@ -1,13 +1,12 @@
 <head><link href="css\style.css" rel="stylesheet" media="all" type="text/css"></head>
-<title>Espace utilisateur</title>
+<title>Library Home</title>
 
 <?php
 require_once("bdd.php");
 require_once("lib.php");
-require_once("need_acc.php");
 
 if (isset($_REQUEST['logout'])) {
-	$_SESSION['token'] = null;
+	$_SESSION['token'] = "";
 	header("Location: index.php");
 }
 
@@ -31,8 +30,27 @@ if (isset($_REQUEST['save'])) {
 	}
 }
 
-require_once("userinfo.php");
 
+
+$json_source = file_get_contents('http://localhost:6080/user/get/token/'.$_SESSION['token']);
+$jd= json_decode($json_source);
+
+$id = $jd[0]->id;
+$username = $jd[0]->username;
+$name = $jd[0]->name;
+$lastname = $jd[0]->lastname;
+$email = $jd[0]->email;
+$tel = $jd[0]->tel;
+$levelAccess = $jd[0]->level_access;
+$rank = "";
+switch ($levelAccess) {
+	case 0:
+		$rank="§bMembre";
+		break;
+	case 7:
+		$rank="§cAdmin";
+		break;
+}
 echo "<div>
 
 <form action='' method=post><table id='user' cellspacing='30'>
@@ -55,15 +73,15 @@ echo "<div>
 </tr>
 <tr>
 	<td>Email : </td>
-	<td id=user><input id='textmin' type='email' name='email' value='".$email."' /></td>
+	<td id=user><input type='email' name='email' value='".$email."' /></td>
 </tr>
 <tr>
 	<td>Numéro de téléphone (Suisse) : </td>
-	<td id=user><input id='textmin' type='text' name='tel' value='".$tel."' /></td>
+	<td id=user><input type='text' name='tel' value='".$tel."' /></td>
 </tr>
 <tr>
-	<td><input style='width:100%;' id=button type=submit name=logout value='Se déconnecter'/></td>
-	<td><input style='width:100%;' id=button type=submit name=save value='Sauvegarder'/></td>
+	<td><input id=button type=submit name=logout value='Se déconnecter'/></td>
+	<td><input id=button type=submit name=save value='Sauvegarder'/></td>
 </tr>
 </table></form>
 

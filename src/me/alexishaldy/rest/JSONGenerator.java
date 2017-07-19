@@ -10,7 +10,6 @@ import org.json.XML;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import me.alexishaldy.db.table.Column;
-import me.alexishaldy.rest.RestHandler.BookEnum;
 
 
 /**

@@ -21,12 +21,6 @@ public class DBException extends Exception {
 
 	/**
 	 * Constructor of the class
-	 */
-	public DBException() {
-	}
-
-	/**
-	 * Constructor of the class
 	 * @param message	Message that reflects the problem that has occurred
 	 */
 	public DBException(final String message) {
@@ -49,13 +43,5 @@ public class DBException extends Exception {
 	 */
 	public final String getMessage() { 
 		return _message; 
-	}
-
-	/**
-	 * This method allows getting the error code related to the exception.
-	 * @return An integer which indicates the error code
-	 */
-	public final int getErrorCode() { 
-		return _errorCode; 
 	}
 }
