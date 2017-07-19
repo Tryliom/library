@@ -8,7 +8,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import me.alexishaldy.db.connection.DBConnection;
 import me.alexishaldy.db.connection.DBConnectionAdapter;
-import me.alexishaldy.db.connection.DBConnectionAdapterTest;
 import me.alexishaldy.exception.DBException;
 
 /**

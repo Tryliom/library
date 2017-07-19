@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Vector;
 
 import me.alexishaldy.db.table.Column;
-import me.alexishaldy.db.table.ColumnTest;
 import me.alexishaldy.exception.DBException;
 
 
