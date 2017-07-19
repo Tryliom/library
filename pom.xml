@@ -40,10 +40,10 @@
               <goal>test</goal>
             </goals>
             <configuration>
-	         <mainClass>me.alexishaldy.rest.AllTest</mainClass>
+	         	<mainClass>me.alexishaldy.test.AllTest</mainClass>
 	        </configuration>
           </execution>
-        </executions>       
+        </executions>      
       </plugin>
    </plugins>
   </build>
