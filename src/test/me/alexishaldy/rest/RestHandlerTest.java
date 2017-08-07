@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import me.alexishaldy.db.connection.DBExecutor;
 import me.alexishaldy.enumerator.HttpResponseCode;
-import me.alexishaldy.exception.DBException;
 import me.alexishaldy.util.Utils;
 
 public class RestHandlerTest {
@@ -123,7 +122,7 @@ public class RestHandlerTest {
 		}
 		// OK
 		try {
-			if (rh.searchBook("title_author", "La vie�NaN", "4").getStatus()!=200)
+			if (rh.searchBook("title_author", "La vie NaN", "4").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
