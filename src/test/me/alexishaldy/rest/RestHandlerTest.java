@@ -18,21 +18,21 @@ public class RestHandlerTest {
 	public void getResponseWithHeaders() {
 		// OK
 		try {
-			if (RestHandler.getResponseWithHeaders("ça marche", HttpResponseCode.OK)==null)
+			if (RestHandler.getResponseWithHeaders("Ã§a marche", HttpResponseCode.OK)==null)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// OK
 		try {
-			if (RestHandler.getResponseWithHeaders("ça marche 2", HttpResponseCode.NOK)==null)
+			if (RestHandler.getResponseWithHeaders("Ã§a marche 2", HttpResponseCode.NOK)==null)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			RestHandler.getResponseWithHeaders("ça marche pas", HttpResponseCode.valueOf("nope"));
+			RestHandler.getResponseWithHeaders("Ã§a marche pas", HttpResponseCode.valueOf("nope"));
 			fail();
 		} catch (Exception e) {}
 	}
@@ -123,14 +123,14 @@ public class RestHandlerTest {
 		}
 		// OK
 		try {
-			if (rh.searchBook("title_author", "La vie¨NaN", "4").getStatus()!=200)
+			if (rh.searchBook("title_author", "La vieï¿½NaN", "4").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// OK
 		try {
-			if (rh.searchBook("title_author_numedition", "La vie¨NaN¨2", "4").getStatus()!=200)
+			if (rh.searchBook("title_author_numedition", "La vie NaN 2", "4").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());

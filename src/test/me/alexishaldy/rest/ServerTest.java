@@ -21,6 +21,7 @@ public class ServerTest {
 			Server.main(s);
 			fail();
 		} catch (IllegalArgumentException | IOException | URISyntaxException e) {}
+		Server.stopServer();
 	}
 
 }

@@ -22,9 +22,10 @@ import me.alexishaldy.util.Utils;
  */
 @SuppressWarnings("restriction")
 public class Server {
+	private static HttpServer hs;
  	
     public static void main(String[] args) throws IOException, IllegalArgumentException, URISyntaxException {
-
+    	
     	// Get the host from the properties file, or set a default one
     	String host = "localhost";
 
@@ -36,11 +37,11 @@ public class Server {
 
         // Set the handlers for the REST server
         URI uri = getURI(host, port);
-        HttpServer httpServer =  HttpServerFactory.create(uri, resourceConfig);
+        hs =  HttpServerFactory.create(uri, resourceConfig);
         
         // Start the server
         //System.out.println("Starting server on " + uri.toString() + "... (see application.wadl for further details)");
-        httpServer.start();
+        hs.start();
     }
  
     /**
@@ -51,6 +52,13 @@ public class Server {
      */
     private static URI getURI(String host, int port) {
         return UriBuilder.fromUri("http://" + host + "/").port(port).build();
+    }
+    
+    public static void stopServer() {
+    	if (hs!=null) {
+    		hs.stop(0);
+    		hs = null;
+    	}    	
     }
  
 }
