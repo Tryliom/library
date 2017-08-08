@@ -1,0 +1,12 @@
+commit ad11235e4278cf1121435ff59e138d83bcf0e969
+tree f8f87c4309f3547d2debd49562154c4cff608951
+parent 5a0f263575cbff6716c65ad17d4c1ec64fac5253
+author haldy <alexis.haldy@nagra.com> 2017-07-19 11:52:05 +0200
+committer haldy <alexis.haldy@nagra.com> 2017-07-19 11:52:05 +0200
+
+    Jenkins 7
+
+
+
+:100644 100644 ad48769cb0090f39e64576afb8f7a4057c016c6b f37b04c496e0b573ba3672c416e2ad86cadd1236 M	src/me/alexishaldy/rest/Server.java
+:100644 100644 986ca0299c0d423dbcfcb5949e71e822c9f47782 7fd05f5b7e76076fe409bb0bf8973cb174847ab3 M	test/me/alexishaldy/rest/ServerTest.java

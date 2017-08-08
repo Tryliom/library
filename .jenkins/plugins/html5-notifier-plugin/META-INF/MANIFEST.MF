@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: halkeye
+Build-Jdk: 1.8.0_31
+Extension-Name: html5-notifier-plugin
+Specification-Title: Provides W3C Web Notifications support for builds.
+Implementation-Title: html5-notifier-plugin
+Implementation-Version: 1.5
+Group-Id: org.jenkins-ci.plugins
+Short-Name: html5-notifier-plugin
+Long-Name: HTML5 Notifier Plugin
+Url: http://wiki.jenkins-ci.org/display/JENKINS/HTML5+Notifier+Plugin
+Plugin-Version: 1.5
+Hudson-Version: 1.455
+Jenkins-Version: 1.455
+Plugin-Developers: Jesse Farinacci:jieryn:jieryn@gmail.com,Gavin Mogan
+ :halkeye:halkeye@gmail.com
+

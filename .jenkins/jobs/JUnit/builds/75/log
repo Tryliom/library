@@ -1,0 +1,228 @@
+Started by user [8mha:////4LuO3tl/A9H8w1qneLFWFaxsRMDkHr/4ruWo0VPHWCbtAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzmEgZu/dLi1CL9jMSclEoAg3YXAsAAAAA=[0mA K
+Building in workspace C:\Users\haldy\.jenkins\workspace\JUnit
+ > git.exe rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url //packager/packager/haldy project/remoteGIT # timeout=10
+Fetching upstream changes from //packager/packager/haldy project/remoteGIT
+ > git.exe --version # timeout=10
+ > git.exe fetch --tags --progress //packager/packager/haldy project/remoteGIT +refs/heads/*:refs/remotes/origin/*
+ > git.exe rev-parse "refs/remotes/origin/dev^{commit}" # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/origin/dev^{commit}" # timeout=10
+Checking out Revision 52d72b0e45acf6192af52f48e646084e9dbee8fe (refs/remotes/origin/dev)
+Commit message: "Corr junit final"
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 52d72b0e45acf6192af52f48e646084e9dbee8fe
+ > git.exe rev-list 52d72b0e45acf6192af52f48e646084e9dbee8fe # timeout=10
+[JUnit] $ cmd.exe /C "mvn compiler:compile && exit %%ERRORLEVEL%%"
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building remoteGIT 1.3
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[8mha:////4E7GjZVK+jCKXalGBnXpLe2sgcuWNTzVEUntrp3DH0AaAAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEGvvmZ+X75ZekLlOVfvTjc8FPJgaGiiIGKaiG5Py84vycVD1nCA1SyAABjCCFBQCV27OjYAAAAA==[0m[INFO] --- maven-compiler-plugin:3.6.1:compile (default-cli) @ remoteGIT ---
+[INFO] Changes detected - recompiling the module!
+[8mha:////4HMjAoUycSH6aGU0ns1U5aIm45ufqmA8yN49C+kJTSjkAAAAYx+LCAAAAAAAAP9b85aBtbiIQSWjNKU4P0+vJLE4u1gvPjexLDVPzxdEhicW5WXmpfvll6S2fNly5fzGzauYGBgqihikoFqS8/OK83NS9ZwhNEghAwQwghQWAACwxA+XYgAAAA==[0m[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 21 source files to C:\Users\haldy\.jenkins\workspace\JUnit\target\classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.186 s
+[INFO] Finished at: 2017-08-08T09:41:49+02:00
+[INFO] Final Memory: 20M/253M
+[INFO] ------------------------------------------------------------------------
+[JUnit] $ cmd.exe /C "mvn test -Dtest=AllTest && exit %%ERRORLEVEL%%"
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building remoteGIT 1.3
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[8mha:////4E7GjZVK+jCKXalGBnXpLe2sgcuWNTzVEUntrp3DH0AaAAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEGvvmZ+X75ZekLlOVfvTjc8FPJgaGiiIGKaiG5Py84vycVD1nCA1SyAABjCCFBQCV27OjYAAAAA==[0m[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ remoteGIT ---
+[8mha:////4HMjAoUycSH6aGU0ns1U5aIm45ufqmA8yN49C+kJTSjkAAAAYx+LCAAAAAAAAP9b85aBtbiIQSWjNKU4P0+vJLE4u1gvPjexLDVPzxdEhicW5WXmpfvll6S2fNly5fzGzauYGBgqihikoFqS8/OK83NS9ZwhNEghAwQwghQWAACwxA+XYgAAAA==[0m[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\haldy\.jenkins\workspace\JUnit\src\main\resources
+[INFO] 
+[8mha:////4E7GjZVK+jCKXalGBnXpLe2sgcuWNTzVEUntrp3DH0AaAAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEGvvmZ+X75ZekLlOVfvTjc8FPJgaGiiIGKaiG5Py84vycVD1nCA1SyAABjCCFBQCV27OjYAAAAA==[0m[INFO] --- maven-compiler-plugin:3.6.1:compile (default-compile) @ remoteGIT ---
+[INFO] Changes detected - recompiling the module!
+[8mha:////4HMjAoUycSH6aGU0ns1U5aIm45ufqmA8yN49C+kJTSjkAAAAYx+LCAAAAAAAAP9b85aBtbiIQSWjNKU4P0+vJLE4u1gvPjexLDVPzxdEhicW5WXmpfvll6S2fNly5fzGzauYGBgqihikoFqS8/OK83NS9ZwhNEghAwQwghQWAACwxA+XYgAAAA==[0m[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 21 source files to C:\Users\haldy\.jenkins\workspace\JUnit\target\classes
+[INFO] 
+[8mha:////4E7GjZVK+jCKXalGBnXpLe2sgcuWNTzVEUntrp3DH0AaAAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEGvvmZ+X75ZekLlOVfvTjc8FPJgaGiiIGKaiG5Py84vycVD1nCA1SyAABjCCFBQCV27OjYAAAAA==[0m[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ remoteGIT ---
+[8mha:////4HMjAoUycSH6aGU0ns1U5aIm45ufqmA8yN49C+kJTSjkAAAAYx+LCAAAAAAAAP9b85aBtbiIQSWjNKU4P0+vJLE4u1gvPjexLDVPzxdEhicW5WXmpfvll6S2fNly5fzGzauYGBgqihikoFqS8/OK83NS9ZwhNEghAwQwghQWAACwxA+XYgAAAA==[0m[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\haldy\.jenkins\workspace\JUnit\src\test\resources
+[INFO] 
+[8mha:////4E7GjZVK+jCKXalGBnXpLe2sgcuWNTzVEUntrp3DH0AaAAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEGvvmZ+X75ZekLlOVfvTjc8FPJgaGiiIGKaiG5Py84vycVD1nCA1SyAABjCCFBQCV27OjYAAAAA==[0m[INFO] --- maven-compiler-plugin:3.6.1:testCompile (default-testCompile) @ remoteGIT ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[8mha:////4E7GjZVK+jCKXalGBnXpLe2sgcuWNTzVEUntrp3DH0AaAAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEGvvmZ+X75ZekLlOVfvTjc8FPJgaGiiIGKaiG5Py84vycVD1nCA1SyAABjCCFBQCV27OjYAAAAA==[0m[INFO] --- maven-surefire-plugin:2.9:test (default-test) @ remoteGIT ---
+[INFO] Surefire report directory: C:\Users\haldy\.jenkins\workspace\JUnit\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running me.alexishaldy.test.AllTest
+août 08, 2017 9:41:53 AM com.sun.jersey.api.core.PackagesResourceConfig init
+INFO: Scanning for root resource and provider classes in the packages:
+  me.alexishaldy.rest
+août 08, 2017 9:41:53 AM com.sun.jersey.api.core.ScanningResourceConfig logClasses
+INFO: Root resource classes found:
+  class me.alexishaldy.rest.RestHandler
+août 08, 2017 9:41:53 AM com.sun.jersey.api.core.ScanningResourceConfig init
+INFO: No provider classes found.
+août 08, 2017 9:41:53 AM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate
+INFO: Initiating Jersey application, version 'Jersey: 1.19 02/11/2015 05:39 AM'
+août 08, 2017 9:41:54 AM com.sun.jersey.api.core.PackagesResourceConfig init
+INFO: Scanning for root resource and provider classes in the packages:
+  me.alexishaldy.rest
+août 08, 2017 9:41:54 AM com.sun.jersey.api.core.ScanningResourceConfig logClasses
+INFO: Root resource classes found:
+  class me.alexishaldy.rest.RestHandler
+août 08, 2017 9:41:54 AM com.sun.jersey.api.core.ScanningResourceConfig init
+INFO: No provider classes found.
+août 08, 2017 9:41:54 AM com.sun.jersey.server.impl.application.WebApplicationImpl _initiate
+INFO: Initiating Jersey application, version 'Jersey: 1.19 02/11/2015 05:39 AM'
+Creating connection jdbc:mysql://localhost:3307
+Creating connection jdbc:mysql://localhost:3307
+Creating connection jdbc:mysql://178.88.56.98:3307
+Erreur de syntaxe prÃ¨s de '' Ã  la ligne 1
+Connecting to localhost:3307 with username <root>, pass <>
+[INFO] Using a pool of 10 connections...
+Creating connection jdbc:mysql://localhost:3307
+Creating connection jdbc:mysql://localhost:3307
+Creating connection jdbc:mysql://localhost:3307
+Creating connection jdbc:mysql://localhost:3307
+Creating connection jdbc:mysql://localhost:3307
+Creating connection jdbc:mysql://localhost:3307
+Creating connection jdbc:mysql://localhost:3307
+Creating connection jdbc:mysql://localhost:3307
+Creating connection jdbc:mysql://localhost:3307
+Creating connection jdbc:mysql://localhost:3307
+me.alexishaldy.exception.DBException: Champ 'NaN' inconnu dans where clause...
+dfs
+dfs
+null
+Tests run: 54, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 22.251 sec
+
+Results :
+
+Tests run: 54, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 25.050 s
+[INFO] Finished at: 2017-08-08T09:42:15+02:00
+[INFO] Final Memory: 20M/217M
+[INFO] ------------------------------------------------------------------------
+[WARNINGS] Parsing warnings in console log with parser Java Compiler (javac)
+<Git Blamer> Using GitBlamer to create author and commit information for all warnings.
+<Git Blamer> GIT_COMMIT=52d72b0e45acf6192af52f48e646084e9dbee8fe, workspace=C:\Users\haldy\.jenkins\workspace\JUnit
+[WARNINGS] Parsing warnings in console log with parser Java Compiler (Eclipse)
+<Git Blamer> Using GitBlamer to create author and commit information for all warnings.
+<Git Blamer> GIT_COMMIT=52d72b0e45acf6192af52f48e646084e9dbee8fe, workspace=C:\Users\haldy\.jenkins\workspace\JUnit
+Build step 'Console output (build log) parsing' changed build result to ABORTED
+Recording test results
+ERROR: Step ‘Publish JUnit test result report’ aborted due to exception: 
+[8mha:////4Ar/B0mPGGZfhvdhfMrK8Qb+aC5C9o2gJVZXjdtu0JKTAAAAVx+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P08vOT+vOD8nVc8DzHWtSE4tKMnMz/PLL0mV3NWzufebKBsTA0NFEYMUmgZnCA1SyAABjCCFBQC2xNaiYAAAAA==[0morg.dom4j.DocumentException: Invalid byte 2 of 2-byte UTF-8 sequence. Nested exception: Invalid byte 2 of 2-byte UTF-8 sequence.
+	at org.dom4j.io.SAXReader.read(SAXReader.java:484)
+	at org.dom4j.io.SAXReader.read(SAXReader.java:343)
+	at hudson.tasks.junit.SuiteResult.parse(SuiteResult.java:132)
+	at hudson.tasks.junit.TestResult.parse(TestResult.java:302)
+	at hudson.tasks.junit.TestResult.parsePossiblyEmpty(TestResult.java:244)
+	at hudson.tasks.junit.TestResult.parse(TestResult.java:175)
+	at hudson.tasks.junit.TestResult.parse(TestResult.java:154)
+	at hudson.tasks.junit.TestResult.<init>(TestResult.java:126)
+	at hudson.tasks.junit.JUnitParser$ParseResultCallable.invoke(JUnitParser.java:132)
+	at hudson.tasks.junit.JUnitParser$ParseResultCallable.invoke(JUnitParser.java:107)
+	at hudson.FilePath.act(FilePath.java:998)
+	at hudson.FilePath.act(FilePath.java:976)
+	at hudson.tasks.junit.JUnitParser.parseResult(JUnitParser.java:103)
+	at hudson.tasks.junit.JUnitResultArchiver.parse(JUnitResultArchiver.java:128)
+	at hudson.tasks.junit.JUnitResultArchiver.perform(JUnitResultArchiver.java:149)
+	at hudson.tasks.BuildStepCompatibilityLayer.perform(BuildStepCompatibilityLayer.java:81)
+	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:735)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.performAllBuildSteps(AbstractBuild.java:676)
+	at hudson.model.Build$BuildExecution.post2(Build.java:186)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.post(AbstractBuild.java:621)
+	at hudson.model.Run.execute(Run.java:1760)
+	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:43)
+	at hudson.model.ResourceController.execute(ResourceController.java:97)
+	at hudson.model.Executor.run(Executor.java:405)
+Caused by: com.sun.org.apache.xerces.internal.impl.io.MalformedByteSequenceException: Invalid byte 2 of 2-byte UTF-8 sequence.
+	at com.sun.org.apache.xerces.internal.impl.io.UTF8Reader.invalidByte(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.io.UTF8Reader.read(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLEntityScanner.load(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLEntityScanner.arrangeCapacity(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLEntityScanner.skipString(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLVersionDetector.determineDocVersion(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(Unknown Source)
+	at org.dom4j.io.SAXReader.read(SAXReader.java:465)
+	... 24 more
+Nested exception: 
+com.sun.org.apache.xerces.internal.impl.io.MalformedByteSequenceException: Invalid byte 2 of 2-byte UTF-8 sequence.
+	at com.sun.org.apache.xerces.internal.impl.io.UTF8Reader.invalidByte(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.io.UTF8Reader.read(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLEntityScanner.load(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLEntityScanner.arrangeCapacity(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLEntityScanner.skipString(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLVersionDetector.determineDocVersion(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(Unknown Source)
+	at org.dom4j.io.SAXReader.read(SAXReader.java:465)
+	at org.dom4j.io.SAXReader.read(SAXReader.java:343)
+	at hudson.tasks.junit.SuiteResult.parse(SuiteResult.java:132)
+	at hudson.tasks.junit.TestResult.parse(TestResult.java:302)
+	at hudson.tasks.junit.TestResult.parsePossiblyEmpty(TestResult.java:244)
+	at hudson.tasks.junit.TestResult.parse(TestResult.java:175)
+	at hudson.tasks.junit.TestResult.parse(TestResult.java:154)
+	at hudson.tasks.junit.TestResult.<init>(TestResult.java:126)
+	at hudson.tasks.junit.JUnitParser$ParseResultCallable.invoke(JUnitParser.java:132)
+	at hudson.tasks.junit.JUnitParser$ParseResultCallable.invoke(JUnitParser.java:107)
+	at hudson.FilePath.act(FilePath.java:998)
+	at hudson.FilePath.act(FilePath.java:976)
+	at hudson.tasks.junit.JUnitParser.parseResult(JUnitParser.java:103)
+	at hudson.tasks.junit.JUnitResultArchiver.parse(JUnitResultArchiver.java:128)
+	at hudson.tasks.junit.JUnitResultArchiver.perform(JUnitResultArchiver.java:149)
+	at hudson.tasks.BuildStepCompatibilityLayer.perform(BuildStepCompatibilityLayer.java:81)
+	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:735)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.performAllBuildSteps(AbstractBuild.java:676)
+	at hudson.model.Build$BuildExecution.post2(Build.java:186)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.post(AbstractBuild.java:621)
+	at hudson.model.Run.execute(Run.java:1760)
+	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:43)
+	at hudson.model.ResourceController.execute(ResourceController.java:97)
+	at hudson.model.Executor.run(Executor.java:405)
+Caused: java.io.IOException: Failed to read C:\Users\haldy\.jenkins\workspace\JUnit\target\classes\me\alexishaldy\db\connection\DBConnection.class
+Is this really a JUnit report file? Your configuration must be matching too many files
+	at hudson.tasks.junit.TestResult.parse(TestResult.java:310)
+	at hudson.tasks.junit.TestResult.parsePossiblyEmpty(TestResult.java:244)
+	at hudson.tasks.junit.TestResult.parse(TestResult.java:175)
+	at hudson.tasks.junit.TestResult.parse(TestResult.java:154)
+	at hudson.tasks.junit.TestResult.<init>(TestResult.java:126)
+	at hudson.tasks.junit.JUnitParser$ParseResultCallable.invoke(JUnitParser.java:132)
+	at hudson.tasks.junit.JUnitParser$ParseResultCallable.invoke(JUnitParser.java:107)
+	at hudson.FilePath.act(FilePath.java:998)
+	at hudson.FilePath.act(FilePath.java:976)
+	at hudson.tasks.junit.JUnitParser.parseResult(JUnitParser.java:103)
+	at hudson.tasks.junit.JUnitResultArchiver.parse(JUnitResultArchiver.java:128)
+	at hudson.tasks.junit.JUnitResultArchiver.perform(JUnitResultArchiver.java:149)
+	at hudson.tasks.BuildStepCompatibilityLayer.perform(BuildStepCompatibilityLayer.java:81)
+	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:735)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.performAllBuildSteps(AbstractBuild.java:676)
+	at hudson.model.Build$BuildExecution.post2(Build.java:186)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.post(AbstractBuild.java:621)
+	at hudson.model.Run.execute(Run.java:1760)
+	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:43)
+	at hudson.model.ResourceController.execute(ResourceController.java:97)
+	at hudson.model.Executor.run(Executor.java:405)
+Finished: ABORTED

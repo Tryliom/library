@@ -1,0 +1,6 @@
+<l:dependencies xmlns:l='licenses' groupId='org.jenkins-ci.plugins' artifactId='html5-notifier-plugin' version='1.5'>
+  <l:dependency name='HTML5 Notifier Plugin' groupId='org.jenkins-ci.plugins' artifactId='html5-notifier-plugin' version='1.5' url='http://wiki.jenkins-ci.org/display/JENKINS/HTML5+Notifier+Plugin'>
+    <l:description>Provides W3C Web Notifications support for builds.</l:description>
+    <l:license name='The MIT license' url='https://github.com/jenkinsci/html5-notifier-plugin/raw/master/LICENSE.txt' />
+  </l:dependency>
+</l:dependencies>

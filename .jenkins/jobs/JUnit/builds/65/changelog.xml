@@ -1,0 +1,12 @@
+commit cd791ae516853636730fad50394bca6e6b76638c
+tree d8421d164d5c6fb3b0092887d4f722f18caf8acd
+parent df8cf3ad6b7c9c4a210347c8db9aea7fae7f371b
+author haldy <alexis.haldy@nagra.com> 2017-08-07 14:22:17 +0200
+committer haldy <alexis.haldy@nagra.com> 2017-08-07 14:22:17 +0200
+
+    Corr junit
+
+
+
+:100644 100644 2d31332709f04e9edb9268d968a6d62033b47ef1 a3e79b2189e7ed2c72b3b035b48db067b708c994 M	.classpath
+:100644 100644 a107793bef294a51aa426f9d2ff10f9b84675ff8 975be8234663d161aa5f7e682a6e374a91018f68 M	.settings/org.eclipse.wst.common.component

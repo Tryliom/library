@@ -1,0 +1,57 @@
+Started by upstream project "[8mha:////4FcIA0Z+4QaV6zRrmySADGSTrtxYvv1q1fjx6xtyiep2AAAAmR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAz2EgZe/az8JH2fzKSixKJKfQBd7YoXwgAAAA==[0mLibrary" build number [8mha:////4IBZfloAb20SXrkekQW1lbM3ANVHhQbPrzTZ7x1ntXhCAAAAmx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAymEgZ+/az8JH2fzKSixKJKfUNjANR20FDEAAAA[0m13
+originally caused by:
+ Started by user [8mha:////4LuO3tl/A9H8w1qneLFWFaxsRMDkHr/4ruWo0VPHWCbtAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzmEgZu/dLi1CL9jMSclEoAg3YXAsAAAAA=[0mA K
+Building in workspace C:\Users\haldy\.jenkins\workspace\Library\default
+ > git.exe rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url C:\wamp64\www\Test\remoteGIT # timeout=10
+Fetching upstream changes from C:\wamp64\www\Test\remoteGIT
+ > git.exe --version # timeout=10
+ > git.exe fetch --tags --progress C:\wamp64\www\Test\remoteGIT +refs/heads/*:refs/remotes/origin/*
+Checking out Revision 095f97afc276eb90c8b113e5035abafd5cf69f20 (refs/remotes/origin/dev)
+Commit message: "Tous les tests ajoutés"
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 095f97afc276eb90c8b113e5035abafd5cf69f20
+ > git.exe rev-list 095f97afc276eb90c8b113e5035abafd5cf69f20 # timeout=10
+[default] $ cmd.exe /C "mvn -f pom.xml compiler:compile && exit %%ERRORLEVEL%%"
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building remoteGIT 1.3
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[8mha:////4E7GjZVK+jCKXalGBnXpLe2sgcuWNTzVEUntrp3DH0AaAAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEGvvmZ+X75ZekLlOVfvTjc8FPJgaGiiIGKaiG5Py84vycVD1nCA1SyAABjCCFBQCV27OjYAAAAA==[0m[INFO] --- maven-compiler-plugin:3.6.1:compile (default-cli) @ remoteGIT ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.187 s
+[INFO] Finished at: 2017-07-19T10:12:46+02:00
+[INFO] Final Memory: 10M/243M
+[INFO] ------------------------------------------------------------------------
+[default] $ sh -xe C:\Users\haldy\AppData\Local\Temp\jenkins1579047471045686043.sh
+The system cannot find the file specified
+FATAL: command execution failed
+[8mha:////4Ar/B0mPGGZfhvdhfMrK8Qb+aC5C9o2gJVZXjdtu0JKTAAAAVx+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P08vOT+vOD8nVc8DzHWtSE4tKMnMz/PLL0mV3NWzufebKBsTA0NFEYMUmgZnCA1SyAABjCCFBQC2xNaiYAAAAA==[0mjava.io.IOException: CreateProcess error=2, The system cannot find the file specified
+	at java.lang.ProcessImpl.create(Native Method)
+	at java.lang.ProcessImpl.<init>(Unknown Source)
+	at java.lang.ProcessImpl.start(Unknown Source)
+Caused: java.io.IOException: Cannot run program "sh" (in directory "C:\Users\haldy\.jenkins\workspace\Library\default"): CreateProcess error=2, The system cannot find the file specified
+	at java.lang.ProcessBuilder.start(Unknown Source)
+	at hudson.Proc$LocalProc.<init>(Proc.java:245)
+	at hudson.Proc$LocalProc.<init>(Proc.java:214)
+	at hudson.Launcher$LocalLauncher.launch(Launcher.java:850)
+	at hudson.Launcher$ProcStarter.start(Launcher.java:384)
+	at hudson.tasks.CommandInterpreter.perform(CommandInterpreter.java:109)
+	at hudson.tasks.CommandInterpreter.perform(CommandInterpreter.java:66)
+	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:735)
+	at hudson.model.Build$BuildExecution.build(Build.java:206)
+	at hudson.model.Build$BuildExecution.doRun(Build.java:163)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:490)
+	at hudson.model.Run.execute(Run.java:1735)
+	at hudson.matrix.MatrixRun.run(MatrixRun.java:146)
+	at hudson.model.ResourceController.execute(ResourceController.java:97)
+	at hudson.model.Executor.run(Executor.java:405)
+Build step 'Execute shell' marked build as failure
+Finished: FAILURE

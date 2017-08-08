@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>2.19</version>
+  </parent>
+
+  <artifactId>junit-realtime-test-reporter</artifactId>
+  <version>0.4</version>
+  <packaging>hpi</packaging>
+  <name>JUnit Realtime Test Reporter Plugin</name>
+  <url>https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Realtime+Test+Reporter+Plugin</url>
+
+  <developers>
+    <developer>
+      <id>ogondza</id>
+      <name>Oliver Gondža</name>
+      <email>ogondza@gmail.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/jenkinsci/junit-realtime-test-reporter.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/junit-realtime-test-reporter.git</developerConnection>
+    <url>http://github.com/jenkinsci/junit-realtime-test-reporter</url>
+    <tag>junit-realtime-test-reporter-0.4</tag>
+  </scm>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <surefire.useFile>false</surefire.useFile>
+    <jenkins.version>1.609</jenkins.version>
+    <jenkins-test-harness.version>2.17</jenkins-test-harness.version>
+    <java.level>6</java.level>
+    <findbugs.skip>true</findbugs.skip>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jenkins-ci.main</groupId>
+      <artifactId>maven-plugin</artifactId>
+      <version>2.0</version>
+    </dependency>
+    <!-- Exclude sisu-guice we do not care for to make enforcer happy -->
+    <dependency>
+      <groupId>org.jenkins-ci.main</groupId>
+      <artifactId>jenkins-core</artifactId>
+      <version>${jenkins.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.sonatype.sisu</groupId>
+          <artifactId>sisu-guice</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>junit</artifactId>
+      <version>1.13</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>matrix-project</artifactId>
+      <version>1.4.1</version>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>repo.jenkins-ci.org</id>
+      <url>http://repo.jenkins-ci.org/public/</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>repo.jenkins-ci.org</id>
+      <url>http://repo.jenkins-ci.org/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
+</project>

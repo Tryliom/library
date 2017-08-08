@@ -1,0 +1,60 @@
+Started by user [8mha:////4LuO3tl/A9H8w1qneLFWFaxsRMDkHr/4ruWo0VPHWCbtAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzmEgZu/dLi1CL9jMSclEoAg3YXAsAAAAA=[0mA K
+Building in workspace C:\Users\haldy\.jenkins\workspace\JUnit
+ > git.exe rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url //packager/packager/haldy project/remoteGIT # timeout=10
+Fetching upstream changes from //packager/packager/haldy project/remoteGIT
+ > git.exe --version # timeout=10
+ > git.exe fetch --tags --progress //packager/packager/haldy project/remoteGIT +refs/heads/*:refs/remotes/origin/*
+ > git.exe rev-parse "refs/remotes/origin/dev^{commit}" # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/origin/dev^{commit}" # timeout=10
+Checking out Revision fbffa3e82f8310362c19ca7802e190d7e8655357 (refs/remotes/origin/dev)
+Commit message: "Added tst"
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f fbffa3e82f8310362c19ca7802e190d7e8655357
+ > git.exe rev-list 2f503b6dcdc02a02979439c9a5e860ef6a1422c5 # timeout=10
+[JUnit] $ cmd.exe /C "mvn compiler:compile && exit %%ERRORLEVEL%%"
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building remoteGIT 1.3
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[8mha:////4E7GjZVK+jCKXalGBnXpLe2sgcuWNTzVEUntrp3DH0AaAAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEGvvmZ+X75ZekLlOVfvTjc8FPJgaGiiIGKaiG5Py84vycVD1nCA1SyAABjCCFBQCV27OjYAAAAA==[0m[INFO] --- maven-compiler-plugin:3.6.1:compile (default-cli) @ remoteGIT ---
+[INFO] Changes detected - recompiling the module!
+[8mha:////4HMjAoUycSH6aGU0ns1U5aIm45ufqmA8yN49C+kJTSjkAAAAYx+LCAAAAAAAAP9b85aBtbiIQSWjNKU4P0+vJLE4u1gvPjexLDVPzxdEhicW5WXmpfvll6S2fNly5fzGzauYGBgqihikoFqS8/OK83NS9ZwhNEghAwQwghQWAACwxA+XYgAAAA==[0m[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 14 source files to C:\Users\haldy\.jenkins\workspace\JUnit\target\classes
+[INFO] -------------------------------------------------------------
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] /C:/Users/haldy/.jenkins/workspace/JUnit/src/me/alexishaldy/db/connection/DBConnection.java:[7,31] cannot find symbol
+  symbol:   class ColumnTest
+  location: package me.alexishaldy.db.table
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] /C:/Users/haldy/.jenkins/workspace/JUnit/src/me/alexishaldy/db/pool/DBConnectionPool.java:[11,36] cannot find symbol
+  symbol:   class DBConnectionAdapterTest
+  location: package me.alexishaldy.db.connection
+[INFO] 2 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.325 s
+[INFO] Finished at: 2017-07-19T10:48:16+02:00
+[INFO] Final Memory: 18M/188M
+[INFO] ------------------------------------------------------------------------
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.6.1:compile (default-cli) on project remoteGIT: Compilation failure: Compilation failure: 
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] /C:/Users/haldy/.jenkins/workspace/JUnit/src/me/alexishaldy/db/connection/DBConnection.java:[7,31] cannot find symbol
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR]   symbol:   class ColumnTest
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR]   location: package me.alexishaldy.db.table
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] /C:/Users/haldy/.jenkins/workspace/JUnit/src/me/alexishaldy/db/pool/DBConnectionPool.java:[11,36] cannot find symbol
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR]   symbol:   class DBConnectionAdapterTest
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR]   location: package me.alexishaldy.db.connection
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] -> [Help 1]
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] 
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] 
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[8mha:////4Du27P/MCt2gd88jV73WPXHjBhI3Zqy7XfRcN1RYBJf6AAAAYB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P0+vJLE4u1gvPjexLDVPzxdEuhYV5Rf55ZekOlc7RKnPKH7IxMBQUcQgBdWQnJ9XnJ+TqucMoUEKGSCAEaSwAACsNFCqYAAAAA==[0m[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+Build step 'Invoke top-level Maven targets' marked build as failure
+Finished: FAILURE

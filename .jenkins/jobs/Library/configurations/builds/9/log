@@ -1,0 +1,16 @@
+Started by upstream project "[8mha:////4FcIA0Z+4QaV6zRrmySADGSTrtxYvv1q1fjx6xtyiep2AAAAmR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAz2EgZe/az8JH2fzKSixKJKfQBd7YoXwgAAAA==[0mLibrary" build number [8mha:////4EhlCRsgjVCFutH4dYR6U7s2SgFQpTm/phisRAM9URNCAAAAmR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLQIwSBj79rPwkfZ/MpKLEokp9SwDdFsuHwwAAAA==[0m9
+originally caused by:
+ Started by user [8mha:////4LuO3tl/A9H8w1qneLFWFaxsRMDkHr/4ruWo0VPHWCbtAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzmEgZu/dLi1CL9jMSclEoAg3YXAsAAAAA=[0mA K
+Building in workspace C:\Users\haldy\.jenkins\workspace\Library\default
+ > git.exe rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url C:\wamp64\www\Test\remoteGIT # timeout=10
+Fetching upstream changes from C:\wamp64\www\Test\remoteGIT
+ > git.exe --version # timeout=10
+ > git.exe fetch --tags --progress C:\wamp64\www\Test\remoteGIT +refs/heads/*:refs/remotes/origin/*
+Checking out Revision 095f97afc276eb90c8b113e5035abafd5cf69f20 (refs/remotes/origin/dev)
+Commit message: "Tous les tests ajoutés"
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 095f97afc276eb90c8b113e5035abafd5cf69f20
+ > git.exe rev-list 095f97afc276eb90c8b113e5035abafd5cf69f20 # timeout=10
+Finished: SUCCESS

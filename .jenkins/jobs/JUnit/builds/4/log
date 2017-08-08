@@ -1,0 +1,13 @@
+Started by user [8mha:////4LuO3tl/A9H8w1qneLFWFaxsRMDkHr/4ruWo0VPHWCbtAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzmEgZu/dLi1CL9jMSclEoAg3YXAsAAAAA=[0mA K
+Building in workspace C:\Users\haldy\.jenkins\workspace\JUnit
+ > git.exe rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url //packager/packager/haldy project/remoteGIT # timeout=10
+Fetching upstream changes from //packager/packager/haldy project/remoteGIT
+ > git.exe --version # timeout=10
+ > git.exe fetch --tags --progress //packager/packager/haldy project/remoteGIT +refs/heads/*:refs/remotes/origin/*
+ > git.exe rev-parse "refs/remotes/origin/master^{commit}" # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/origin/master^{commit}" # timeout=10
+ > git.exe rev-parse "origin/master^{commit}" # timeout=10
+ERROR: Couldn't find any revision to build. Verify the repository and branch configuration for this job.
+[8mha:////4Ar/B0mPGGZfhvdhfMrK8Qb+aC5C9o2gJVZXjdtu0JKTAAAAVx+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P08vOT+vOD8nVc8DzHWtSE4tKMnMz/PLL0mV3NWzufebKBsTA0NFEYMUmgZnCA1SyAABjCCFBQC2xNaiYAAAAA==[0mFinished: FAILURE
