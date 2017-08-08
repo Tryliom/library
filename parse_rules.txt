@@ -1,0 +1,11 @@
+# Compiler Error
+error /(?i)\[error\]/
+error /BUILD FAILED/
+error /TEST FAILED/
+error /(?i)FAILURES/
+
+# Compiler Warning
+warning /(?i)(\[warnings\]|\[warning\])/
+
+# Compiler Info
+info /(?i)(\[info\]|info\:)/

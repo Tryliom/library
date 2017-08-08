@@ -131,7 +131,6 @@ public class RestHandler {
 			
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
 		} catch (Exception e) {
-			System.out.println(e.toString() + "...");
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
 	}
@@ -416,7 +415,6 @@ public class RestHandler {
 	public Response deleteBook(@PathParam("id") String id) {
 		try {
 			Boolean b = DBExecutor.execQuery("DELETE FROM book WHERE id = "+id+";");
-			System.out.println("dfs");
 			if (!b)
 				throw new Exception("Delete failed");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
