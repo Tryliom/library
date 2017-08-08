@@ -97,8 +97,11 @@ public class RestHandler {
 	@Path("/book/search")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response searchBook(@FormParam("type") String type, @FormParam("arg") String arg, @FormParam("library_id") String lib) {
-		String[] args = arg.split("¨");
+		String[] args = arg.split(" ");
 		String sql = "";
+		
+		for (int i=0;i<args.length;i++)
+			args[i] = args[i].replaceAll("_", " ");
 		
 		try {			
 			switch (SortType.valueOf(type)) {
@@ -119,6 +122,8 @@ public class RestHandler {
 				break;
 			case year:
 				sql = "SELECT id FROM book WHERE date = "+args[0]+" AND library_id = "+lib;
+				break;
+			default:
 				break;				
 			}
 			Vector<String> list = DBExecutor.selectQuery(sql);
@@ -126,8 +131,7 @@ public class RestHandler {
 			
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
 		} catch (Exception e) {
-System.out.println(e.toString() + "...");
-			//			System.out.println(e+" "+sql);
+			System.out.println(e.toString() + "...");
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
 	}
@@ -256,7 +260,7 @@ System.out.println(e.toString() + "...");
 			Boolean b = DBExecutor.execQuery("INSERT INTO user(username, name, lastname, password, email, tel, token, library_id) SELECT \""+username+"\", \""+name+"\", \""+lastname+"\", "
 					+ "\""+pass+"\", \""+email+"\", \""+tel+"\", \""+token+"\", "+lib+" WHERE (SELECT count(*) FROM user WHERE username = \""+username+"\")=0");
 			if (!b)
-				throw new Exception("Pseudo déjà pris");
+				throw new Exception("Pseudo dï¿½jï¿½ pris");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
