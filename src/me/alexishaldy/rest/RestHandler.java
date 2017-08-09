@@ -97,11 +97,8 @@ public class RestHandler {
 	@Path("/book/search")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response searchBook(@FormParam("type") String type, @FormParam("arg") String arg, @FormParam("library_id") String lib) {
-		String[] args = arg.split(" ");
-		String sql = "";
-		
-		for (int i=0;i<args.length;i++)
-			args[i] = args[i].replaceAll("_", " ");
+		String[] args = arg.split("¨");
+		String sql = "";		
 		
 		try {			
 			switch (SortType.valueOf(type)) {
@@ -463,7 +460,7 @@ public class RestHandler {
 			String sql = "UPDATE library SET name = \""+name+"\", adress = \""+adress+"\"  WHERE id = "+lib;
 			Boolean b = DBExecutor.execQuery(sql);
 			if (!b)
-				throw new Exception("Insert failed: "+sql);
+				throw new Exception("Update failed: "+sql);
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -477,7 +474,7 @@ public class RestHandler {
 		try {
 			Boolean b = DBExecutor.execQuery("DELETE FROM library WHERE id = "+lib+";");
 			if (!b)
-				throw new Exception("Insert failed");
+				throw new Exception("Delete failed");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);

@@ -1,17 +1,323 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
-  title: Librairie en ligne
-  description: Stocker des livres, avoir des utilisateurs qui peuvent emprunter, rendre des livres
-  version: "1.0.0" # obligatoire
+  title: "Librairie en ligne"
+  description: "Stocker des livres, avoir des utilisateurs qui peuvent emprunter, rendre des livres"
+  version: "1.0.0"
 
-host: rest-api.local
+host: "localhost:6080"
+basepath: "/"
 schemes:
-  - http
+  - "http"
 produces:
-  - application/json
-  - application/xml
+  - "application/json"
 consumes:
-  - application/json
-  - application/xml
+  - "application/json"
   
 paths:
+	/library:
+		get:
+			summary: "Get all information about all librairies."
+			operationId: "getLibrary"
+			produces:
+      		- "application/json"
+      		reponses:
+		        200:
+		          description: "successful operation"
+		          schema:
+		            type: "array"
+		        400:
+		          description: "Invalid status value"
+	/library/add:
+		post:
+			summary: "Add a new librairy."
+			operationId: "libraryAdd"
+			produces:
+      		- "application/json"
+      		parameters:
+      		- name: "name"
+      			in: "formData"
+      			description: "Name of the library"
+      			type: "string"
+      		- name: "adress"
+      			in: "formData"
+      			description: "Adress of the library"
+      			type: "string"      			
+      		200:
+	          description: "true"	            
+	        400:
+	          description: "Insert failed"
+	/library/delete:
+		put:
+			summary: "Delete a library"
+			operationId: "deleteLib"
+			produces:
+      		- "application/json"
+      		- name: "library_id"
+      			in: "formData"
+      			description: "ID of the library"
+      			type: "integer"
+      			format: "int64"
+      		200:
+	          description: "true"	            
+	        400:
+	          description: "Delete failed"
+	/library/edit:
+		post:
+			summary: "Edit a library"
+			operationId: "editLib"
+			produces:
+			- "application/json"
+			- name: "name"
+      			in: "formData"
+      			description: "New name for the library"
+      			type: "string"
+			- name: "adress"
+      			in: "formData"
+      			description: "New adress for the library"
+      			type: "string"      			
+			- name: "library_id"
+      			in: "formData"
+      			description: "ID of the library"
+      			type: "integer"
+      			format: "int64"
+      		200:
+	          description: "true"	            
+	        400:
+	          description: "Update failed"
+	/library/list/book/{library_id}:
+		get:
+			summary: "Display list of books from a specified library"
+			operationId: "listBook"
+			produces:
+			- "application/json"
+			parameters:
+  			- name: "library_id"
+  				in: "path"
+  				description: "Id of the library"
+  				type: "integer"
+  				format: "int64"
+			200:
+	          description: "Table with all books in this library"
+	          type: "array"
+	          items:
+	        	- name: "title"
+	        		type: "string"
+	        	- name: "author"
+	        		type: "string"
+	        	- name: "date"
+	        		type: "integer"
+	        		format: "int64"
+	        	- name: "description"
+	        		type: "string"	 
+				- name: "edition"
+	        		type: "integer"
+	        		format: "int64"
+	        	- name: "editeur"
+	        		type: "string"	        		
+	        400:
+	          description: "Error message"			
+	/book/add:
+		post:
+			summary: "Add a book to the library"
+			operationId: "addBook"
+			produces:
+			- "application/json"
+			parameters:
+  			- name: "title"
+  				in: "formData"
+        		type: "string"
+        	- name: "author"
+        		in: "formData"
+        		type: "string"
+        	- name: "date"
+        		in: "formData"
+        		type: "integer"
+        		format: "int64"
+        	- name: "description"
+        		in: "formData"
+        		type: "string"	 
+			- name: "edition"
+				in: "formData"
+        		type: "integer"
+        		format: "int64"
+        	- name: "editeur"
+        		in: "formData"
+        		type: "string"	
+        	- name: "library_id"
+				in: "formData"
+        		type: "integer"
+        		format: "int64"
+      		200:
+	          description: "true"	            
+	        400:
+	          description: "Insert failed"
+	/book/edit:
+		post:
+			summary: "Edit a book from the library"
+			operationId: "editBook"
+			produces:
+			- "application/json"
+			parameters:
+  			- name: "title"
+  				in: "formData"
+        		type: "string"
+        	- name: "author"
+        		in: "formData"
+        		type: "string"
+        	- name: "date"
+        		in: "formData"
+        		type: "integer"
+        		format: "int64"
+        	- name: "description"
+        		in: "formData"
+        		type: "string"	 
+			- name: "edition"
+				in: "formData"
+        		type: "integer"
+        		format: "int64"
+        	- name: "editeur"
+        		in: "formData"
+        		type: "string"	
+        	- name: "library_id"
+				in: "formData"
+        		type: "integer"
+        		format: "int64"
+        	- name: "id"
+				in: "formData"
+        		type: "integer"
+        		format: "int64"        		
+      		200:
+	          description: "true"	            
+	        400:
+	          description: "Update failed"
+	/book/search:
+		post:
+			summary: "Search a book from the library"
+			operationId: "searchBook"
+			produces:
+			- "application/json"
+			parameters:
+	        - name: "type"
+	        	in: "formData"
+	        	type: "string"
+	        	description: "Method of search. Options: title, author, year, title_author, title_author_numedition, desc."
+	        - name: "arg"
+	        	in: "formData"
+	        	type: "string"
+	        	description: "Arguments separate with a '¨'."
+			- name: "library_id"
+				in: "formData"
+        		type: "integer"
+        		format: "int64"
+        	200:
+	          description: "Table with all id books specified"
+	          type: "array"
+	          items:
+	        	- name: "id"
+	        		type: "integer"
+	        		format: "int64" 	            
+	        400:
+	          description: "Error message"
+	/book/get/{id}:
+		get:
+			summary: "Get a book by his ID"
+			operationId: "getBookById"
+	        produces:
+			- "application/json"
+			parameters:
+			- name: "id"
+				in: "formData"
+        		type: "integer"
+        		format: "int64"
+        	200:
+	          description: "Table with all id books specified"
+	          type: "array"
+	          items:
+	          	- name: "id"
+	        		type: "integer"
+	        		format: "int64"
+	          	- name: "title"
+	        		type: "string"
+	        	- name: "author"
+	        		type: "string"
+	        	- name: "date"
+	        		type: "integer"
+	        		format: "int64"
+	        	- name: "description"
+	        		type: "string"	 
+				- name: "edition"
+	        		type: "integer"
+	        		format: "int64"
+	        	- name: "editeur"
+	        		type: "string"	
+	        	- name: "user_id"
+	        		type: "integer"
+	        		format: "int64" 
+	        	- name: "library_id"
+	        		type: "integer"
+	        		format: "int64"  
+	        400:
+	          description: "Error message"
+	/book/get:
+		get:
+			summary: "Get all book"
+			operationId: "getBook"
+	        produces:
+			- "application/json"
+        	200:
+	          description: "Table with all id books specified"
+	          type: "array"
+	          items:
+	          	- name: "id"
+	        		type: "integer"
+	        		format: "int64"
+	          	- name: "title"
+	        		type: "string"
+	        	- name: "author"
+	        		type: "string"
+	        	- name: "date"
+	        		type: "integer"
+	        		format: "int64"
+	        	- name: "description"
+	        		type: "string"	 
+				- name: "edition"
+	        		type: "integer"
+	        		format: "int64"
+	        	- name: "editeur"
+	        		type: "string"	
+	        	- name: "user_id"
+	        		type: "integer"
+	        		format: "int64" 
+	        	- name: "library_id"
+	        		type: "integer"
+	        		format: "int64"  
+	        400:
+	          description: "Error message"		
+	
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+		          
