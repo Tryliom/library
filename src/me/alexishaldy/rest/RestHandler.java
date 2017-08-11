@@ -99,7 +99,6 @@ public class RestHandler {
 	public Response searchBook(@FormParam("type") String type, @FormParam("arg") String arg, @FormParam("library_id") String lib) {
 		String[] args = arg.split("¨");
 		String sql = "";		
-		
 		try {			
 			switch (SortType.valueOf(type)) {
 			case author:
@@ -206,9 +205,9 @@ public class RestHandler {
 	}
 	
 	@POST
-	@Path("/user/search/{username}/{library_id}")
+	@Path("/user/search")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response searchUser(@PathParam("username") String pseudo, @PathParam("library_id") String lib) {		
+	public Response searchUser(@FormParam("username") String pseudo, @FormParam("library_id") String lib) {		
 		try {			
 			String sql = "SELECT id FROM User WHERE username = '"+pseudo+"' AND library_id = "+lib;
 			Vector<String> list = DBExecutor.selectQuery(sql);
