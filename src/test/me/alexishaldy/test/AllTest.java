@@ -28,3 +28,19 @@ import me.alexishaldy.util.UtilsTest;
 public class AllTest {
 
 }
+/*	
+		"": {
+			"": {
+				"summary": "",
+				"parameters": [],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": " failed"
+					  }
+				}
+			}
+		}
+*/

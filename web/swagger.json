@@ -1,550 +1,888 @@
 {
-"swagger": "2.0",
-"info": {
-  "title": "Librairie en ligne",
-  "description": "Stocker des livres, avoir des utilisateurs qui peuvent emprunter, rendre des livres",
-  "version": "1.0.0"
-},
-"host": "localhost:6080",
-"produces": [
-	"application/json",
-	"application/xml"
-],
-"consumes": [
-    "application/json",
-	"application/xml"
-],
-"schemes": ["http"],
-	"paths": [
-		{	
-			"path": "/library",
-			"operations": [
-				{
-					"method": "GET",
-					"summary": "Get all information about all librairies",
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "Array with list of all librairies"
-			            },
-			            {
-			              "code": 400,
-			              "message": "No librairies found"
-			            }
-					]	          
-				
+	"swagger": "2.0",
+	"info": {
+		"title": "Librairie en ligne",
+		"description": "Stocker des livres, avoir des utilisateurs qui peuvent emprunter, rendre des livres",
+		"version": "1.0.0"
+	},
+	"host": "localhost:6080",
+	"produces": [
+		"application/json",
+		"application/xml"
+	],
+	"consumes": [
+		"application/json",
+		"application/xml",
+		"application/x-www-form-urlencoded"
+	],
+	"schemes": [
+		"http"
+	],
+	"paths": {
+		"/library": {
+			"get": {
+				"summary": "Get all information about all librairies",
+				"parameters": [],				
+				"responses": {
+					  "200": {
+					  	"description": "Array with list of all librairies"
+					  },
+					  "400": {
+					  	"description": "No librairies found"
+					  }	              			
 				}
-			]
+			}
 		},
-		{	
-			"path": "/library/add",
-			"operations": [
-				{
-					"method": "POST",
-					"summary": "Add a new librairy",
-					"parameters": [
-			            {
-			              "name": "name",
-			              "description": "Name of library",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "adress",
-			              "description": "Adress of library",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            }
-		          	],
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "true"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Insert failed"
-			            }
-					]	          			
+		"/library/add": {
+			"post": {
+				"summary": "Add a new librairy",
+				"parameters": [
+		            {
+		              "name": "name",
+		              "description": "Name of library",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "adress",
+		              "description": "Adress of library",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            }
+	          	],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Insert failed"
+					  }	              			
 				}
-			]     			
+			}
 		},
-		{
-			"path": "/library/delete",
-			"operations": [
-				{
-					"method": "PUT",
-					"summary": "Delete a library",
-					"parameters": [
-			            {
-			              "name": "library_id",
-			              "description": "ID of library",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form",
-			              "minimum": "1.0",
-	              		  "maximum": "100000.0"
-			            }
-		          	],
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "true"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Delete failed"
-			            }
-					]	          			
+		"/library/delete": {
+			"post": {
+				"summary": "Delete a librairy",
+				"parameters": [
+		            {
+		              "name": "library_id",
+		              "description": "ID of library",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+			        }
+	          	],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Delete failed"
+					  }	              			
 				}
-			]     			
-		},		 
-		{
-			"path": "/library/edit",
-			"operations": [
-				{
-					"method": "POST",
-					"summary": "Edit a library",
-					"parameters": [
-			            {
-			              "name": "name",
-			              "description": "New name of library",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "adress",
-			              "description": "New adress of library",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "library_id",
-			              "description": "ID of library",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form",
-			              "minimum": "1.0",
-	              		  "maximum": "100000.0"
-			            }
-		          	],
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "true"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Update failed"
-			            }
-					]	          			
-				}
-			]     			
-		},	      
-		{
-			"path": "/library/list/book/{library_id}",
-			"operations": [
-				{
-					"method": "GET",
-					"summary": "Display list of books from a specified library",
-					"parameters": [
-			            {
-			              "name": "library_id",
-			              "description": "ID of library",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form",
-			              "minimum": "1.0",
-	              		  "maximum": "100000.0"
-			            }
-		          	],
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "List of books"
-			            },
-			            {
-			              "code": 400,
-			              "message": "ID doesn't exist or error message"
-			            }
-					]	          			
-				}
-			]     			
+			}
 		},
-		{
-			"path": "/book/add",
-			"operations": [
-				{
-					"method": "POST",
-					"summary": "Add a book to the library",
-					"parameters": [
-						{
-			              "name": "title",
-			              "description": "Title of the book",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "author",
-			              "description": "Author of the book",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "date",
-			              "description": "Date, when this book has been publish, in years",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form",
-			              "minimum": "0",
-	              		  "maximum": "2018"
-			            },
-			            {
-			              "name": "description",
-			              "description": "Description of the book",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "edition",
-			              "description": "Edition of the book (Ex: 100 for the 100th edition of the Guisness World Record)",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form",
-			              "minimum": "1",
-	              		  "maximum": "10000"
-			            },
-			            {
-			              "name": "editeur",
-			              "description": "Editor of the book",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "library_id",
-			              "description": "ID of current library or in what library we will put the book",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form",
-			              "minimum": "1.0",
-	              		  "maximum": "100000.0"
-			            }
-		          	],
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "true"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Insert failed"
-			            }
-					]	          			
+		"/library/edit": {
+			"post": {
+				"summary": "Edit a library",
+				"parameters": [
+					{
+		              "name": "name",
+		              "description": "New name of library",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "adress",
+		              "description": "New adress of library",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "library_id",
+		              "description": "ID of library",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Update failed"
+					  }	              			
 				}
-			]     			
-		},   
-		{
-			"path": "/book/edit",
-			"operations": [
-				{
-					"method": "POST",
-					"summary": "Edit a book from the library",
-					"parameters": [
-						{
-			              "name": "title",
-			              "description": "New title of the book",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "author",
-			              "description": "New author of the book",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "date",
-			              "description": "New date, when this book has been publish, in years",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form",
-			              "minimum": "0",
-	              		  "maximum": "2018"
-			            },
-			            {
-			              "name": "description",
-			              "description": "New description of the book",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "edition",
-			              "description": "New edition of the book (Ex: 100 for the 100th edition of the Guisness World Record)",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form",
-			              "minimum": "1",
-	              		  "maximum": "10000"
-			            },
-			            {
-			              "name": "editeur",
-			              "description": "New editor of the book",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "library_id",
-			              "description": "ID of current library or in what library we will put the book",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form",
-			              "minimum": "1.0",
-	              		  "maximum": "100000.0"
-			            },
-			            {
-			              "name": "id",
-			              "description": "ID of the book we will editing",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form",
-			              "minimum": "1.0",
-	              		  "maximum": "100000.0"
-			            }
-		          	],
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "true"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Update failed"
-			            }
-					]	          			
-				}
-			]     			
+			}
 		},
-		{
-			"path": "/book/search",
-			"operations": [
-				{
-					"method": "POST",
-					"summary": "Search a book to the library",
-					"parameters": [
-						{
-			              "name": "type",
-			              "description": "Method of search. Options: title, author, year, title_author, title_author_numedition, desc.",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "arg",
-			              "description": "Arguments separate with a '¨'.",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "library_id",
-			              "description": "ID of current library or in what library we will put the book",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form",
-			              "minimum": "1.0",
-	              		  "maximum": "100000.0"
-			            }
-		          	],
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "Table with all id of books specified"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Error message"
-			            }
-					]	          			
+		"/library/list/book/{library_id}": {
+			"get": {
+				"summary": "Display list of books from a specified library",
+				"parameters": [
+					{
+		              "name": "library_id",
+		              "description": "ID of library",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "path"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "List of books"
+					  },
+					  "400": {
+					  	"description": "ID doesn't exist or error message"
+					  }	              			
 				}
-			]     			
+			}
+		},
+		"/book/add": {
+			"post": {
+				"summary": "Add a book to the library",
+				"parameters": [
+					{
+		              "name": "title",
+		              "description": "Title of the book",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "author",
+		              "description": "Author of the book",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "date",
+		              "description": "Date, when this book has been publish, in years",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "description",
+		              "description": "Description of the book",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "edition",
+		              "description": "Edition of the book (Ex: 100 for the 100th edition of the Guisness World Record)",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "editeur",
+		              "description": "Editor of the book",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "library_id",
+		              "description": "ID of current library or in what library we will put the book",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Insert failed"
+					  }	              			
+				}
+			}
+		},
+		"/book/edit": {
+			"post": {
+				"summary": "Edit a book from the library",
+				"parameters": [
+					{
+		              "name": "title",
+		              "description": "New title of the book",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "author",
+		              "description": "New author of the book",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "date",
+		              "description": "New date, when this book has been publish, in years",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "description",
+		              "description": "New description of the book",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "edition",
+		              "description": "New edition of the book (Ex: 100 for the 100th edition of the Guisness World Record)",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "editeur",
+		              "description": "New editor of the book",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "library_id",
+		              "description": "ID of current library or in what library we will put the book",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "id",
+		              "description": "ID of the book we will editing",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Update failed"
+					  }	              			
+				}
+			}
+		},
+		"/book/search": {
+			"post": {
+				"summary": "Search a book to the library",
+				"parameters": [
+					{
+		              "name": "type",
+		              "description": "Method of search. Options: title, author, year, title_author, title_author_numedition, desc.",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "arg",
+		              "description": "Arguments separate with a '¨'.",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "library_id",
+		              "description": "ID of current library or in what library we will put the book",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "Table with all id of books specified"
+					  },
+					  "400": {
+					  	"description": "Error message"
+					  }	              			
+				}
+			}
+		},
+		"/book/get/{id}": {
+			"get": {
+				"summary": "Get a book by his ID",
+				"parameters": [
+					{
+		              "name": "id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "path"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "Table of the book ID specified"
+					  },
+					  "400": {
+					  	"description": "Error message"
+					  }	              			
+				}
+			}
+		},				
+		"/book/get": {
+			"get": {
+				"summary": "Get all books",
+				"parameters": [],
+				"responses": {
+					  "200": {
+					  	"description": "Table with all informations about all books"
+					  },
+					  "400": {
+					  	"description": "Error message"
+					  }	              			
+				}
+			}
+		},
+		"/user/get": {
+			"get": {
+				"summary": "Get all users",
+				"parameters": [],
+				"responses": {
+					  "200": {
+					  	"description": "Table with all informations about all users"
+					  },
+					  "400": {
+					  	"description": "Error message"
+					  }	              			
+				}
+			}
+		},
+		"/user/get/id/{id}": {
+			"get": {
+				"summary": "Get a user with his ID",
+				"parameters": [
+					{
+		              "name": "id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "path"
+		            }				
+				],
+				"responses": {
+					  "200": {
+					  	"description": "Table with all informations about all users"
+					  },
+					  "400": {
+					  	"description": "Error message"
+					  }	              			
+				}
+			}
+		},
+		"/user/get/token/{token}": {
+			"get": {
+				"summary": "Get a user with his token",
+				"parameters": [
+					{
+		              "name": "token",
+		              "required": true,
+		              "type": "string",
+		              "in": "path"
+		            }				
+				],
+				"responses": {
+					  "200": {
+					  	"description": "Table with the user"
+					  },
+					  "400": {
+					  	"description": "Error message"
+					  }	              			
+				}
+			}
+		},
+		"/user/search": {
+			"post": {
+				"summary": "Search a user with his username and the library ID",
+				"parameters": [
+					{
+		              "name": "username",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "library_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            }				
+				],
+				"responses": {
+					  "200": {
+					  	"description": "The ID of the user"
+					  },
+					  "400": {
+					  	"description": "Error message"
+					  }	              			
+				}
+			}
 		},	
-		{
-			"path": "/book/get/{id}",
-			"operations": [
-				{
-					"method": "GET",
-					"summary": "Get a book by his ID",
-					"parameters": [
-						{
-			              "name": "id",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "path"
-			            }
-		          	],
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "Table of the book ID specified"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Error message"
-			            }
-					]	          			
+		"/user/admin/update": {
+			"put": {
+				"summary": "Update and verify token of an admin account",
+				"parameters": [
+					{
+		              "name": "username",
+		              "required": true,
+		              "type": "string",
+		              "in": "header"
+		            },
+		            {
+		              "name": "password",
+		              "required": true,
+		              "type": "string",
+		              "in": "header"
+		            },
+		            {
+		              "name": "token",
+		              "required": true,
+		              "type": "string",
+		              "in": "header"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "Compte inexistant"
+					  },
+					  "400": {
+					  	"description": "Error message"
+					  }
 				}
-			]     			
-		},	
-		{
-			"path": "/book/get",
-			"operations": [
-				{
-					"method": "GET",
-					"summary": "Get all books",
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "Table with all informations about all books"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Error message"
-			            }
-					]	          			
+			}
+		},
+		"/user/member/update": {
+			"put": {
+				"summary": "Update and verify token of an member account",
+				"parameters": [
+					{
+		              "name": "username",
+		              "required": true,
+		              "type": "string",
+		              "in": "header"
+		            },
+		            {
+		              "name": "password",
+		              "required": true,
+		              "type": "string",
+		              "in": "header"
+		            },
+		            {
+		              "name": "token",
+		              "required": true,
+		              "type": "string",
+		              "in": "header"
+		            },
+		            {
+		              "name": "library_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "header"
+		            }					
+				],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Compte inexistant"
+					  }
 				}
-			]     			
-		},	
-		{
-			"path": "/user/get",
-			"operations": [
-				{
-					"method": "GET",
-					"summary": "Get all users",
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "Table with all informations about all users"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Error message"
-			            }
-					]	          			
+			}
+		},
+		"/user/add": {
+			"post": {
+				"summary": "Create a new user and add to the library",
+				"parameters": [
+					{
+		              "name": "username",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "name",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "lastname",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "password",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "email",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "tel",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "token",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "library_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Pseudo déjà pris"
+					  }
 				}
-			]     			
-		},	
-		{
-			"path": "/user/get/id/{id}",
-			"operations": [
-				{
-					"method": "GET",
-					"summary": "Get a user with his ID",
-					"parameters": [
-						{
-			              "name": "id",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "path"
-			            }
-		          	],
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "Table with all informations about all users"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Error message"
-			            }
-					]	          			
+			}
+		},
+		"/user/edit": {
+			"put": {
+				"summary": "Edit a user",
+				"parameters": [
+					{
+		              "name": "email",
+		              "required": true,
+		              "type": "string",
+		              "in": "header"
+		            },
+		            {
+		              "name": "tel",
+		              "required": true,
+		              "type": "string",
+		              "in": "header"
+		            },
+		            {
+		              "name": "id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "header"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Update failed"
+					  }
 				}
-			]     			
-		},	
-		{
-			"path": "/user/get/token/{token}",
-			"operations": [
-				{
-					"method": "GET",
-					"summary": "Get a user with his token",
-					"parameters": [
-						{
-			              "name": "token",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "path"
-			            }
-		          	],
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "Table with the user"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Error message"
-			            }
-					]	          			
+			}
+		},		
+		"/user/edit/admin": {
+			"post": {
+				"summary": "Edit a user with admin right",
+				"parameters": [
+					{
+		              "name": "username",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "name",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "lastname",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "level_access",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "email",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "tel",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Update failed"
+					  }
 				}
-			]     			
-		},	    
-		{
-			"path": "/user/search",
-			"operations": [
-				{
-					"method": "post",
-					"summary": "Search a user with his username and the library ID",
-					"parameters": [
-						{
-			              "name": "username",
-			              "required": true,
-			              "type": "string",
-			              "paramType": "form"
-			            },
-			            {
-			              "name": "library_id",
-			              "required": true,
-			              "type": "integer",
-			              "format": "int32",
-			              "paramType": "form"
-			            }
-		          	],
-					"responseMessages": [
-			            {
-			              "code": 200,
-			              "message": "The ID of the user"
-			            },
-			            {
-			              "code": 400,
-			              "message": "Error message"
-			            }
-					]	          			
+			}
+		},
+		"/user/edit/superadmin": {
+			"post": {
+				"summary": "Edit a user with superadmin right",
+				"parameters": [
+					{
+		              "name": "username",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "name",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "lastname",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "level_access",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "email",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "tel",
+		              "required": true,
+		              "type": "string",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "library_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Update failed"
+					  }
 				}
-			]     			
-		}	
-	]
+			}
+		},
+		"/user/return": {
+			"put": {
+				"summary": "Return a book who the user has take",
+				"parameters": [
+					{
+		              "name": "book_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "user_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "library_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Update failed"
+					  }
+				}
+			}
+		},
+		"/user/take": {
+			"put": {
+				"summary": "Take a book with the user",
+				"parameters": [
+					{
+		              "name": "book_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "user_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            },
+		            {
+		              "name": "library_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "formData"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Update failed"
+					  }
+				}
+			}
+		},
+		"/user/verif/member/{token}": {
+			"get": {
+				"summary": "Get a user's username with his token",
+				"parameters": [
+		            {
+		              "name": "token",
+		              "required": true,
+		              "type": "string",
+		              "in": "path"
+		            }
+				],
+				"responses": {
+					  "200": {
+					  	"description": "Return the username of user's username"
+					  },
+					  "400": {
+					  	"description": "Error message"
+					  }
+				}
+			}
+		},
+		"/renter/get/{library_id}": {
+			"get": {
+				"summary": "Get a table of all renter from a library",
+				"parameters": [
+		            {
+		              "name": "library_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "path"
+		            }				
+				],
+				"responses": {
+					  "200": {
+					  	"description": "Table with max_return_date book_id user_id of all renterlist"
+					  },
+					  "400": {
+					  	"description": "Error message"
+					  }
+				}
+			}
+		},
+		"": {
+			"": {
+				"summary": "",
+				"parameters": [],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": " failed"
+					  }
+				}
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	}
 }

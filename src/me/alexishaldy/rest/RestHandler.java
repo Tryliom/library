@@ -419,7 +419,6 @@ public class RestHandler {
 		}
 	}
 	
-	
 	@GET
 	@Path("/library/get")
 	@Produces(MediaType.APPLICATION_JSON)
