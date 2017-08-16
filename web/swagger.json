@@ -19,7 +19,7 @@
 		"http"
 	],
 	"paths": {
-		"/library": {
+		"/library/get": {
 			"get": {
 				"summary": "Get all information about all librairies",
 				"parameters": [],				
@@ -63,7 +63,7 @@
 			}
 		},
 		"/library/delete": {
-			"post": {
+			"put": {
 				"summary": "Delete a librairy",
 				"parameters": [
 		            {
@@ -72,7 +72,7 @@
 		              "required": true,
 		              "type": "integer",
 		              "format": "int32",
-		              "in": "formData"
+		              "in": "header"
 			        }
 	          	],
 				"responses": {
@@ -856,33 +856,70 @@
 				}
 			}
 		},
-		"": {
-			"": {
-				"summary": "",
-				"parameters": [],
+		"/user/verif/admin/{token}": {
+			"get": {
+				"summary": "Get the username when the token is valid and has enough admin level",
+				"parameters": [
+		            {
+		              "name": "token",
+		              "required": true,
+		              "type": "string",
+		              "in": "path"
+		            }				
+				],
+				"responses": {
+					  "200": {
+					  	"description": "Table with the username"
+					  },
+					  "400": {
+					  	"description": "Error message"
+					  }
+				}
+			}
+		},
+		"/user/delete": {
+			"put": {
+				"summary": "Delete an user with his ID",
+				"parameters": [
+		            {
+		              "name": "id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "header"
+		            }				
+				],
 				"responses": {
 					  "200": {
 					  	"description": "true"
 					  },
 					  "400": {
-					  	"description": " failed"
+					  	"description": "Delete failed"
+					  }
+				}
+			}
+		},
+		"/book/delete": {
+			"put": {
+				"summary": "Delete a book with his ID",
+				"parameters": [
+		            {
+		              "name": "id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
+		              "in": "header"
+		            }				
+				],
+				"responses": {
+					  "200": {
+					  	"description": "true"
+					  },
+					  "400": {
+					  	"description": "Delete failed"
 					  }
 				}
 			}
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	}
 }

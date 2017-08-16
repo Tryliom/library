@@ -441,14 +441,14 @@ public class RestHandlerTest {
 		String id = list.get(0);
 		
 		try {
-			if (rh.deleteUser("5", id).getStatus()!=200)
+			if (rh.deleteUser(id).getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.deleteUser("5", id).getStatus()!=400)
+			if (rh.deleteUser(id).getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());

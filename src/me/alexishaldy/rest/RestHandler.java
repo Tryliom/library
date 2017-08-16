@@ -393,7 +393,7 @@ public class RestHandler {
 	@PUT
 	@Path("/user/delete/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteUser(@PathParam("library_id") String lib, @PathParam("id") String id) {
+	public Response deleteUser(@PathParam("id") String id) {
 		try {
 			Boolean b = DBExecutor.execQuery("DELETE FROM user WHERE id = "+id+";");
 			if (!b)
