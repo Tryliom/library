@@ -45,7 +45,7 @@
 				<configuration>
 					<instrumentation>
 						<excludes>
-							<exclude>me.alexishaldy.test/*/*Test*</exclude>
+							<exclude>me.alexishaldy.test/**/*Test*</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>
