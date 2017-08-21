@@ -45,7 +45,7 @@
 				<configuration>
 					<instrumentation>
 						<excludes>
-							<exclude>*</exclude>
+							<exclude>${project.build.directory}/*</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>
