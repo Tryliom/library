@@ -44,9 +44,9 @@
 				<version>2.7</version>
 				<configuration>
 					<instrumentation>
-						<excludes>
-							<exclude>src/test</exclude>
-						</excludes>
+						<ignores>
+							<ignore>src/test.*</ignore>
+						</ignores>
 					</instrumentation>
 					<formats>
 						<format>html</format>
