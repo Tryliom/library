@@ -45,7 +45,7 @@
 				<configuration>
 					<instrumentation>
 						<excludes>
-							<exclude>${project.build.directory}/*</exclude>
+							<exclude>src/test/*</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>
