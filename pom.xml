@@ -44,9 +44,9 @@
 				<version>2.7</version>
 				<configuration>
 					<instrumentation>
-						<ignores>
-							<ignore>me.alexishaldy.test.AllTest.java</ignore>
-						</ignores>
+						<excludes>
+							<exclude>src/test/**</exclude>
+						</excludes>
 					</instrumentation>
 					<formats>
 						<format>html</format>
