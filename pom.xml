@@ -45,7 +45,7 @@
 				<configuration>
 					<instrumentation>
 						<excludes>
-							<exclude>src\test\me\alexishaldy\test\*Test*</exclude>
+							<exclude>*</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>
