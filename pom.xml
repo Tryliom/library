@@ -45,7 +45,7 @@
 				<configuration>
 					<instrumentation>
 						<ignores>
-							<ignore>me.alexishaldy.test.*</ignore>
+							<ignore>me.alexishaldy.test.AllTest.java</ignore>
 						</ignores>
 					</instrumentation>
 					<formats>
