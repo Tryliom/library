@@ -45,7 +45,7 @@
 				<configuration>
 					<instrumentation>
 						<excludes>
-							<exclude>*/*Test.class</exclude>
+							<exclude>src\test\me\alexishaldy\test\*Test*</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>
