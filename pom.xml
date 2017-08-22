@@ -45,10 +45,10 @@
 				<configuration>
 					<instrumentation>
 						<ignores>
-							<ignore>*</ignore>
+							<ignore>**</ignore>
 						</ignores>
 						<excludes>
-							<exclude>*</exclude>
+							<exclude>**</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>
