@@ -45,10 +45,10 @@
 				<configuration>
 					<instrumentation>
 						<ignores>
-							<ignore>test.me.alexishaldy.test</ignore>
+							<ignore>*</ignore>
 						</ignores>
 						<excludes>
-							<exclude>test/me/alexishaldy/test/AllTest.class</exclude>
+							<exclude>*</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>
