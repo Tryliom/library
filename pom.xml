@@ -44,8 +44,10 @@
 				<version>2.7</version>
 				<configuration>
 					<instrumentation>
+						<ignores>
+							<ignore>test.me.alexishaldy.*</ignore>
+						</ignores>
 						<excludes>
-							<exclude>src/test/*</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>
