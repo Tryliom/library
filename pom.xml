@@ -45,7 +45,7 @@
 				<configuration>
 					<instrumentation>
 						<ignores>
-							<ignore>*.*</ignore>
+							<ignore>me.alexishaldy.test</ignore>
 						</ignores>
 					</instrumentation>
 					<formats>
