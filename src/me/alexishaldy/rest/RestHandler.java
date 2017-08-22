@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response;
 import me.alexishaldy.db.connection.DBExecutor;
 import me.alexishaldy.enumerator.HttpResponseCode;
 import me.alexishaldy.enumerator.SortType;
-import me.alexishaldy.exception.DBException;
 import me.alexishaldy.util.Utils;
 
 @Path("/")
@@ -48,9 +47,13 @@ public class RestHandler {
 	@GET
 	@Path("/swagger.json")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSwaggerJson() {
+	public Response getSwaggerJson(String...file) {
 		try {
-			final String fileName = CURR_DIR + Utils.SEP + ".." + Utils.SEP + ".." + Utils.SEP + Utils.SWAGGER_FILE;
+			String fileName = "";
+			if (file!=null && file.length>0)
+				fileName = file[0];
+			else
+				fileName = CURR_DIR + Utils.SEP + ".." + Utils.SEP + ".." + Utils.SEP + Utils.SWAGGER_FILE;
 			return getResponseWithHeaders(Utils.readFile(fileName), HttpResponseCode.OK);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

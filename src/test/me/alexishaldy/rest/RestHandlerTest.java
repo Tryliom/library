@@ -46,6 +46,13 @@ public class RestHandlerTest {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+		// NOK
+		try {
+			if (rh.getSwaggerJson("errorjson")!=null)
+				fail();
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
 	}
 	
 	@Test
