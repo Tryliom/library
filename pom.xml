@@ -44,11 +44,8 @@
 				<version>2.7</version>
 				<configuration>
 					<instrumentation>
-						<ignores>
-							<ignore>**</ignore>
-						</ignores>
 						<excludes>
-							<exclude>**</exclude>
+							<exclude>test/**</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>
