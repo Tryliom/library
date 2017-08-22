@@ -46,6 +46,8 @@
 					<instrumentation>
 						<excludes>
 							<exclude>**/test/**</exclude>
+							<exclude>**/me/alexishaldy/**/**Test.class</exclude>
+							<exclude>**/me/alexishaldy/**/**/**Test.class</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>
