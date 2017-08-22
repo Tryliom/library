@@ -45,7 +45,7 @@
 				<configuration>
 					<instrumentation>
 						<excludes>
-							<exclude>test/**</exclude>
+							<exclude>**/test/**</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>
