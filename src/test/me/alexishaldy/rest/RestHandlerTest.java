@@ -41,14 +41,14 @@ public class RestHandlerTest {
 	public void getSwagger() {
 		// OK
 		try {
-			if (rh.getSwaggerJson()==null)
+			if (rh.getSwaggerJson().getStatus()==400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.getSwaggerJson("errorjson")!=null)
+			if (rh.getSwaggerJson("").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());

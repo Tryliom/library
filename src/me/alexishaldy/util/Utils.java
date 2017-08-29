@@ -6,10 +6,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Utils {
 	
@@ -67,6 +69,26 @@ public class Utils {
 		}
 		return hm;
 	}
+	
+	public static String findInFile(String path, String arg) {
+		try {
+			Scanner sc;
+			if (path.startsWith("http")) {
+				sc = new Scanner(new URL(path).openStream(), "UTF-8");
+			} else {
+				sc = new Scanner(new File(path), "UTF-8");
+			}
+			while (sc.hasNext()) {
+				String l = sc.nextLine();
+				if (l.startsWith(arg)) {
+					sc.close();
+					return l;
+				}
+			}
+			sc.close();
+		} catch (Exception e) {}
+		return "Not found !";
+	}	
 }
 
 

@@ -1,8 +1,11 @@
 package me.alexishaldy.rest;
 
+import java.io.File;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Vector;
 
 import javax.ws.rs.FormParam;
@@ -14,6 +17,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import me.alexishaldy.db.connection.DBExecutor;
 import me.alexishaldy.enumerator.HttpResponseCode;
@@ -56,7 +66,6 @@ public class RestHandler {
 				fileName = CURR_DIR + Utils.SEP + ".." + Utils.SEP + ".." + Utils.SEP + Utils.SWAGGER_FILE;
 			return getResponseWithHeaders(Utils.readFile(fileName), HttpResponseCode.OK);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
 	}
@@ -492,6 +501,160 @@ public class RestHandler {
 				throw new Exception("Insert failed");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	
+	@GET
+	@Path("/library/feed/{library_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response feedLib(@PathParam("library_id") String lib) {
+		try {
+			String title = "";
+			String author = "";
+			String date = "";
+			String desc = "";
+			String edition = "1";
+			String editeur = "";
+			final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			String letter = "n";
+			int num = 15; 
+			String lastAdd = "";
+			int currentAdd=0;
+			int authNum=0;
+			boolean canPass = false;
+			while (true)
+			try {
+			    final DocumentBuilder builder = factory.newDocumentBuilder();		
+			    final Document doc = builder.parse(new URL("http://bookserver.archive.org/catalog/alpha/"+letter+"/"+num).openStream());
+			    final Element racine = doc.getDocumentElement();
+			    final NodeList racineNoeuds = racine.getChildNodes();
+
+			    final int nbRacineNoeuds = racineNoeuds.getLength();
+				
+			    for (int i = 0; i<nbRacineNoeuds; i++) {
+			        if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
+			            final Node obj = racineNoeuds.item(i);
+			            if (obj.getNodeName().equalsIgnoreCase("entry")) {
+			            	for (int j = 0; j<obj.getChildNodes().getLength(); j++) {
+						        if(obj.getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE) {
+						        	Element n = (Element) obj.getChildNodes().item(j);
+						            if (n.getNodeName().equalsIgnoreCase("title")) {
+						            	String s[];
+						            	s = n.getTextContent().replaceAll("\"", "").split(" : ");
+						            	
+						            	title = s[0];
+						            	if (s.length>=2)
+						            		desc = s[1];
+						            	else
+						            		desc = "Default description";
+						            }
+						            if (n.getNodeName().equalsIgnoreCase("author") && authNum<10) {
+						            	if (author.isEmpty())
+						            		author=n.getTextContent().replaceAll("\"", "");
+						            	else if (author.length()<=1000)
+						            		author+=" | "+n.getTextContent().replaceAll("\"", "");
+						            	authNum++;
+						            }
+						            if (n.getNodeName().equalsIgnoreCase("dcterms:issued")) {
+						            	date = n.getTextContent().replaceAll("\"", "");						            	
+						            }
+						            if (n.getNodeName().equalsIgnoreCase("dcterms:publisher")) {
+						            	editeur = n.getTextContent().replaceAll("\"", "");	
+						            	canPass = true;
+						            }
+						        }				
+						    }
+			            	
+			            }
+			            if (canPass) {
+			            	lastAdd = "INSERT INTO book(title, author, date, description, edition, editeur, library_id) VALUES (\""+title+"\", \""+author+"\", "+date+", "
+									+ "\""+desc+"\", "+edition+", \""+editeur+"\", "+lib+")";			            	
+			            	Boolean b = DBExecutor.execQuery(lastAdd);
+			            	author = "";
+			            	currentAdd++;			            	
+			            	System.out.println("CurrAdd: "+currentAdd+" "+b);
+			            	if (!b)
+			            		System.out.println(lastAdd);
+			            	canPass = false;
+			            	authNum=0;
+			            }
+			        }				
+			    }
+			    num++;
+			    System.out.println("Num: "+num);
+			    System.out.println("Letter: "+letter);
+			} catch (Exception e) {
+			    if (letter.equalsIgnoreCase("z"))
+			    	break;
+			    e.printStackTrace();
+			    System.out.println(lastAdd);
+			    char c = (char) (letter.charAt(0)+1);
+			    String cha = String.valueOf(c);
+			    System.out.println("New letter: "+cha+" & num: "+num);
+			    num = 0;
+			    letter = cha; 
+			    canPass=false;
+			    authNum=0;
+			}
+			Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = t2.title AND t1.library_id = t2.library_id");
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@GET
+	@Path("/library/clear")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response clearDouble() {
+		try {
+			Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = t2.title AND t1.library_id = t2.library_id");
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@GET
+	@Path("/library/feed/{library_id}/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response feedLibByFile(@PathParam("library_id") String lib, @PathParam("filepath") String f) {
+		try {
+			String title = "";
+			String author = "";
+			String date = "";
+			String desc = "";
+			String edition = "";
+			String editeur = "";
+			String lastAdd = "";
+			Scanner sc;
+			if (f.startsWith("http")) {
+				sc = new Scanner(new URL(f).openStream(), "UTF-8");
+			} else {
+				sc = new Scanner(new File(f), "UTF-8");
+			}
+			while (sc.hasNext()) {
+				String l = sc.nextLine();
+				if (l.startsWith("/type/edition")) {
+					String s[] = l.split("\t");
+					if (s.length!=5)
+						System.out.println(s[4]+" "+s.length);
+				}
+			}
+			
+			
+			sc.close();
+//        	lastAdd = "INSERT INTO book(title, author, date, description, edition, editeur, library_id) VALUES (\""+title+"\", \""+author+"\", "+date+", "
+//					+ "\""+desc+"\", "+edition+", \""+editeur+"\", "+lib+")";			            	
+//        	Boolean b = DBExecutor.execQuery(lastAdd);
+//			Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = t2.title");
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
 	}
