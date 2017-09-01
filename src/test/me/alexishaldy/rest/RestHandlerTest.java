@@ -84,7 +84,7 @@ public class RestHandlerTest {
 		}
 		// OK
 		try {
-			if (rh.editBook("title", "author", "1888", "desc", "edition", "editeur", "5", "15").getStatus()!=200)
+			if (rh.editBook("title", "author", "1888", "desc", "1", "editeur", "5", "150").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -358,7 +358,7 @@ public class RestHandlerTest {
 	public void takeBook() {
 		// OK
 		try {
-			if (rh.takeBook("15", "33", "5").getStatus()!=200)
+			if (rh.takeBook("150", "33", "5").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -376,7 +376,7 @@ public class RestHandlerTest {
 	public void returnBook() {
 		// OK
 		try {
-			if (rh.returnBook("15", "33", "5").getStatus()!=200)
+			if (rh.returnBook("150", "33", "5").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());

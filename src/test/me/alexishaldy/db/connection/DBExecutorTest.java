@@ -22,7 +22,7 @@ public class DBExecutorTest {
 	public void execQuery() {
 		// OK
 		try {
-			if (!DBExecutor.execQuery("UPDATE book SET id = 7 WHERE id = 7"))
+			if (!DBExecutor.execQuery("UPDATE book SET id = 70 WHERE id = 70"))
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());

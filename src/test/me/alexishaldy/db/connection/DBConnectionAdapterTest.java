@@ -68,7 +68,7 @@ public class DBConnectionAdapterTest {
 	public void execQuery() {
 		// OK
 		try {
-			if (!db.execQuery("UPDATE book SET id = 7 WHERE id = 7")) 
+			if (!db.execQuery("UPDATE book SET id = 70 WHERE id = 70")) 
 				fail();
 		} catch (DBException e) {
 			fail(e.getMessage());

@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import me.alexishaldy.classes.BookTest;
 import me.alexishaldy.db.connection.DBConnectionAdapterTest;
 import me.alexishaldy.db.connection.DBExecutorTest;
 import me.alexishaldy.db.pool.DBConnectionPoolTest;
@@ -23,7 +24,8 @@ import me.alexishaldy.util.UtilsTest;
 	ColumnTest.class,
 	JSONGeneratorTest.class,
 	RestHandlerTest.class,
-	UtilsTest.class
+	UtilsTest.class,
+	BookTest.class
 })
 public class AllTest {
 

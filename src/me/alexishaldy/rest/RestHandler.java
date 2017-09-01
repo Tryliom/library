@@ -508,227 +508,128 @@ public class RestHandler {
 	}
 	
 	
-	@GET
-	@Path("/library/feed/{library_id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response feedLib(@PathParam("library_id") String lib) {
-		try {
-			String title = "";
-			String author = "";
-			String date = "";
-			String desc = "";
-			String edition = "1";
-			String editeur = "";
-			final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			String letter = "n";
-			int num = 15; 
-			String lastAdd = "";
-			int currentAdd=0;
-			int authNum=0;
-			boolean canPass = false;
-			while (true)
-			try {
-			    final DocumentBuilder builder = factory.newDocumentBuilder();		
-			    final Document doc = builder.parse(new URL("http://bookserver.archive.org/catalog/alpha/"+letter+"/"+num).openStream());
-			    final Element racine = doc.getDocumentElement();
-			    final NodeList racineNoeuds = racine.getChildNodes();
-
-			    final int nbRacineNoeuds = racineNoeuds.getLength();
-				
-			    for (int i = 0; i<nbRacineNoeuds; i++) {
-			        if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
-			            final Node obj = racineNoeuds.item(i);
-			            if (obj.getNodeName().equalsIgnoreCase("entry")) {
-			            	for (int j = 0; j<obj.getChildNodes().getLength(); j++) {
-						        if(obj.getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE) {
-						        	Element n = (Element) obj.getChildNodes().item(j);
-						            if (n.getNodeName().equalsIgnoreCase("title")) {
-						            	String s[];
-						            	s = n.getTextContent().replaceAll("\"", "").split(" : ");
-						            	
-						            	title = s[0];
-						            	if (s.length>=2)
-						            		desc = s[1];
-						            	else
-						            		desc = "Default description";
-						            }
-						            if (n.getNodeName().equalsIgnoreCase("author") && authNum<10) {
-						            	if (author.isEmpty())
-						            		author=n.getTextContent().replaceAll("\"", "");
-						            	else if (author.length()<=1000)
-						            		author+=" | "+n.getTextContent().replaceAll("\"", "");
-						            	authNum++;
-						            }
-						            if (n.getNodeName().equalsIgnoreCase("dcterms:issued")) {
-						            	date = n.getTextContent().replaceAll("\"", "");						            	
-						            }
-						            if (n.getNodeName().equalsIgnoreCase("dcterms:publisher")) {
-						            	editeur = n.getTextContent().replaceAll("\"", "");	
-						            	canPass = true;
-						            }
-						        }				
-						    }
-			            	
-			            }
-			            if (canPass) {
-			            	lastAdd = "INSERT INTO book(title, author, date, description, edition, editeur, library_id) VALUES (\""+title+"\", \""+author+"\", "+date+", "
-									+ "\""+desc+"\", "+edition+", \""+editeur+"\", "+lib+")";			            	
-			            	Boolean b = DBExecutor.execQuery(lastAdd);
-			            	author = "";
-			            	currentAdd++;			            	
-			            	System.out.println("CurrAdd: "+currentAdd+" "+b);
-			            	if (!b)
-			            		System.out.println(lastAdd);
-			            	canPass = false;
-			            	authNum=0;
-			            }
-			        }				
-			    }
-			    num++;
-			    System.out.println("Num: "+num);
-			    System.out.println("Letter: "+letter);
-			} catch (Exception e) {
-			    if (letter.equalsIgnoreCase("z"))
-			    	break;
-			    e.printStackTrace();
-			    System.out.println(lastAdd);
-			    char c = (char) (letter.charAt(0)+1);
-			    String cha = String.valueOf(c);
-			    System.out.println("New letter: "+cha+" & num: "+num);
-			    num = 0;
-			    letter = cha; 
-			    canPass=false;
-			    authNum=0;
-			}
-			Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = t2.title AND t1.library_id = t2.library_id");
-			return getResponseWithHeaders("true", HttpResponseCode.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
-		}
-	}
 	
-	@GET
-	@Path("/library/clear")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response clearDouble() {
-		try {
-			Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = t2.title AND t1.library_id = t2.library_id");
-			return getResponseWithHeaders("true", HttpResponseCode.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
-		}
-	}
-	
-	@GET
-	@Path("/library/feed/file/{library_id}/")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response feedLibByFile(@PathParam("library_id") String lib) {
-		try {
-			String title = "";
-			String author = "";
-			int date = 0;
-			String desc = "";
-			int edition = 0;
-			String editeur = "";
-			
-			int nbLigne = 0;
-			Vector<Book> listBook = new Vector<Book>();
-			String lastAdd = "";
-			File f = new File("C:/Users/haldy/Desktop/db.txt");
-			if (Utils.currThread==null)
-				Utils.startGetAuthors(f);
-			Scanner sc = new Scanner(f, "UTF-8");
-			Vector<Book> listBookRem = new Vector<Book>();
-			nbLigne = 0;
-			while (sc.hasNext()) {
-				nbLigne++;
-				String l = sc.nextLine();
-				if (nbLigne>1200000) {
-					if (nbLigne%10000==0) {
-						// Utils.findAuthorForBooks(listBook);
-						int i = 0;
-						for (Book b : listBook) {
-							if (!b.getAuthor().startsWith("/")) {
-								listBookRem.add(b);
-								i++;
-								Boolean bb = null;
-								try {
-						        	lastAdd = "INSERT INTO book(title, author, date, description, edition, editeur, library_id) VALUES (\""+b.getTitle().replaceAll("\"", "")+"\", \""+b.getAuthor().replaceAll("\"", "")+"\", "+b.getDate()+", "
-											+ "\""+b.getDesc().replaceAll("\"", "")+"\", "+b.getEdition()+", \""+b.getEditeur().replaceAll("\"", "")+"\", "+lib+")";			            	
-						        	bb = DBExecutor.execQuery(lastAdd);
-						        	
-										Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = \""+b.getTitle().replaceAll("\"", "")+"\" AND t2.title = \""+b.getTitle().replaceAll("\"", "")+"\"");
-								} catch (Exception e) {}
-					        	System.out.println(i+": "+bb);
-							}
-						}
-						for (Book b : listBookRem) {
-							listBook.remove(b);
-						}
-					}
-					if (nbLigne%100000==0) {
-						HashMap<String, String> li = (HashMap<String, String>) Utils.listAuthors.clone();
-						int i=0;
-						for (Book b : listBookRem) {
-							i++;
-							String author1 = "No authors";
-							author1 = li.get(b.getAuthor());
-							if (!author1.equalsIgnoreCase("No authors")) {
-								JSONObject obj = new JSONObject(author1);
-								String name = "";
-								if (obj.has("name")) {
-									name = obj.getString("name");
-								} else {
-									name = obj.getString("personal_name");
-								}					
-								b.setAuthor(name.replaceAll("\\[u][0-9a-z]{4}", "?"));							
-							}
-							Boolean bb = DBExecutor.execQuery("UPDATE Book SET author = \""+b.getAuthor()+"\" WHERE title = \""+b.getTitle()+"\"");
-						}
-						if (i%50==0)
-							System.out.println("LigneUpdate "+i);
-					}
-					if (l.startsWith("/type/edition")) {
-						String s[] = l.split("\t");
-						l = s[4];
-						JSONObject obj = new JSONObject(l);
-						// String pageName = obj.getJSONObject("pageInfo").getString("pageName");
-						title = obj.has("title") ? obj.getString("title") : "No title";
-						desc = obj.has("subtitle") ? obj.getString("subtitle") : "No description";
-						try{
-							date = Integer.parseInt(obj.has("publish_date") ? obj.getString("publish_date").replaceAll("([^0-9]?) ", "") : "2000");
-						} catch (Exception e) {
-							date = 2000;
-						}
-						edition = Integer.parseInt(obj.has("revision") ? ""+obj.getInt("revision") : "1");
-						if (obj.has("publishers") && !obj.getJSONArray("publishers").isNull(0)) {
-							editeur = (String) obj.getJSONArray("publishers").get(0);
-							for (int i=1;i<obj.getJSONArray("publishers").length();i++) 
-								editeur+=", "+obj.getJSONArray("publishers").get(i);
-						} else
-							editeur="No publishers";
-						author = (obj.has("authors") && !obj.getJSONArray("authors").isNull(0)) ? obj.getJSONArray("authors").getJSONObject(0).getString("key") : "No authors";
-						listBook.add(new Book(title, desc, author, date, editeur, edition));
-						if (nbLigne%100==0)
-							System.out.println("Book: "+listBook.size()+" ("+nbLigne+")");
-					}
-				} else {
-					if (nbLigne%1000==0)
-						System.out.println("L: "+nbLigne);
-				}
-			}		
-			sc.close();
-			try {
-				Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = t2.title");
-			} catch (Exception e) {}
-			return getResponseWithHeaders("true", HttpResponseCode.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Utils.currThread.stop();
-			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);			
-		}
-	}
+//	@GET
+//	@Path("/library/clear")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response clearDouble() {
+//		try {
+//			Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = t2.title AND t1.library_id = t2.library_id");
+//			return getResponseWithHeaders("true", HttpResponseCode.OK);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+//		}
+//	}
+//	
+//	@GET
+//	@Path("/library/feed/file/{library_id}/")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response feedLibByFile(@PathParam("library_id") String lib) {
+//		try {
+//			String title = "";
+//			String author = "";
+//			int date = 0;
+//			String desc = "";
+//			int edition = 0;
+//			String editeur = "";
+//			
+//			int nbLigne = 0;
+//			Vector<Book> listBook = new Vector<Book>();
+//			String lastAdd = "";
+//			File f = new File("C:/Users/haldy/Desktop/db.txt");
+//			if (Utils.currThread==null)
+//				Utils.startGetAuthors(f);
+//			Scanner sc = new Scanner(f, "UTF-8");
+//			Vector<Book> listBookRem = new Vector<Book>();
+//			nbLigne = 0;
+//			while (sc.hasNext()) {
+//				nbLigne++;
+//				String l = sc.nextLine();
+//				if (nbLigne>1200000) {
+//					if (nbLigne%10000==0) {
+//						// Utils.findAuthorForBooks(listBook);
+//						int i = 0;
+//						for (Book b : listBook) {
+//							if (!b.getAuthor().startsWith("/")) {
+//								listBookRem.add(b);
+//								i++;
+//								Boolean bb = null;
+//								try {
+//						        	lastAdd = "INSERT INTO book(title, author, date, description, edition, editeur, library_id) VALUES (\""+b.getTitle().replaceAll("\"", "")+"\", \""+b.getAuthor().replaceAll("\"", "")+"\", "+b.getDate()+", "
+//											+ "\""+b.getDesc().replaceAll("\"", "")+"\", "+b.getEdition()+", \""+b.getEditeur().replaceAll("\"", "")+"\", "+lib+")";			            	
+//						        	bb = DBExecutor.execQuery(lastAdd);
+//						        	
+//										Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = \""+b.getTitle().replaceAll("\"", "")+"\" AND t2.title = \""+b.getTitle().replaceAll("\"", "")+"\"");
+//								} catch (Exception e) {}
+//					        	System.out.println(i+": "+bb);
+//							}
+//						}
+//						for (Book b : listBookRem) {
+//							listBook.remove(b);
+//						}
+//					}
+//					if (nbLigne%100000==0) {
+//						HashMap<String, String> li = (HashMap<String, String>) Utils.listAuthors.clone();
+//						int i=0;
+//						for (Book b : listBookRem) {
+//							i++;
+//							String author1 = "No authors";
+//							author1 = li.get(b.getAuthor());
+//							if (!author1.equalsIgnoreCase("No authors")) {
+//								JSONObject obj = new JSONObject(author1);
+//								String name = "";
+//								if (obj.has("name")) {
+//									name = obj.getString("name");
+//								} else {
+//									name = obj.getString("personal_name");
+//								}					
+//								b.setAuthor(name.replaceAll("\\[u][0-9a-z]{4}", "?"));							
+//							}
+//							Boolean bb = DBExecutor.execQuery("UPDATE Book SET author = \""+b.getAuthor()+"\" WHERE title = \""+b.getTitle()+"\"");
+//						}
+//						if (i%50==0)
+//							System.out.println("LigneUpdate "+i);
+//					}
+//					if (l.startsWith("/type/edition")) {
+//						String s[] = l.split("\t");
+//						l = s[4];
+//						JSONObject obj = new JSONObject(l);
+//						// String pageName = obj.getJSONObject("pageInfo").getString("pageName");
+//						title = obj.has("title") ? obj.getString("title") : "No title";
+//						desc = obj.has("subtitle") ? obj.getString("subtitle") : "No description";
+//						try{
+//							date = Integer.parseInt(obj.has("publish_date") ? obj.getString("publish_date").replaceAll("([^0-9]?) ", "") : "2000");
+//						} catch (Exception e) {
+//							date = 2000;
+//						}
+//						edition = Integer.parseInt(obj.has("revision") ? ""+obj.getInt("revision") : "1");
+//						if (obj.has("publishers") && !obj.getJSONArray("publishers").isNull(0)) {
+//							editeur = (String) obj.getJSONArray("publishers").get(0);
+//							for (int i=1;i<obj.getJSONArray("publishers").length();i++) 
+//								editeur+=", "+obj.getJSONArray("publishers").get(i);
+//						} else
+//							editeur="No publishers";
+//						author = (obj.has("authors") && !obj.getJSONArray("authors").isNull(0)) ? obj.getJSONArray("authors").getJSONObject(0).getString("key") : "No authors";
+//						listBook.add(new Book(title, desc, author, date, editeur, edition));
+//						if (nbLigne%100==0)
+//							System.out.println("Book: "+listBook.size()+" ("+nbLigne+")");
+//					}
+//				} else {
+//					if (nbLigne%1000==0)
+//						System.out.println("L: "+nbLigne);
+//				}
+//			}		
+//			sc.close();
+//			try {
+//				Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = t2.title");
+//			} catch (Exception e) {}
+//			return getResponseWithHeaders("true", HttpResponseCode.OK);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			Utils.currThread.stop();
+//			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);			
+//		}
+//	}
 	
 }
