@@ -3,15 +3,18 @@ package me.alexishaldy.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Vector;
+
+import org.json.JSONObject;
+
+import me.alexishaldy.classes.Book;
 
 public class Utils {
 	
@@ -19,6 +22,8 @@ public class Utils {
 	public static final String DB_CONF = "conf" + SEP + "db.properties";
 	public static final String REST_CONF = "conf" + SEP + "rest.properties";
 	public static final String SWAGGER_FILE = "web" + SEP + "swagger.json";
+	public static HashMap<String, String> listAuthors = new HashMap<String, String>();
+	public static Thread currThread = null;
 	
 	public static String readFile(String fileName) throws IOException {
 		FileInputStream fis = new FileInputStream(new File(fileName));
@@ -70,25 +75,33 @@ public class Utils {
 		return hm;
 	}
 	
-	public static String findInFile(String path, String arg) {
-		try {
-			Scanner sc;
-			if (path.startsWith("http")) {
-				sc = new Scanner(new URL(path).openStream(), "UTF-8");
-			} else {
-				sc = new Scanner(new File(path), "UTF-8");
-			}
-			while (sc.hasNext()) {
-				String l = sc.nextLine();
-				if (l.startsWith(arg)) {
+	public static void startGetAuthors(final File f) {
+		currThread = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				Scanner sc;
+				try {
+					sc = new Scanner(f, "UTF-8");
+					while (sc.hasNext()) {
+						String l = sc.nextLine();
+						if (l.startsWith("/type/author")) {
+							String s[] = l.split("\t");		
+							try {
+								listAuthors.put(s[1], s[4]);
+							} catch (Exception e) {
+								System.out.println(l);
+							}
+							if (listAuthors.size()%1000==0)
+								System.out.println("Authors: "+listAuthors.size());
+						}
+					}
 					sc.close();
-					return l;
-				}
+				} catch (FileNotFoundException e) {}
 			}
-			sc.close();
-		} catch (Exception e) {}
-		return "Not found !";
-	}	
+		});
+		currThread.start();
+	}
 }
 
 

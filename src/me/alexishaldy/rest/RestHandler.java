@@ -20,11 +20,13 @@ import javax.ws.rs.core.Response;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import me.alexishaldy.classes.Book;
 import me.alexishaldy.db.connection.DBExecutor;
 import me.alexishaldy.enumerator.HttpResponseCode;
 import me.alexishaldy.enumerator.SortType;
@@ -620,42 +622,112 @@ public class RestHandler {
 	}
 	
 	@GET
-	@Path("/library/feed/{library_id}/")
+	@Path("/library/feed/file/{library_id}/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response feedLibByFile(@PathParam("library_id") String lib, @PathParam("filepath") String f) {
+	public Response feedLibByFile(@PathParam("library_id") String lib) {
 		try {
 			String title = "";
 			String author = "";
-			String date = "";
+			int date = 0;
 			String desc = "";
-			String edition = "";
+			int edition = 0;
 			String editeur = "";
+			
+			int nbLigne = 0;
+			Vector<Book> listBook = new Vector<Book>();
 			String lastAdd = "";
-			Scanner sc;
-			if (f.startsWith("http")) {
-				sc = new Scanner(new URL(f).openStream(), "UTF-8");
-			} else {
-				sc = new Scanner(new File(f), "UTF-8");
-			}
+			File f = new File("C:/Users/haldy/Desktop/db.txt");
+			if (Utils.currThread==null)
+				Utils.startGetAuthors(f);
+			Scanner sc = new Scanner(f, "UTF-8");
+			Vector<Book> listBookRem = new Vector<Book>();
+			nbLigne = 0;
 			while (sc.hasNext()) {
+				nbLigne++;
 				String l = sc.nextLine();
-				if (l.startsWith("/type/edition")) {
-					String s[] = l.split("\t");
-					if (s.length!=5)
-						System.out.println(s[4]+" "+s.length);
+				if (nbLigne>1200000) {
+					if (nbLigne%10000==0) {
+						// Utils.findAuthorForBooks(listBook);
+						int i = 0;
+						for (Book b : listBook) {
+							if (!b.getAuthor().startsWith("/")) {
+								listBookRem.add(b);
+								i++;
+								Boolean bb = null;
+								try {
+						        	lastAdd = "INSERT INTO book(title, author, date, description, edition, editeur, library_id) VALUES (\""+b.getTitle().replaceAll("\"", "")+"\", \""+b.getAuthor().replaceAll("\"", "")+"\", "+b.getDate()+", "
+											+ "\""+b.getDesc().replaceAll("\"", "")+"\", "+b.getEdition()+", \""+b.getEditeur().replaceAll("\"", "")+"\", "+lib+")";			            	
+						        	bb = DBExecutor.execQuery(lastAdd);
+						        	
+										Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = \""+b.getTitle().replaceAll("\"", "")+"\" AND t2.title = \""+b.getTitle().replaceAll("\"", "")+"\"");
+								} catch (Exception e) {}
+					        	System.out.println(i+": "+bb);
+							}
+						}
+						for (Book b : listBookRem) {
+							listBook.remove(b);
+						}
+					}
+					if (nbLigne%100000==0) {
+						HashMap<String, String> li = (HashMap<String, String>) Utils.listAuthors.clone();
+						int i=0;
+						for (Book b : listBookRem) {
+							i++;
+							String author1 = "No authors";
+							author1 = li.get(b.getAuthor());
+							if (!author1.equalsIgnoreCase("No authors")) {
+								JSONObject obj = new JSONObject(author1);
+								String name = "";
+								if (obj.has("name")) {
+									name = obj.getString("name");
+								} else {
+									name = obj.getString("personal_name");
+								}					
+								b.setAuthor(name.replaceAll("\\[u][0-9a-z]{4}", "?"));							
+							}
+							Boolean bb = DBExecutor.execQuery("UPDATE Book SET author = \""+b.getAuthor()+"\" WHERE title = \""+b.getTitle()+"\"");
+						}
+						if (i%50==0)
+							System.out.println("LigneUpdate "+i);
+					}
+					if (l.startsWith("/type/edition")) {
+						String s[] = l.split("\t");
+						l = s[4];
+						JSONObject obj = new JSONObject(l);
+						// String pageName = obj.getJSONObject("pageInfo").getString("pageName");
+						title = obj.has("title") ? obj.getString("title") : "No title";
+						desc = obj.has("subtitle") ? obj.getString("subtitle") : "No description";
+						try{
+							date = Integer.parseInt(obj.has("publish_date") ? obj.getString("publish_date").replaceAll("([^0-9]?) ", "") : "2000");
+						} catch (Exception e) {
+							date = 2000;
+						}
+						edition = Integer.parseInt(obj.has("revision") ? ""+obj.getInt("revision") : "1");
+						if (obj.has("publishers") && !obj.getJSONArray("publishers").isNull(0)) {
+							editeur = (String) obj.getJSONArray("publishers").get(0);
+							for (int i=1;i<obj.getJSONArray("publishers").length();i++) 
+								editeur+=", "+obj.getJSONArray("publishers").get(i);
+						} else
+							editeur="No publishers";
+						author = (obj.has("authors") && !obj.getJSONArray("authors").isNull(0)) ? obj.getJSONArray("authors").getJSONObject(0).getString("key") : "No authors";
+						listBook.add(new Book(title, desc, author, date, editeur, edition));
+						if (nbLigne%100==0)
+							System.out.println("Book: "+listBook.size()+" ("+nbLigne+")");
+					}
+				} else {
+					if (nbLigne%1000==0)
+						System.out.println("L: "+nbLigne);
 				}
-			}
-			
-			
+			}		
 			sc.close();
-//        	lastAdd = "INSERT INTO book(title, author, date, description, edition, editeur, library_id) VALUES (\""+title+"\", \""+author+"\", "+date+", "
-//					+ "\""+desc+"\", "+edition+", \""+editeur+"\", "+lib+")";			            	
-//        	Boolean b = DBExecutor.execQuery(lastAdd);
-//			Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = t2.title");
+			try {
+				Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = t2.title");
+			} catch (Exception e) {}
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+			Utils.currThread.stop();
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);			
 		}
 	}
 	

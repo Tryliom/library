@@ -19,4 +19,7 @@ echo "
 </table></form>
 </div>
 ";
+
+if (isset($_POST['book']))
+	require_once($_POST['book'].".php");
 ?>
