@@ -20,6 +20,8 @@ echo "
 </div>
 ";
 
-if (isset($_POST['book']))
+if (isset($_POST['book'])) {
 	require_once($_POST['book'].".php");
+	echo "Oui $_POST['book']";
+}
 ?>
