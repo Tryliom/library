@@ -441,7 +441,7 @@ public class RestHandlerTest {
 			fail(e.getMessage());
 		}
 		// OK
-		String id = "30";
+		String id = ""+33+Math.round(Math.random()*600);
 		
 		try {
 			if (rh.deleteUser(id).getStatus()!=200)
@@ -468,7 +468,7 @@ public class RestHandlerTest {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-		String id = "373";
+		String id = ""+Math.round(Math.random()*1000);
 		
 		try {
 			if (rh.deleteBook(id).getStatus()!=200)
@@ -517,7 +517,7 @@ public class RestHandlerTest {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-		String id = "40";
+		String id = "35";
 		// OK
 		try {
 			if (rh.editLib("TestLib2", "Rue du test +1", id).getStatus()!=200)
