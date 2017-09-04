@@ -141,7 +141,7 @@ public class DBConnectionAdapter extends DBConnection {
 			
 			// Retrieve the results
 			while (resultSet.next()) {
-				for (int i = 0;i<resultSet.getRow()-1;i++) {
+				for (int i = 1;i<resultSet.getRow()-1;i++) {
 					result.addElement(resultSet.getString(i));
 				}
 			}
