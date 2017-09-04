@@ -441,12 +441,7 @@ public class RestHandlerTest {
 			fail(e.getMessage());
 		}
 		// OK
-		String sql = "SELECT MAX(id) FROM User";
-		Vector<String> list = new Vector<String>();
-		try {
-			list = DBExecutor.selectQuery(sql);
-		} catch (Exception e1) {}
-		String id = list.get(0);
+		String id = "30";
 		
 		try {
 			if (rh.deleteUser(id).getStatus()!=200)
@@ -473,13 +468,7 @@ public class RestHandlerTest {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-		// OK
-		String sql = "SELECT MAX(id) FROM Book";
-		Vector<String> list = new Vector<String>();
-		try {
-			list = DBExecutor.selectQuery(sql);
-		} catch (Exception e1) {}
-		String id = list.get(0);
+		String id = "373";
 		
 		try {
 			if (rh.deleteBook(id).getStatus()!=200)
@@ -528,12 +517,7 @@ public class RestHandlerTest {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-		String sql = "SELECT MAX(id) FROM Library";
-		Vector<String> list = new Vector<String>();
-		try {
-			list = DBExecutor.selectQuery(sql);
-		} catch (Exception e1) {}
-		String id = list.get(0);
+		String id = "40";
 		// OK
 		try {
 			if (rh.editLib("TestLib2", "Rue du test +1", id).getStatus()!=200)
