@@ -88,7 +88,7 @@ public class DBConnectionPool {
 	 * @return	An instance to the ConnectionPool
 	 * @exception DBException Throws an exception in case a problem with the DB has occurred
 	 */
-	public static DBConnectionPool getInstance() throws Exception{
+	public static DBConnectionPool getInstance() throws Exception {
 		synchronized(_createInstanceLock) {
 			if (_instance == null)
 				_instance = new DBConnectionPool();

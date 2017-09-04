@@ -138,14 +138,15 @@ public class DBConnectionAdapter extends DBConnection {
 			statement = _connection.createStatement();
 			resultSet = statement.executeQuery(query);
 			Vector<String> result = new Vector<String>();
-
-			int i = 0;
-			while (true) {
-				i++;
-				try {
-					result.addElement(resultSet.getString(i));
-				} catch (Exception e) {
-					break;
+			while (resultSet.next()) {
+				int i = 0;
+				while (true) {
+					i++;
+					try {
+						result.add(resultSet.getString(i));
+					} catch (Exception e) {
+						break;
+					}
 				}
 			}
 			
