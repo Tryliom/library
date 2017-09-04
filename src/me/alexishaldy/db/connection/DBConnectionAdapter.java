@@ -139,10 +139,13 @@ public class DBConnectionAdapter extends DBConnection {
 			resultSet = statement.executeQuery(query);
 			Vector<String> result = new Vector<String>();
 			
-			// Retrieve the results
-			while (resultSet.next()) {
-				for (int i = 1;i<resultSet.getRow()-1;i++) {
+			int i = 0;
+			while (true) {
+				i++;
+				try {
 					result.addElement(resultSet.getString(i));
+				} catch (Exception e) {
+					break;
 				}
 			}
 			
