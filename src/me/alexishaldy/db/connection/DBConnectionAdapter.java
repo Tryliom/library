@@ -60,7 +60,7 @@ public class DBConnectionAdapter extends DBConnection {
 		super(host, port, user, pass);
 		try {
 			System.out.println("Creating connection " + CONN_PREFIX + host + ":" + port);
-			_connection = DriverManager.getConnection(CONN_PREFIX + host + ":" + port + "/library?verifyServerCertificate=false&useSSL=true&autoReconnect=true&maxReconnects=1&connectTimeout=1000", user, pass);
+			_connection = DriverManager.getConnection(CONN_PREFIX + host + ":" + port + "/library?verifyServerCertificate=false&useSSL=true&autoReconnect=true&maxReconnects=1&connectTimeout=100", user, pass);
 		} catch (SQLException e) {
 			if (e.getErrorCode() == 2026) {
 				System.err.println("Maximum number of connections exceeded (" + e.getMessage() + ")");
