@@ -1,26 +1,16 @@
 <?php
 session_start();
-$bdd;
-ini_set('magic_quotes_gpc', 1);
-try
-{
-	$bdd = new PDO('mysql:host=localhost:3307;dbname=library;charset=utf8', 'root', '');
-}
-catch (Exception $e)
-{
-	echo "erreur bdd";
-}
 require_once("header.html");
 
-function isValid($bdd, $token) {
-	$rep = $bdd->query('SELECT username FROM user WHERE token = "'.$token.'"');
-	$b;
-	$r = $rep->fetch();
-	try {
-		$b = !empty($r['username']);
-	} catch (Exception $e) {
-		$b = false;
-	}
+function isValid($token) {
+	$b=false;
+	$json_source = file_get_contents('http://localhost:6080/user/verif/member/'.$token);
+	$jd= json_decode($json_source);
+	$name = $jd[0]->username;
+	if (empty($name))
+		$b=false;
+	else
+		$b=true;
 	return $b;
 }
 

@@ -10,7 +10,14 @@ if (isset($_SESSION['token_admin']) && isset($_REQUEST['logout'])) {
 
 
 if (isset($_SESSION['token_admin'])) {
-	require_once("admin_lib.php");
+	echo "<h1 style='color:#f77;'>Mode Admin</h1>
+<form name='lg' method='post'><table>
+<tr>
+	<td><input id='button' type='submit' name='logout' value='Se déconnecter' /></td>
+</tr>
+
+</table></form>";
+	require_once("list_lib.php");
 	
 } else {
 	if (isset($_REQUEST['login'])) {
@@ -30,7 +37,7 @@ if (isset($_SESSION['token_admin'])) {
 			curl_close ($ch);
 			if ($s=="true") {
 				$_SESSION['token_admin'] = $token;				
-				//header("Location: admin_panel.php");
+				header("Location: admin_panel.php");
 			} else {
 				echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: $s</p>";
 			}

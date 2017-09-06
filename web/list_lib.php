@@ -189,13 +189,13 @@ $jd= json_decode($json_source);
 			<tr>
 				<form method='post'>
 					<input type='hidden' name='lib_list' />
-					<td ".setWidth($lid).">
+					<td ".setWidth('ID').">
 						<input id='textmin' type='text' value='$lid' name='id' />
 					</td>
-					<td ".setWidth($name).">
+					<td ".setWidth('Nom').">
 						<input id='textmin' type='text' name='name' value='$name' />
 					</td>
-					<td ".setWidth($adress).">
+					<td ".setWidth('Adresse').">
 						<input id='textmin' type='text' name='adress' value='$adress' />
 					</td>
 					<td> 
@@ -231,7 +231,7 @@ $jd= json_decode($json_source);
 	
 	
 	
-	$json_source = file_get_contents('http://localhost:6080/book/get/');
+	$json_source = file_get_contents('http://localhost:6080/book/get/1');
 	$jd= json_decode($json_source);
 	$h = "<h1>Gestion des livres</h1><table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Librarie ID</th><th>Options</th><tr>";
 	$m = "";
@@ -394,7 +394,7 @@ $jd= json_decode($json_source);
 	
 	
 	function setWidth($s) {
-		return "style='width:".(strlen($s)+4)."%;'";
+		return "style='width:".(strlen($s))."%;'";
 	}
 ?>
 

@@ -23,7 +23,7 @@ if (isset($_REQUEST['return'])) {
 
 $h = "<table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Option</th><tr>";
 $m = "";
-$json_source = file_get_contents('http://localhost:6080/book/get/');
+$json_source = file_get_contents('http://localhost:6080/book/get/1');
 $jd= json_decode($json_source);
 for ($i=0;$i<sizeof($jd);$i++) {
 	$bid = $jd[$i]->id;

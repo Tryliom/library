@@ -5,7 +5,12 @@ if (strpos($_SERVER['PHP_SELF'], 'admin_lib.php') !== false) {
 echo "
 <div>
 <h1 style='color:#f77;'>Mode Admin</h1>
-<p>Tous les boutons doivent encore être codés</p>
+<form name='lg' method='post'><table>
+<tr>
+	<td><input id='button' type='submit' name='logout' value='Se déconnecter' /></td>
+</tr>
+
+</table></form>
 <table cellspacing='30'><tr><td>
 <form name='book' method='post'><table id='user' cellspacing=15><h1>Gestion des livres</h1>
 
@@ -33,17 +38,20 @@ echo "
 
 
 if (isset($_POST['list_book'])) {
-	require_once("list_book_admin.php");
+	$choice="list_book_admin";
 }
 if (isset($_POST['list_renter'])) {
-	require_once("list_renter_admin.php");
+	$choice="list_renter_admin";
 }
 
 if (isset($_POST['list_user'])) {
-	require_once("list_user_admin.php");
+	$choice="list_user_admin";
 }
 if (isset($_POST['warn_user'])) {
-	require_once("warn_user_admin.php");
+	$choice="warn_user_admin";
 }
+
+if (!empty($choice))
+	require_once($choice.".php");
 
 ?>

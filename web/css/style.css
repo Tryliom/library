@@ -84,7 +84,15 @@ table td#user, table p#user {
 	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
-
+#textmin {
+	padding:15px 0px;
+	border: 2px solid #ddd;
+	background-color:#fff;
+	text-decoration:none;
+	display:inline-block;
+	border-radius:3px;
+	color:black;
+}
 
 
 
