@@ -11,17 +11,19 @@ echo "
 	<td><input id='bookmanager' type='submit' name='list_book' value='Liste des livres' /></td>
 	<td><input id='bookmanager' type='submit' name='list_renter' value='Liste des livres empruntés' /></td>
 </tr>
-<tr>
-	<td><input id='bookmanager' type='submit' name='take_book' value='Emprunter un livre' /></td>
-	<td><input id='bookmanager' type='submit' name='return_book' value='Rendre un livre' /></td>
-</tr>
 
 </table></form>
 </div>
 ";
 
-if (isset($_POST['book'])) {
-	require_once($_POST['book'].".php");
-	echo "Oui $_POST['book']";
+
+
+if (isset($_POST['list_book'])) {
+	$choice = "list_book";
 }
+if (isset($_POST['list_renter'])) {
+	$choice = "list_renter";
+}
+if (isset($choice))
+	require_once($choice.".php");
 ?>

@@ -147,7 +147,7 @@ public class RestHandler {
 
 	
 	@GET
-	@Path("/book/get/{id}")
+	@Path("/book/getid/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getBookById(@PathParam("id") String id) {
 		try {
@@ -162,13 +162,14 @@ public class RestHandler {
 	
 	
 	@GET
-	@Path("/book/get")
+	@Path("/book/get/{nb_page}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getBook() {
+	public Response getBook(@PathParam("nb_page") String nb_page) {
 		try {
-			Vector<String> list = DBExecutor.selectAll("book");
-			HashMap<Integer, String> hash = Utils.putInMap("id title author date description edition editor user_id library_id".split(" "));	
-			
+			int nbPage = Integer.parseInt(nb_page);
+			String sql = "SELECT * FROM book LIMIT "+(100*(nbPage-1))+", "+100;
+			Vector<String> list = DBExecutor.selectQuery(sql);
+			HashMap<Integer, String> hash = Utils.putInMap("id title author date description edition editor user_id library_id".split(" "));
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
