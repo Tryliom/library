@@ -38,24 +38,6 @@ public class RestHandlerTest {
 	}
 	
 	@Test
-	public void getSwagger() {
-		// OK
-		try {
-			if (rh.getSwaggerJson().getStatus()==400)
-				fail();
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-		// NOK
-		try {
-			if (rh.getSwaggerJson("fjfjfj").getStatus()!=400)
-				fail();
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
-	
-	@Test
 	public void addBook() {
 		// NOK
 		try {

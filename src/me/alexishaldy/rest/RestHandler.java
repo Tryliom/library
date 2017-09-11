@@ -38,28 +38,10 @@ public class RestHandler {
 		return Response.ok(content).
 				status(status.getValue()).
 				header("Access-Control-Allow-Origin","*").
-				header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE").
+				header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE").
 				header("Access-Control-Max-Age", "3600").
 				header("Access-Control-Allow-Headers", "x-requested-with").build();
-	}
-	
-	
-	@GET
-	@Path("/swagger.json")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSwaggerJson(String...file) {
-		try {
-			String fileName = "";
-			if (file!=null && file.length>0)
-				fileName = file[0];
-			else
-				fileName = CURR_DIR + Utils.SEP + ".." + Utils.SEP + ".." + Utils.SEP + Utils.SWAGGER_FILE;
-			return getResponseWithHeaders(Utils.readFile(fileName), HttpResponseCode.OK);
-		} catch (Exception e) {
-			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
-		}
-	}
-	
+	}	
 	
 	@POST // Ne pas mettre les {} dans l'url
 	@Path("/book/add")
