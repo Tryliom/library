@@ -1,11 +1,8 @@
 package me.alexishaldy.rest;
 
-import java.io.File;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Vector;
 
 import javax.ws.rs.FormParam;
@@ -17,16 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import me.alexishaldy.classes.Book;
 import me.alexishaldy.db.connection.DBExecutor;
 import me.alexishaldy.enumerator.HttpResponseCode;
 import me.alexishaldy.enumerator.SortType;
@@ -162,12 +150,12 @@ public class RestHandler {
 	
 	
 	@GET
-	@Path("/book/get/{nb_page}")
+	@Path("/book/get/{nb_page}/{library_id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getBook(@PathParam("nb_page") String nb_page) {
+	public Response getBook(@PathParam("nb_page") String nb_page, @PathParam("library_id") String lib) {
 		try {
 			int nbPage = Integer.parseInt(nb_page);
-			String sql = "SELECT * FROM book LIMIT "+(100*(nbPage-1))+", "+100;
+			String sql = "SELECT * FROM book WHERE library_id = "+lib+" OR "+lib+" = -1 LIMIT "+(100*(nbPage-1))+", "+100;
 			Vector<String> list = DBExecutor.selectQuery(sql);
 			HashMap<Integer, String> hash = Utils.putInMap("id title author date description edition editor user_id library_id".split(" "));
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
@@ -368,7 +356,7 @@ public class RestHandler {
 			
 			HashMap<Integer, String> hash = Utils.putInMap("username".split(" "));	
 			
-			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
+			return getResponseWithHeaders(hash.size()>0 ? JSONGenerator.getJsonWithTable(list, hash) : "", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
@@ -381,7 +369,7 @@ public class RestHandler {
 		try {
 			Vector<String> list = DBExecutor.selectQuery("SELECT (NOW()-max_return_date) AS max_return_date, book_id, user_id FROM renter WHERE return_date IS NULL AND NOW()-max_return_date>0 AND library_id = "+lib);
 			
-			HashMap<Integer, String> hash = Utils.putInMap("max_return_date book_id user_id".split(" "));	
+			HashMap<Integer, String> hash = Utils.putInMap("max_return_date book_id user_id".split(" "));
 			
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
 		} catch (Exception e) {
@@ -547,7 +535,7 @@ public class RestHandler {
 //			while (sc.hasNext()) {
 //				nbLigne++;
 //				String l = sc.nextLine();
-//				if (nbLigne>1200000) {
+//				if (nbLigne>1) {
 //					if (nbLigne%10000==0) {
 //						// Utils.findAuthorForBooks(listBook);
 //						int i = 0;
@@ -561,9 +549,10 @@ public class RestHandler {
 //											+ "\""+b.getDesc().replaceAll("\"", "")+"\", "+b.getEdition()+", \""+b.getEditeur().replaceAll("\"", "")+"\", "+lib+")";			            	
 //						        	bb = DBExecutor.execQuery(lastAdd);
 //						        	
-//										Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = \""+b.getTitle().replaceAll("\"", "")+"\" AND t2.title = \""+b.getTitle().replaceAll("\"", "")+"\"");
+//										Boolean bo = DBExecutor.execQuery("DELETE t1 FROM book AS t1, book AS t2 WHERE t1.id > t2.id AND t1.title = \""+b.getTitle().replaceAll("\"", "")+"\" AND t2.title = \""+b.getTitle().replaceAll("\"", "")+"\" AND t1.library_id = t2.library_id");
 //								} catch (Exception e) {}
-//					        	System.out.println(i+": "+bb);
+//								if (i%10==0)
+//									System.out.println(i+": "+bb);
 //							}
 //						}
 //						for (Book b : listBookRem) {

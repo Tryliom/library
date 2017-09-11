@@ -85,6 +85,7 @@ table td#user, table p#user {
 }
 
 #textmin {
+	width:100%;
 	padding:15px 0px;
 	border: 2px solid #ddd;
 	background-color:#fff;
@@ -92,6 +93,7 @@ table td#user, table p#user {
 	display:inline-block;
 	border-radius:3px;
 	color:black;
+	float:left;
 }
 
 

@@ -66,7 +66,8 @@ if (isset($_REQUEST['delete'])) {
 	}
 }
 
-$json_source = file_get_contents('http://localhost:6080/book/get/1');
+require_once('page.php');
+$json_source = file_get_contents('http://localhost:6080/book/get/'.$page.'/'.$_SESSION['lib']);
 $jd= json_decode($json_source);
 $h = "<table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Emprunté ?</th><th>Option</th><tr>";
 $m = "";
@@ -84,6 +85,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 		<form method=post>
 			<input type='hidden' value='$bid' name='id'/>
 			<input type='hidden' value='5' name='$choice'/>
+			<input type='hidden' value='$page' name='page'/>
 			<td ".setWidth($title)."><input id='textmin' type='text' name='title' value='$title' /></td>
 			<td ".setWidth($author)."><input id='textmin' type='text' name='author' value='$author' /></td>
 			<td ".setWidth($date)."><input id='textmin' type='text' name='date' value='$date' /></td>

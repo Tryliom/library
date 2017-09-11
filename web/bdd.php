@@ -6,10 +6,10 @@ function isValid($token) {
 	$b=false;
 	$json_source = file_get_contents('http://localhost:6080/user/verif/member/'.$token);
 	$jd= json_decode($json_source);
-	$name = $jd[0]->username;
-	if (empty($name))
+	$name = empty($jd) ? "" : $jd[0]->username;
+	if (empty($name)) {
 		$b=false;
-	else
+	} else
 		$b=true;
 	return $b;
 }
@@ -40,4 +40,13 @@ function isPage($s) {
 	return "";
 }
 
+function getTextByLvl($lvl) {
+	if ($lvl>=7)
+		return "§cSuperAdmin";
+	if ($lvl==6)
+		return "§cAdmin";
+	if ($lvl==0)
+		return "§bMembre";
+}
+	
 ?>

@@ -226,14 +226,13 @@ $jd= json_decode($json_source);
 	</table>";
 		echo "$h $m $b";
 	
-	
-	
-	
-	
-	
-	$json_source = file_get_contents('http://localhost:6080/book/get/1');
+	$libadmin = -1;
+	$choice = "adminlol";
+	echo "<h1>Gestion des livres</h1>";
+	require_once('page.php');	
+	$json_source = file_get_contents('http://localhost:6080/book/get/'.$page.'/-1');
 	$jd= json_decode($json_source);
-	$h = "<h1>Gestion des livres</h1><table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Librarie ID</th><th>Options</th><tr>";
+	$h = "<table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Librarie ID</th><th>Options</th>";
 	$m = "";
 	for ($i=0;$i<sizeof($jd);$i++) {
 		$bid = $jd[$i]->id;
@@ -245,7 +244,7 @@ $jd= json_decode($json_source);
 		$editor = $jd[$i]->editor;
 		$user_id = $jd[$i]->user_id;
 		$lib = $jd[$i]->library_id;
-		$m .= "
+		$m .= "<tr>
 		<form method=post>
 		<input type='hidden' name='book_list' />
 		<input type='hidden' value='$bid' name='id'/>
@@ -278,7 +277,7 @@ $jd= json_decode($json_source);
 	</select>
 	</td>
 	<td><input style='width:100%;' id='button' type='submit' value='Ajouter un nouveau livre' name='add' /></td></tr></form></table>";
-		echo "$h $m $b";
+	echo "$h $m $b";
 	
 	
 	
@@ -382,19 +381,8 @@ $jd= json_decode($json_source);
 
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	function setWidth($s) {
-		return "style='width:".(strlen($s))."%;'";
+		return "style='width:".(strlen($s)+4)."%;'";
 	}
 ?>
 

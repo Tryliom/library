@@ -66,29 +66,20 @@ if ($w === 4) {
 		$w = 4;
 	} 
 	if ($w === 1) {
-		$rep = $bdd->query('SELECT username FROM user WHERE username = "'.$_REQUEST['username'].'" AND password = "'.sha1($_REQUEST['pass']).'"');
-		$r = $rep->fetch();
-		if ($r['username'] == $_REQUEST['username']) {
-			// Généré une new token et le garder co
-			$token = generateToken(32);
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/admin/update/".$_REQUEST['username']."/".sha1($_REQUEST['pass'])."/$token");
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			$s = curl_exec ($ch);
-			curl_close ($ch);
-			if (!$s) {
-				echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: $s</p>";
-			} else {
-				$_SESSION['token_admin'] = $token;				
-				header("Location: admin_panel.php");
-			}
-			$bdd->query('UPDATE user SET token = "'.$token.'" WHERE username = "'.$_REQUEST['username'].'" AND password = "'.sha1($_REQUEST['pass']).'"');
-			$_SESSION['token'] = $token;
-			header("Location: index.php");
+		// Généré une new token et le garder co
+		$token = generateToken(32);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/member/update/".$_REQUEST['username']."/".sha1($_REQUEST['pass'])."/$token/".$_SESSION['lib']);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$s = curl_exec ($ch);
+		curl_close ($ch);
+		if ($s==="true") {
+			$_SESSION['token'] = $token;				
+			header("Location: user.php");			
 		} else {
-			echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: Pseudo ou mot de passe invalide</p>";
-		}
+			echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: $s</p>";
+		}				
 	}
 
 }

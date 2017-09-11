@@ -22,9 +22,10 @@ if (isset($_REQUEST['return'])) {
 	}
 }
 
+require_once('page.php');
 $h = "<table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Option</th><tr>";
 $m = "";
-$json_source = file_get_contents('http://localhost:6080/book/get/1');
+$json_source = file_get_contents('http://localhost:6080/book/get/'.$page.'/'.$_SESSION['lib']);
 $jd= json_decode($json_source);
 for ($i=0;$i<sizeof($jd);$i++) {
 	$bid = $jd[$i]->id;
@@ -41,15 +42,13 @@ for ($i=0;$i<sizeof($jd);$i++) {
 		$name = "Rendre";
 		$dis = "";
 		$n = "return";
-
-		if ($lib===$_SESSION['lib'])
-			$m .= "
-			<form method=post>
-			<input type='hidden' value='$bid' name='id'/>
-			<input type='hidden' value='5' name='$choice'/>
-			<td id='textdisp'>$title</td><td id='textdisp'>$author</td><td id='textdisp'>$date</td><td id='textdisp'>$edition</td><td id='textdisp'>$editor</td><td id='textdisp'>$desc</td>
-			<td><input id='button' style='width:100%;' type='submit' value='$name' name='$n' $dis /></td>
-			</form></tr>";
+		$m .= "
+		<form method=post>
+		<input type='hidden' value='$bid' name='id'/>
+		<input type='hidden' value='5' name='$choice'/>
+		<td id='textdisp'>$title</td><td id='textdisp'>$author</td><td id='textdisp'>$date</td><td id='textdisp'>$edition</td><td id='textdisp'>$editor</td><td id='textdisp'>$desc</td>
+		<td><input id='button' style='width:100%;' type='submit' value='$name' name='$n' $dis /></td>
+		</form></tr>";
 		
 	}
 }

@@ -39,43 +39,8 @@ if (isset($_REQUEST['return'])) {
 		echo "<p style='color:#ff3333'>Erreur $s</p>";
 	}
 }
-
-if (isset($_POST['page']))
-	$page = $_POST['page'];
-else
-	$page = 1;
-
-echo '<style>
-	.pagination {
-	display: inline-block;
-	}
-
-	.pagination input {
-	color: black;
-	background-color:#ddd;
-	float: left;
-	padding: 8px 16px;
-	text-decoration: none;
-	border-radius: 5px;
-	transition: background-color .3s;
-	}
-	.pagination input:hover {
-	color: black;
-	background-color:red;
-	float: left;
-	padding: 8px 16px;
-	text-decoration: none;
-	border-radius: 5px;
-	}
-	</style>
-
-	<div class="pagination">';
-	echo "<form method=post><table><tr><input type='hidden' value='5' name='$choice'/>";
-	for ($i = ($page-4)<=1 ? $page : $page-4;$i<$page+10;$i++)
-		echo "<td><input type='submit' value='$i' name='page'/></td>";
-	echo "</tr></table></form>";
-	echo '</div>';
-	$json_source = file_get_contents('http://localhost:6080/book/get/'.$page);
+	require_once('page.php');
+	$json_source = file_get_contents('http://localhost:6080/book/get/'.$page.'/'.$_SESSION['lib']);
 	$jd= json_decode($json_source);
 	$h = "<table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Option</th><tr>";
 	$m = "";
@@ -98,7 +63,6 @@ echo '<style>
 			$dis = "";
 			$n = "return";
 		}
-		if ($lib===$_SESSION['lib'])
 			$m .= "
 			<form method=post>
 			<input type='hidden' value='$bid' name='id'/>

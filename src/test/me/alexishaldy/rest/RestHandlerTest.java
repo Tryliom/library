@@ -166,14 +166,14 @@ public class RestHandlerTest {
 	public void getBook() {
 		// OK
 		try {
-			if (rh.getBook("1").getStatus()!=200)
+			if (rh.getBook("1", "5").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.getBook("dsf").getStatus()!=400)
+			if (rh.getBook("dsf", "dfs").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());

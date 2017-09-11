@@ -6,7 +6,7 @@ require_once("bdd.php");
 require_once("lib.php");
 
 if (isset($_REQUEST['logout'])) {
-	$_SESSION['token'] = array();
+	$_SESSION['token'] = null;
 	header("Location: index.php");
 }
 
