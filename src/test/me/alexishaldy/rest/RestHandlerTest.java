@@ -48,7 +48,7 @@ public class RestHandlerTest {
 		}
 		// NOK
 		try {
-			if (rh.getSwaggerJson("").getStatus()!=400)
+			if (rh.getSwaggerJson("fjfjfj").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
