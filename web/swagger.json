@@ -346,15 +346,22 @@
 				}
 			}
 		},				
-		"/book/get/{nb_page}": {
+		"/book/get/{nb_page}/{library_id}": {
 			"get": {
-				"summary": "Get all books with 50 per page",
+				"summary": "Get all books with 100 per page and for a specific library, if equals to -1, this select all library",
 				"parameters": [
 					{
 		              "name": "nb_page",
 		              "required": true,
 		              "type": "integer",
 		              "format": "int64",
+		              "in": "path"
+		            },
+		            {
+		              "name": "library_id",
+		              "required": true,
+		              "type": "integer",
+		              "format": "int32",
 		              "in": "path"
 		            }
 				],

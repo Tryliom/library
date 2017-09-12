@@ -27,6 +27,4 @@ import me.alexishaldy.util.UtilsTest;
 	UtilsTest.class,
 	BookTest.class
 })
-public class AllTest {
-
-}
+public class AllTest {}
