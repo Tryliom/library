@@ -18,7 +18,7 @@ public class DBConnectionAdapterTest {
 	public static void dbco() {
 		if (db == null)
 			try {
-				db = new DBConnectionAdapter("localhost", "3307", "root", "");
+				db = new DBConnectionAdapter("localhost", "3306", "root", "");
 			} catch (DBException e) {
 				e.printStackTrace();
 			}
@@ -28,13 +28,13 @@ public class DBConnectionAdapterTest {
 	public void DBConnectionAdapterConstructor() {
 		// OK
 		try {
-			DBConnectionAdapter db2 = new DBConnectionAdapter("localhost", "3307", "root", "");			
+			DBConnectionAdapter db2 = new DBConnectionAdapter("localhost", "3306", "root", "");			
 		} catch (DBException e) {
 			fail();
 		}
 		// NOK
 		try {
-			DBConnectionAdapter db2 = new DBConnectionAdapter("178.88.56.98", "3307", "root", "");
+			DBConnectionAdapter db2 = new DBConnectionAdapter("178.88.56.98", "3306", "root", "");
 			fail();
 		} catch (DBException e) {}		
 	}

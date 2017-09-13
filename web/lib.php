@@ -8,9 +8,8 @@ if (!isset($_SESSION['lib'])) {
 		echo "<h1>Choisir la librairie</h1>";
 		$json_source = file_get_contents('http://localhost:6080/library/get');
 		$jd= json_decode($json_source);
-		$i = 0;
-		while ($data = $jd[$i]) {
-			$i++;
+		for ($i=0;$i<sizeof($jd);$i++) {
+			$data = $jd[$i];
 			if ($i!=1) {
 				echo "<hr style='display:inline-block; width:60%;' />";
 			}

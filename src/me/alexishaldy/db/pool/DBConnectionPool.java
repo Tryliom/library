@@ -61,7 +61,7 @@ public class DBConnectionPool {
 		
 		_pool = new ArrayDeque<DBConnection>();			
 		String host = "localhost";
-		String port = "3307";
+		String port = "3306";
 		String user = "root";
 		String pass = "";
 		int max_conn = 10;
