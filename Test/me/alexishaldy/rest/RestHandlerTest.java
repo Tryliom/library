@@ -13,6 +13,25 @@ import me.alexishaldy.util.Utils;
 
 public class RestHandlerTest {
 	RestHandler rh = new RestHandler();
+	private String pseudo = "TryTest";
+	private String pass = "640ab2bae07bedc4c163f679a746f7ab7fb5d1fa";
+	private String email = "Try@catch.ex";
+	private String tel = "0797776669";
+	private String token = "c6e79e52658d6d7f2dabc28278265e24c41994fdaa8a7b93138c629607a68c02";
+	private String lib = "5";
+	private String id = "-1";
+	
+	
+	private void prepareTestValue() {
+		rh.addUser(pseudo, pseudo, pseudo, pass, email, tel, token, lib);
+		String sql = "SELECT id FROM User WHERE username = '"+pseudo+"' AND library_id = "+lib;
+		try {
+			Vector<String> list = DBExecutor.selectQuery(sql);
+			if (list.size()>=1) {
+				id = list.get(0);
+			}
+		} catch (Exception e) {}
+	}
 	
 	@Test
 	public void getResponseWithHeaders() {
@@ -229,13 +248,20 @@ public class RestHandlerTest {
 	
 	@Test
 	public void userAdminExist() {
+		this.prepareTestValue();
+		try {
+			rh.editUserByAdmin(pseudo, pseudo, pseudo, "6", email, tel, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		// OK
 		try {
-			if (rh.userAdminExist("Try", "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "c6e79e52658d6d7f2dabc28278265e24c41994fdaa8a7b93138c629607a68c02").getStatus()!=200)
+			if (rh.userAdminExist(pseudo, pass, token).getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+		rh.editUserByAdmin(pseudo, pseudo, pseudo, "0", email, tel, id);
 		// NOK
 		try {
 			if (rh.userAdminExist("Tryt", "dsfds", "dshbffuze78iuf").getStatus()!=400)
@@ -247,9 +273,10 @@ public class RestHandlerTest {
 	
 	@Test
 	public void userMemberExist() {
+		this.prepareTestValue();
 		// OK
 		try {
-			if (rh.userMemberExist("Tryt", "088fb1a4ab057f4fcf7d487006499060c7fe5773", "3636976138e8f4874667065684464f6fc4c5fff5c72250180e7947bdf00efe0f", "4").getStatus()!=200)
+			if (rh.userMemberExist(pseudo, pass, token, lib).getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -284,9 +311,10 @@ public class RestHandlerTest {
 	
 	@Test
 	public void editUser() {
+		this.prepareTestValue();
 		// OK
 		try {
-			if (rh.editUser("2testyou@gmail.com", "0000000001", "33").getStatus()!=200)
+			if (rh.editUser(email, tel, id).getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -302,9 +330,10 @@ public class RestHandlerTest {
 
 	@Test
 	public void editUserByAdmin() {
+		this.prepareTestValue();
 		// OK
 		try {
-			if (rh.editUserByAdmin("EUBA", "User", "Not Admin", "0", "2testyou@gmail.com", "0998436628", "33").getStatus()!=200)
+			if (rh.editUserByAdmin(pseudo, pseudo, pseudo, "0", email, tel, id).getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -320,23 +349,24 @@ public class RestHandlerTest {
 
 	@Test
 	public void editUserBySuperAdmin() {
+		this.prepareTestValue();
 		// OK
 		try {
-			if (rh.editUserBySuperAdmin("EUBA", "User", "Not Admin", "0", "2testyou@gmail.com", "0998436628", "33", "3").getStatus()!=200)
+			if (rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "0", email, tel, id, lib).getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.editUserBySuperAdmin("EUBA", "User", "Not Admin", "0", "2testyou@gmail.com", "0998436628", "33", "sdf").getStatus()!=400)
+			if (rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "0", email, tel, id, "sdf").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.editUserBySuperAdmin("EUBA", "User", "Not Admin", "0", "2testyou@gmail.com", "0998436628", "nan", "3").getStatus()!=400)
+			if (rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "0", email, tel, "This is a word, not a number, plz fail", lib).getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -345,6 +375,7 @@ public class RestHandlerTest {
 
 	@Test
 	public void takeBook() {
+		this.prepareTestValue();
 		// OK
 		try {
 			if (rh.takeBook("150", "33", "5").getStatus()!=200)
@@ -372,7 +403,7 @@ public class RestHandlerTest {
 		}
 		// NOK
 		try {
-			if (rh.returnBook("bid", "uid", "lib").getStatus()!=400)
+			if (rh.returnBook("bisadasdsad", "uisadsd", "lisdab").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
