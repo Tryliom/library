@@ -52,7 +52,7 @@ public class RestHandler {
 			Boolean b = DBExecutor.execQuery("INSERT INTO book(title, author, date, description, edition, editeur, library_id) VALUES (\""+title+"\", \""+author+"\", \""+date+"\", "
 					+ "\""+desc+"\", "+edition+", \""+editeur+"\", "+lib+");");
 			if (!b)
-				throw new Exception("Insert failed");
+				throw new Exception("Paramètres concernant le livre incorrect ou mal entré");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -69,7 +69,7 @@ public class RestHandler {
 			Boolean b = DBExecutor.execQuery("UPDATE book SET title = \""+title+"\", author = \""+author+"\", date = \""+date+"\", description = \""+desc+"\", edition = "+edition+", editeur = \""+editeur+"\", library_id = "+lib+""
 					+ " WHERE id = "+id);
 			if (!b)
-				throw new Exception("Update failed");
+				throw new Exception("Un des paramètres est erroné ou le livre n'a pas été trouvé");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -207,9 +207,20 @@ public class RestHandler {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response userAdminExist(@PathParam("username") String pseudo, @PathParam("password") String pass, @PathParam("token") String token) {		
 		try {			
-			Boolean b = DBExecutor.execQuery("UPDATE user SET token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\" AND level_access >= 7");
-			if (!b)
-				throw new Exception("Compte inexistant");
+			Boolean exist = DBExecutor.execQuery("UPDATE user SET username = \""+pseudo+"\" WHERE username = \""+pseudo+"\"");
+			
+			Boolean auth = DBExecutor.execQuery("UPDATE user SET username = \""+pseudo+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\"");
+			
+			Boolean level = DBExecutor.execQuery("UPDATE user SET token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\" AND level_access >= 7");
+			
+			
+			
+			if (!exist)
+				throw new Exception("Compte inexistant (Le pseudo n'existe pas)");
+			else if (!auth)
+				throw new Exception("Le mot de passe est erroné !");
+			else if (!level)
+				throw new Exception("Ce compte n'a pas les autorisations necessaire !");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -221,9 +232,12 @@ public class RestHandler {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response userMemberExist(@PathParam("username") String pseudo, @PathParam("password") String pass, @PathParam("token") String token, @PathParam("library_id") String lib) {		
 		try {			
-			Boolean b = DBExecutor.execQuery("UPDATE user SET token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\" AND (library_id = "+lib+" OR level_access >= 7)");
-			if (!b)
-				throw new Exception("Compte inexistant");
+			Boolean exist = DBExecutor.execQuery("UPDATE user SET username = \""+pseudo+"\" WHERE username = \""+pseudo+"\"");			
+			Boolean auth = DBExecutor.execQuery("UPDATE user SET token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\"");
+			if (!exist)
+				throw new Exception("Compte inexistant (Le pseudo n'existe pas)");
+			else if (!auth)
+				throw new Exception("Le mot de passe est erroné !");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -240,7 +254,7 @@ public class RestHandler {
 			Boolean b = DBExecutor.execQuery("INSERT INTO user(username, name, lastname, password, email, tel, token, library_id) SELECT \""+username+"\", \""+name+"\", \""+lastname+"\", "
 					+ "\""+pass+"\", \""+email+"\", \""+tel+"\", \""+token+"\", "+lib+" WHERE (SELECT count(*) FROM user WHERE username = \""+username+"\")=0");
 			if (!b)
-				throw new Exception("Pseudo d�j� pris");
+				throw new Exception("Pseudo déjà pris");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -255,7 +269,7 @@ public class RestHandler {
 		try {
 			Boolean b = DBExecutor.execQuery("UPDATE user SET email = \""+email+"\", tel = \""+tel+"\" WHERE id = "+id+";");
 			if (!b)
-				throw new Exception("Update failed");
+				throw new Exception("L'email ou le numéro de téléphone n'ont pas pu être mis à jour");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -268,9 +282,10 @@ public class RestHandler {
 	public Response editUserByAdmin(@FormParam("username") String username, @FormParam("name") String name, @FormParam("lastname") String lastname, 
 			@FormParam("level_access") String level, @FormParam("email") String email, @FormParam("tel") String tel, @FormParam("id") String id) {
 		try {
-			Boolean b = DBExecutor.execQuery("UPDATE user SET email = \""+email+"\", tel = \""+tel+"\", username = \""+username+"\", name = \""+name+"\", lastname = \""+lastname+"\", level_access = "+(Integer.parseInt(level)>6 ? "6" : level)+" WHERE id = "+id+";");
+			Boolean b = DBExecutor.execQuery("UPDATE user SET email = \""+email+"\", tel = \""+tel+"\", username = \""+username+"\", name = \""+name+"\", "
+					+ "lastname = \""+lastname+"\", level_access = "+(Integer.parseInt(level)>6 ? "6" : level)+" WHERE id = "+id+";");
 			if (!b)
-				throw new Exception("Update failed");
+				throw new Exception("Champs insérés erronés");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -286,7 +301,7 @@ public class RestHandler {
 			Boolean b = DBExecutor.execQuery("UPDATE user SET email = \""+email+"\", tel = \""+tel+"\", username = \""+username+"\", name = \""+name+"\","
 					+ " lastname = \""+lastname+"\", level_access = "+level+", library_id = "+lib+" WHERE id = "+id+";");
 			if (!b)
-				throw new Exception("Update failed");
+				throw new Exception("Données insérées erronées");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -298,11 +313,11 @@ public class RestHandler {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response returnBook(@PathParam("book_id") String bid, @PathParam("user_id") String uid, @PathParam("library_id") String lib) {
 		try {
-			Boolean b = DBExecutor.execQuery("UPDATE book SET user_id = NULL WHERE id = \""+bid+"\" AND library_id = "+lib+";");
+			Boolean b = DBExecutor.execQuery("UPDATE book SET user_id = NULL WHERE id = \""+bid+"\" AND library_id = "+lib);
 			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Boolean c = DBExecutor.execQuery("UPDATE renter SET return_date = '"+formater.format(new Date().getTime())+"' WHERE return_date IS NULL AND book_id = "+bid+" AND user_id = "+uid+" AND library_id = "+lib+";");
 			if (!b || !c)
-				throw new Exception("Update failed");
+				throw new Exception("Données insérées erronées");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -320,7 +335,7 @@ public class RestHandler {
 			Boolean c = DBExecutor.execQuery("INSERT INTO renter(book_id, user_id, taken_date, max_return_date, library_id) VALUES ("+bid+", "+uid+", "
 					+ "'"+formater.format(new Date().getTime())+"', '"+formater.format(new Date().getTime()+(60000*60*48))+"', "+lib+");");
 			if (!b || !c)
-				throw new Exception("Update failed");
+				throw new Exception("Données insérées erronées");
 			else
 				return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
@@ -382,7 +397,7 @@ public class RestHandler {
 		try {
 			Boolean b = DBExecutor.execQuery("DELETE FROM user WHERE id = "+id+";");
 			if (!b)
-				throw new Exception("Delete failed");
+				throw new Exception("Utilisateur inconnu");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -397,7 +412,7 @@ public class RestHandler {
 		try {
 			Boolean b = DBExecutor.execQuery("DELETE FROM book WHERE id = "+id+";");
 			if (!b)
-				throw new Exception("Delete failed");
+				throw new Exception("Livre inconnu");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -443,7 +458,7 @@ public class RestHandler {
 			String sql = "UPDATE library SET name = \""+name+"\", adress = \""+adress+"\"  WHERE id = "+lib;
 			Boolean b = DBExecutor.execQuery(sql);
 			if (!b)
-				throw new Exception("Update failed: "+sql);
+				throw new Exception("Données insérées erronées");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -457,7 +472,7 @@ public class RestHandler {
 		try {
 			Boolean b = DBExecutor.execQuery("DELETE FROM library WHERE id = "+lib+";");
 			if (!b)
-				throw new Exception("Delete failed");
+				throw new Exception("Bibliothèque inconnue");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -471,7 +486,7 @@ public class RestHandler {
 		try {
 			Boolean b = DBExecutor.execQuery("INSERT INTO library(name, adress) VALUES (\""+name+"\", \""+adress+"\");");
 			if (!b)
-				throw new Exception("Insert failed");
+				throw new Exception("Impossible d'ajouter la bibliothèque");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);

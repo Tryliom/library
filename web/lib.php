@@ -10,8 +10,8 @@ if (!isset($_SESSION['lib'])) {
 		$jd= json_decode($json_source);
 		for ($i=0;$i<sizeof($jd);$i++) {
 			$data = $jd[$i];
-			if ($i!=1) {
-				echo "<hr style='display:inline-block; width:60%;' />";
+			if ($i!==0) {
+				echo "<hr style='display:inline-block; width:30%;' />";
 			}
 			echo "<form method='POST' action='index.php'><p>Nom: ".$data->name."</p><p>Adresse: ".$data->adress."</p><br><input name='id' type='hidden' value='".$data->id."'><input id='button' name='choose' type='submit' value='Choisir'></form><br>";
 		}

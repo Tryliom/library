@@ -55,7 +55,7 @@ if ($w === 4) {
 		curl_close ($ch);
 		$reason = $s;
 		if ($s==="true") {
-			echo "<p style='color:#33ff33'>Compte créé avec succès !<br> Veuillez vous connectez ! $s</p>";
+			echo "<p style='color:#33ff33'>Compte créé avec succès !<br> Veuillez vous connectez !</p>";
 		} else {
 			echo "<p style='color:#ff3333'>Erreur avec la création du compte $reason</p>";
 		}

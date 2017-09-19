@@ -42,8 +42,13 @@ echo '<style>
 	echo "<form method=post><table><tr><input type='hidden' value='5' name='$choice'/>";
 	$sup = $j>($page+6) ? ($page+6) : 
 		($j==$page ? $page+1 : $page-($page-$j-1));
-	for ($i = ($page-1)<=0 ? $page : $page-1;$i<$sup;$i++)
-		echo "<td><input type='submit' value='$i' name='page'/></td>";
+	$min = 0;
+	$i = 6;
+	if (($page-$i)<=0)
+		for (;($page-$i)<=0;$i--) {}
+	$min = $page-$i;
+	for ($i = $min;$i<$sup;$i++)
+		echo "<td><input ".($i==$page ? "style='background-color:#565656;'" : "")." type='submit' value='$i' name='page'/></td>";
 	echo "</tr></table></form>";
 	echo '</div>';	
 ?>
