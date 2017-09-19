@@ -3,7 +3,7 @@ error /(?i)\[error\]/
 error /BUILD FAILED/
 error /TEST FAILED/
 error / FAILURE /
-error / (?i)build failure /
+error / BUILD FAILURE /
 
 # Compiler Warning
 warning /(?i)(\[warnings\]|\[warning\])/
