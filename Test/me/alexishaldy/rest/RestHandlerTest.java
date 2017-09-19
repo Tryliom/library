@@ -250,14 +250,16 @@ public class RestHandlerTest {
 	public void userAdminExist() {
 		this.prepareTestValue();
 		try {
-			rh.editUserByAdmin(pseudo, pseudo, pseudo, "6", email, tel, id);
+			System.out.println(rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "7", email, tel, id, lib).getEntity());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		// OK
 		try {
-			if (rh.userAdminExist(pseudo, pass, token).getStatus()!=200)
+			if (rh.userAdminExist(pseudo, pass, token).getStatus()!=200) {
+				System.out.println(rh.userAdminExist(pseudo, pass, token).getEntity());
 				fail();
+			}
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
