@@ -11,7 +11,7 @@
 	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>src/test</testSourceDirectory>		
+		<testSourceDirectory>Test</testSourceDirectory>		
 		<plugins>		
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
