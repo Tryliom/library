@@ -4,6 +4,7 @@ error /BUILD FAILED/
 error /TEST FAILED/
 error / FAILURE /
 error / BUILD FAILURE /
+error / Error\: /
 
 # Compiler Warning
 warning /(?i)(\[warnings\]|\[warning\])/
