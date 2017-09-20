@@ -254,7 +254,7 @@ public class RestHandlerTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// OK
+		//OK
 		try {
 			if (rh.userAdminExist(pseudo, pass, token).getStatus()!=200) {
 				System.out.println(rh.userAdminExist(pseudo, pass, token).getEntity());
