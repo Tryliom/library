@@ -13,16 +13,16 @@ echo '<style>
 	color: black;
 	background-color:#ddd;
 	float: left;
-	padding: 8px 16px;
+	padding: 4px 8px;
 	text-decoration: none;
 	border-radius: 5px;
 	transition: background-color .3s;
 	}
 	.pagination input:hover {
 	color: black;
-	background-color:red;
+	background-color:#565656;
 	float: left;
-	padding: 8px 16px;
+	padding: 4px 8px;
 	text-decoration: none;
 	border-radius: 5px;
 	}

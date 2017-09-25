@@ -12,14 +12,16 @@
 		echo "<a href='library.php' ".isPage('library.php').">Library</a>";
 	}
 	if (!isset($_SESSION['lib']) && !isset($_SESSION['token'])) { echo " <a href='admin_panel.php' ".isPage('admin_panel.php').">Admin Panel</a> ]"; } else { echo "]"; } 
-	echo "</nav>";
+	
 	if (isset($_SESSION['token'])) {
-	$json_source = file_get_contents('http://localhost:6080/user/get/token/'.$_SESSION['token']);
-	$jd= json_decode($json_source);
-	$username = $jd[0]->username;
-	$level= $jd[0]->level_access;
+		$json_source = file_get_contents('http://localhost:6080/user/get/token/'.$_SESSION['token']);
+		$jd= json_decode($json_source);
+		$username = $jd[0]->username;
+		$level= $jd[0]->level_access;
+		
+		echo "<p style='color:#2b2; font-size:15px;'>Connecté en tant que<a style='color:#2b2; text-decoration:none; font-size:15px;' href='user.php'>".$username."</a></p>";
+		
+	}
 	
-	echo "<p style='float:right; color:#2d2;margin-right:2%; padding:1%; background-color:#444; border-radius:3px;'>Connecté en tant que ".$username."</p>";
-	
-}	
+	echo "</nav>";
 ?>

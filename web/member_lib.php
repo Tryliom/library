@@ -5,11 +5,11 @@ if (strpos($_SERVER['PHP_SELF'], 'member_lib.php') !== false) {
 
 echo "
 <div>
-<form name='book' method='post'><table id='user' cellspacing=15><h1>Gestion des livres</h1>
+<form name='book' method='post'><table id='user' cellspacing=15><caption style='font-size:40px;'>Gestion des livres</caption>
 
 <tr>
-	<td><input id='bookmanager' type='submit' name='list_book' value='Liste des livres' /></td>
-	<td><input id='bookmanager' type='submit' name='list_renter' value='Liste des livres empruntés' /></td>
+	<td style='width:50%;'><input id='bookmanager' type='submit' name='list_book' value='Liste des livres' /></td>
+	<td style='width:50%;'><input id='bookmanager' type='submit' name='list_renter' value='Liste des livres empruntés' /></td>
 </tr>
 
 </table></form>

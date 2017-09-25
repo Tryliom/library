@@ -15,8 +15,9 @@ nav a {
 
 nav {
 	background-color:#3f3f3f;
-	padding:20px;
+	padding:10px;
 	margin:auto;
+	margin-bottom:3%;
 	text-align:center;
 	color:#eee;
 	font-size:23px;
@@ -67,7 +68,7 @@ table td#user, table p#user {
 }
 
 #button {
-	padding:12px 24px;
+	padding:6px 20px;
 	border: 2px solid #555;
 	background-color:#555;
 	text-decoration:none;
@@ -96,7 +97,10 @@ table td#user, table p#user {
 	float:left;
 }
 
-
+#textdisp {
+	padding:0px 0px;
+	margin:0;
+}
 
 
 

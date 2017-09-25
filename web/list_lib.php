@@ -23,7 +23,7 @@ if (isset($_REQUEST['add']) && isset($_REQUEST['user'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p id='text' style='color:#33ff33'>Livre ajouté !</p>";
+		echo "<p id='text' style='color:#33ff33'>Utilisateur ajouté !</p>";
 	} else {
 		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
 	}
