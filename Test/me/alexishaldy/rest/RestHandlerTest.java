@@ -18,13 +18,12 @@ public class RestHandlerTest {
 	private String email = "Try@catch.ex";
 	private String tel = "0797776669";
 	private String token = "c6e79e52658d6d7f2dabc28278265e24c41994fdaa8a7b93138c629607a68c02";
-	private String lib = "5";
 	private String id = "-1";
 	
 	
 	private void prepareTestValue() {
-		rh.addUser(pseudo, pseudo, pseudo, pass, email, tel, token, lib);
-		String sql = "SELECT id FROM User WHERE username = '"+pseudo+"' AND library_id = "+lib;
+		rh.addUser(pseudo, pseudo, pseudo, pass, email, tel, token);
+		String sql = "SELECT id FROM User WHERE username = '"+pseudo+"'";
 		try {
 			Vector<String> list = DBExecutor.selectQuery(sql);
 			if (list.size()>=1) {
@@ -65,9 +64,16 @@ public class RestHandlerTest {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+		// NOK
+		try {
+			if (rh.addBook("title", "author", "date", "desc", "90", "editeur", "lib").getStatus()!=400)
+				fail();
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}		
 		// OK
 		try {
-			if (rh.addBook("title", "author", "1888", "desc", "edition", "editeur", "5").getStatus()!=200)
+			if (rh.addBook("title", "author", "1888", "desc", "5", "editeur", "5").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -86,6 +92,24 @@ public class RestHandlerTest {
 		// OK
 		try {
 			if (rh.editBook("title", "author", "1888", "desc", "1", "editeur", "5", "150").getStatus()!=200)
+				fail();
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void getRenter1() {
+		// NOK
+		try {
+			if (rh.getRenter("1", "-1").getStatus()!=200)
+				fail();
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+		// OK
+		try {
+			if (rh.getRenter("title", "author").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -225,21 +249,14 @@ public class RestHandlerTest {
 	public void searchUser() {
 		// OK
 		try {
-			if (rh.searchUser("Tryt", "4").getStatus()!=200)
-				fail();
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-		// OK
-		try {
-			if (rh.searchUser("Tryt", "6").getStatus()!=200)
+			if (rh.searchUser("Try").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.searchUser("djkndsfjknds", "dsfds").getStatus()!=400)
+			if (rh.searchUser("djkndsfjknds").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -250,7 +267,7 @@ public class RestHandlerTest {
 	public void userAdminExist() {
 		this.prepareTestValue();
 		try {
-			System.out.println(rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "7", email, tel, id, lib).getEntity());
+			System.out.println(rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "", "7", email, tel, id).getEntity());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -263,7 +280,7 @@ public class RestHandlerTest {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-		rh.editUserByAdmin(pseudo, pseudo, pseudo, "0", email, tel, id);
+		rh.editUserByAdmin(pseudo, pseudo, pseudo, "", "0", email, tel, id);
 		// NOK
 		try {
 			if (rh.userAdminExist("Tryt", "dsfds", "dshbffuze78iuf").getStatus()!=400)
@@ -278,14 +295,14 @@ public class RestHandlerTest {
 		this.prepareTestValue();
 		// OK
 		try {
-			if (rh.userMemberExist(pseudo, pass, token, lib).getStatus()!=200)
+			if (rh.userMemberExist(pseudo, pass, token).getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.userMemberExist("Tryt", "dsfds", "dshbffuze78iuf", "dsf").getStatus()!=400)
+			if (rh.userMemberExist("Tryt", "dsfds", "dshbffuze78iuf").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -297,14 +314,14 @@ public class RestHandlerTest {
 		int i = (int) Math.round(Math.random()*1000000000);
 		// OK
 		try {
-			if (rh.addUser("UserTest"+i, "M.", "N.", Utils.encryptPassword("Test"), "anTest@gmail.com", "0000000000", "", "5").getStatus()!=200)
+			if (rh.addUser("UserTest"+i, "M.", "N.", Utils.encryptPassword("Test"), "anTest@gmail.com", "0000000000", "").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.addUser("UserTest"+i, "M.", "N.", Utils.encryptPassword("Test"), "anTest@gmail.com", "0000000000", "", "5").getStatus()!=400)
+			if (rh.addUser("UserTest"+i, "M.", "N.", Utils.encryptPassword("Test"), "anTest@gmail.com", "0000000000", "").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -335,14 +352,14 @@ public class RestHandlerTest {
 		this.prepareTestValue();
 		// OK
 		try {
-			if (rh.editUserByAdmin(pseudo, pseudo, pseudo, "0", email, tel, id).getStatus()!=200)
+			if (rh.editUserByAdmin(pseudo, pseudo, pseudo, "", "0", email, tel, id).getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.editUserByAdmin("EUBA", "User", "Not Admin", "0", "2testyou@gmail.com", "0998436628", "0").getStatus()!=400)
+			if (rh.editUserByAdmin("EUBA", "User", "Not Admin", "", "0", "2testyou@gmail.com", "0998436628", "0").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -354,21 +371,21 @@ public class RestHandlerTest {
 		this.prepareTestValue();
 		// OK
 		try {
-			if (rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "0", email, tel, id, lib).getStatus()!=200)
+			if (rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "", "0", email, tel, id).getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "0", email, tel, id, "sdf").getStatus()!=400)
+			if (rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "", "0", email, tel, "dsfd").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "0", email, tel, "This is a word, not a number, plz fail", lib).getStatus()!=400)
+			if (rh.editUserBySuperAdmin(pseudo, pseudo, pseudo, "", "0", email, tel, "This is a word, not a number, plz fail").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -427,14 +444,14 @@ public class RestHandlerTest {
 	public void getRenter() {
 		// OK
 		try {
-			if (rh.getRenter("4").getStatus()!=200)
+			if (rh.getRenter("1", "4").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		// NOK
 		try {
-			if (rh.getRenter("dsfd").getStatus()!=400)
+			if (rh.getRenter("dsfd", "").getStatus()!=400)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -457,7 +474,7 @@ public class RestHandlerTest {
 		int i = (int) Math.round(Math.random()*1000000000);
 		// OK
 		try {
-			if (rh.addUser("UserTest"+i, "M.", "N.", Utils.encryptPassword("Test"), "anTest@gmail.com", "0000000000", "", "5").getStatus()!=200)
+			if (rh.addUser("UserTest"+i, "M.", "N.", Utils.encryptPassword("Test"), "anTest@gmail.com", "0000000000", "").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());

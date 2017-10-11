@@ -34,7 +34,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 	if (sizeof($jd2)!==0) {
 		$pseudo = $jd2[0]->username;
 		$email = $jd2[0]->email;
-		$json_source3 = file_get_contents('http://localhost:6080/book/get/'.$bid);
+		$json_source3 = file_get_contents('http://localhost:6080/book/getid/'.$bid);
 		$jd3= json_decode($json_source3);
 		if (sizeof($jd3)===0)
 			continue;

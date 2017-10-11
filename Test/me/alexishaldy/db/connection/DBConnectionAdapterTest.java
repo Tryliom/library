@@ -23,28 +23,29 @@ public class DBConnectionAdapterTest {
 				e.printStackTrace();
 			}
 	}
-	
+
 	@Test
 	public void DBConnectionAdapterConstructor() {
 		// OK
 		try {
-			DBConnectionAdapter db2 = new DBConnectionAdapter("localhost", "3306", "root", "");			
+			DBConnectionAdapter db2 = new DBConnectionAdapter("localhost", "3306", "root", "");
 		} catch (DBException e) {
 			fail();
 		}
 		// NOK
 		try {
-			DBConnectionAdapter db2 = new DBConnectionAdapter("178.88.56.98", "3306", "root", "");
+			DBConnectionAdapter db2 = new DBConnectionAdapter("8.8.8.8", "3306", "root", "");
 			fail();
-		} catch (DBException e) {}		
+		} catch (DBException e) {
+		}
 	}
-	
+
 	@Test
 	public void getList() {
 		// OK
 		try {
 			Vector<String> list = db.getList("SELECT * FROM book");
-			if (list==null)
+			if (list == null)
 				fail();
 		} catch (DBException e) {
 			fail(e.getMessage());
@@ -52,7 +53,7 @@ public class DBConnectionAdapterTest {
 		// OK
 		try {
 			Vector<String> list = db.getList("SELECT id FROM book");
-			if (list==null)
+			if (list == null)
 				fail();
 		} catch (DBException e) {
 			fail(e.getMessage());
@@ -61,14 +62,15 @@ public class DBConnectionAdapterTest {
 		try {
 			db.getList("SELECT existnot FROM book");
 			fail();
-		} catch (DBException e) {}
+		} catch (DBException e) {
+		}
 	}
-	
+
 	@Test
 	public void execQuery() {
 		// OK
 		try {
-			if (!db.execQuery("UPDATE book SET id = 70 WHERE id = 70")) 
+			if (!db.execQuery("UPDATE book SET id = 70 WHERE id = 70"))
 				fail();
 		} catch (DBException e) {
 			fail(e.getMessage());
@@ -77,20 +79,22 @@ public class DBConnectionAdapterTest {
 		try {
 			if (db.execQuery("SELECT existnot FROM book"))
 				fail();
-		} catch (DBException e) {}
+		} catch (DBException e) {
+		}
 		// NOK
 		try {
 			if (db.execQuery("UPDATE book SET ids = 1 WHERE ids = 1"))
 				fail();
-		} catch (DBException e) {}
+		} catch (DBException e) {
+		}
 	}
-	
+
 	@Test
 	public void selectQuery() {
 		// OK
 		try {
 			Vector<String> list = db.selectQuery("SELECT * FROM book");
-			if (list==null)
+			if (list == null)
 				fail();
 		} catch (DBException e) {
 			fail(e.getMessage());
@@ -98,7 +102,7 @@ public class DBConnectionAdapterTest {
 		// OK
 		try {
 			Vector<String> list = db.selectQuery("SELECT id FROM book");
-			if (list==null)
+			if (list == null)
 				fail();
 		} catch (DBException e) {
 			fail(e.getMessage());
@@ -107,21 +111,23 @@ public class DBConnectionAdapterTest {
 		try {
 			Vector<String> list = db.selectQuery("SELECT existnot FROM book");
 			fail();
-		} catch (DBException e) {}
+		} catch (DBException e) {
+		}
 		// NOK
 		try {
 			Vector<String> list = db.selectQuery("UPDATE book SET id = 0 WHERE id = 1");
 			fail();
-		} catch (DBException e) {}
+		} catch (DBException e) {
+		}
 
 	}
-	
+
 	@Test
 	public void getTable() {
 		// OK
 		try {
 			Column c = db.getTable("book");
-			if (c==null)
+			if (c == null)
 				fail();
 		} catch (DBException e) {
 			fail();
@@ -129,7 +135,7 @@ public class DBConnectionAdapterTest {
 		// OK
 		try {
 			Column c = db.getTable("library");
-			if (c==null)
+			if (c == null)
 				fail();
 		} catch (DBException e) {
 			fail();
@@ -138,7 +144,8 @@ public class DBConnectionAdapterTest {
 		try {
 			Column c = db.getTable("SELECT");
 			fail();
-		} catch (DBException e) {}
+		} catch (DBException e) {
+		}
 	}
 	
 	@Test
@@ -150,6 +157,5 @@ public class DBConnectionAdapterTest {
 			fail();
 		}
 	}
-	
 
 }

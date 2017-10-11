@@ -3,8 +3,7 @@ h1, p {
 }
 
 table {
-	margin-left:auto; 
-    margin-right:auto;
+	margin:0 auto; 
 }
 
 nav a {
@@ -24,15 +23,15 @@ nav {
 }
 
 body {
-	background-color:#222222;
+	background-color:#eeeeee;
 	margin:0;
 }
 
 div#all {
 	background-color:#eeeeee;
-	margin:0 10%;
+	margin:0 auto;
 	text-align:center;
-	padding-bottom:20px;
+	margin-bottom:100px;
 	float:none;
 }
 
@@ -46,6 +45,10 @@ table#user {
 
 table td#user, table p#user {
 	text-align:left;
+}
+
+table#list{
+	width:70%;
 }
 
 #bookmanager {
@@ -68,7 +71,7 @@ table td#user, table p#user {
 }
 
 #button {
-	padding:6px 20px;
+	padding:2px 20px;
 	border: 2px solid #555;
 	background-color:#555;
 	text-decoration:none;
@@ -86,15 +89,13 @@ table td#user, table p#user {
 }
 
 #textmin {
-	width:100%;
-	padding:15px 0px;
+	padding:5px 0px;
 	border: 2px solid #ddd;
 	background-color:#fff;
 	text-decoration:none;
 	display:inline-block;
 	border-radius:3px;
 	color:black;
-	float:left;
 }
 
 #textdisp {

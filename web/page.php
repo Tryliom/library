@@ -20,7 +20,7 @@ echo '<style>
 	}
 	.pagination input:hover {
 	color: black;
-	background-color:#565656;
+	background-color:#898989;
 	float: left;
 	padding: 4px 8px;
 	text-decoration: none;
@@ -48,7 +48,7 @@ echo '<style>
 		for (;($page-$i)<=0;$i--) {}
 	$min = $page-$i;
 	for ($i = $min;$i<$sup;$i++)
-		echo "<td><input ".($i==$page ? "style='background-color:#565656;'" : "")." type='submit' value='$i' name='page'/></td>";
+		echo "<td><input ".($i==$page ? "style='background-color:#898989;'" : "")." type='submit' value='$i' name='page'/></td>";
 	echo "</tr></table></form>";
 	echo '</div>';	
 ?>

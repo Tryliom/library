@@ -8,6 +8,9 @@ require_once("lib.php");
 if (!$valid)
 	return;
 
+if (isset($_SESSION['token']))
+	header("Location: user.php");
+
 // Vérification création ou connexion
 $w = isset($_REQUEST['reg']) ? 4 : 0;
 
@@ -42,7 +45,7 @@ if ($w === 4) {
 		$username = $_REQUEST['username'];
 		$email = $_REQUEST['email'];
 		$tel = $_REQUEST['tel'];
-		$lib_id = $_SESSION['lib'];
+
 		$password = sha1($_REQUEST['pass']);
 		$token = $token = generateToken(32);
 		$ch = curl_init();
@@ -50,14 +53,14 @@ if ($w === 4) {
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
 		curl_setopt($ch, CURLOPT_POSTFIELDS,
-					"username=$username&name=$name&lastname=$lastname&password=$password&email=$email&tel=$tel&token=$token&library_id=$lib_id");
+					"username=$username&name=$name&lastname=$lastname&password=$password&email=$email&tel=$tel&token=$token");
 		$s = curl_exec ($ch);
 		curl_close ($ch);
 		$reason = $s;
 		if ($s==="true") {
 			echo "<p style='color:#33ff33'>Compte créé avec succès !<br> Veuillez vous connectez !</p>";
 		} else {
-			echo "<p style='color:#ff3333'>Erreur avec la création du compte $reason</p>";
+			echo "<p style='color:#ff3333'>Erreur, raison: $reason</p>";
 		}
 	}
 } else if ($w === 1) {
@@ -69,7 +72,7 @@ if ($w === 4) {
 		// Généré une new token et le garder co
 		$token = generateToken(32);
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/member/update/".$_REQUEST['username']."/".sha1($_REQUEST['pass'])."/$token/".$_SESSION['lib']);
+		curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/member/update/".$_REQUEST['username']."/".sha1($_REQUEST['pass'])."/$token");
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$s = curl_exec ($ch);

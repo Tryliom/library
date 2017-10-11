@@ -10,6 +10,9 @@ switch ($level_access) {
 	case 0:
 		require_once("member_lib.php");
 		break;
+	case 6:
+		require_once("admin_lib.php");
+		break;
 	case 7:
 		require_once("admin_lib.php");
 		break;

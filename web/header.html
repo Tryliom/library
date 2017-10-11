@@ -19,7 +19,7 @@
 		$username = $jd[0]->username;
 		$level= $jd[0]->level_access;
 		
-		echo "<p style='color:#2b2; font-size:15px;'>Connecté en tant que<a style='color:#2b2; text-decoration:none; font-size:15px;' href='user.php'>".$username."</a></p>";
+		echo "<p style='color:#2b2; font-size:15px;'>Connecté en tant que<a style='color:#2b2; text-decoration:none; font-size:15px;' href='user.php'>".$username." ".setColor(getTextByLvl($level))."</a></p>";
 		
 	}
 	

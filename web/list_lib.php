@@ -33,6 +33,7 @@ if (isset($_REQUEST['update']) && isset($_REQUEST['user'])) {
 	$pseudo = $_REQUEST['pseudo'];
 	$name = $_REQUEST['name'];
 	$lastname = $_REQUEST['lastname'];
+	$pass = $_REQUEST['pass'];
 	$email = $_REQUEST['email'];
 	$tel = $_REQUEST['tel'];
 	$level = $_REQUEST['level'];
@@ -43,13 +44,13 @@ if (isset($_REQUEST['update']) && isset($_REQUEST['user'])) {
 	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/edit/superadmin");
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&email=$email&tel=$tel&level_access=$level&id=$uid&library_id=$lib");
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&password=$pass&email=$email&tel=$tel&level_access=$level&id=$uid&library_id=$lib");
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
 		echo "<p id='text' style='color:#33ff33'>Utilisateur modifié !</p>";
 	} else {
-		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur, raison: $s</p>";
 	}
 }
 
@@ -199,8 +200,8 @@ $jd= json_decode($json_source);
 						<input id='textmin' type='text' name='adress' value='$adress' />
 					</td>
 					<td> 
-						<input style='width:100%;' id='button' type='submit' value='Sauvegarder' name='update' />
-						<input style='width:100%;' id='button' type='submit' value='Supprimer' name='delete' /> 
+						<input id='button' type='submit' value='Sauvegarder' name='update' />
+						<input id='button' type='submit' value='Supprimer' name='delete' /> 
 					</td>
 				</form>
 			</tr>";
@@ -219,7 +220,7 @@ $jd= json_decode($json_source);
 					<input id='textmin' type='text' name='adress' />
 				</td>
 				<td>
-					<input style='width:100%;' id='button' type='submit' value='Ajouter une nouvelle librairie' name='add' />
+					<input id='button' type='submit' value='Ajouter une nouvelle librairie' name='add' />
 				</td>	
 			</tr>
 		</form>
@@ -232,7 +233,7 @@ $jd= json_decode($json_source);
 	require_once('page.php');	
 	$json_source = file_get_contents('http://localhost:6080/book/get/'.$page.'/-1');
 	$jd= json_decode($json_source);
-	$h = "<table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Librarie ID</th><th>Options</th>";
+	$h = "<table id='list' cellspacing='5'><th>Titre</th><th>Auteur</th><th>Date</th><th>Édition</th><th>Editeur</th><th>Description</th><th>Librarie ID</th><th>Options</th>";
 	$m = "";
 	for ($i=0;$i<sizeof($jd);$i++) {
 		$bid = $jd[$i]->id;
@@ -255,7 +256,10 @@ $jd= json_decode($json_source);
 		<td ".setWidth($editor)."><input id='textmin' type='text' name='editor' value='$editor' /></td>
 		<td ".setWidth($desc)."><input id='textmin' type='text' name='desc' value=\"$desc\" /></td>
 		<td ".setWidth($lib)."><input id='textmin' type='text' name='lib' value='$lib' /></td>
-		<td> <input style='width:100%;' id='button' type='submit' value='Sauvegarder' name='update' /> <input style='width:100%;' id='button' type='submit' value='Supprimer' name='delete' /> </td>
+		<td> 
+			<input style='width:100%;' id='button' type='submit' value='Sauvegarder' name='update' />
+			<input style='width:100%;' id='button' type='submit' value='Supprimer' name='delete' />
+		</td>
 		</form></tr>";
 	}
 	$b = "<tr><form name='book_add' method=post>
@@ -267,7 +271,7 @@ $jd= json_decode($json_source);
 	<td><input id='textmin' type='text' name='editor' /></td>
 	<td><input id='textmin' type='text' name='desc' /></td>
 	<td>
-	<select style='width:110%;' id='textmin' name='lib'>
+	<select style='width:100%;' id='textmin' name='lib'>
 	";
 	$list_idlib = preg_split("[g]", $list_idlib);
 	for ($j=0;$j<sizeof($list_idlib);$j++) {
@@ -276,7 +280,7 @@ $jd= json_decode($json_source);
 	$b .= "
 	</select>
 	</td>
-	<td><input style='width:100%;' id='button' type='submit' value='Ajouter un nouveau livre' name='add' /></td></tr></form></table>";
+	<td><input style='width:100%;' id='button' type='submit' value='Ajouter un livre' name='add' /></td></tr></form></table>";
 	echo "$h $m $b";
 	
 	
@@ -285,7 +289,7 @@ $jd= json_decode($json_source);
 	$json_source = file_get_contents('http://localhost:6080/user/get/');
 	$jd= json_decode($json_source);
 	$h = "<h1>Gestion des utilisateurs</h1>
-	<table id='list' cellspacing='10'><th>Pseudo</th><th>Prénom</th><th>Nom</th><th>Mot de passe</th><th>Email</th><th>Téléphone</th><th>Niveau d'accès</th><th>Librairie ID</th><th>Options</th><tr>";
+	<table id='list' cellspacing='5'><th>Pseudo</th><th>Prénom</th><th>Nom</th><th>Mot de passe</th><th>Email</th><th>Téléphone</th><th>Niveau d'accès</th><th>Librairie ID</th><th>Options</th><tr>";
 	$m = "";
 	for ($i=0;$i<sizeof($jd);$i++) {
 		$uid = $jd[$i]->id;
@@ -296,7 +300,7 @@ $jd= json_decode($json_source);
 		$email = $jd[$i]->email;
 		$tel = $jd[$i]->tel;
 		$level = $jd[$i]->level_access;
-		$lib = $jd[$i]->library_id;
+		$dis = ($jd[$i]->token === $_SESSION['token_admin'] ? "disabled" : "");
 		$m .= "
 			<form method=post>
 				<input type='hidden' value='$uid' name='id'/>
@@ -310,8 +314,8 @@ $jd= json_decode($json_source);
 				<td ".setWidth($lastname).">
 					<input id='textmin' type='text' name='lastname' value='$lastname' />
 				</td>
-				<td ".setWidth("HIDDEN").">
-					<input id='textmin' type='text' name='pass' value='HIDDEN' disabled />
+				<td ".setWidth("pass").">
+					<input id='textmin' type='password' name='pass' value=''/>
 				</td>
 				<td ".setWidth($email).">
 					<input id='textmin' type='text' name='email' value='$email' />
@@ -323,12 +327,9 @@ $jd= json_decode($json_source);
 					<input id='textmin' type='text' name='level' value='$level' />
 					".(setColor(getTextByLvl($level)))."
 				</td>
-				<td ".setWidth($lib).">
-					<input id='textmin' type='text' name='lib' value='$lib' />
-				</td>
 				<td>
 					<input id='button' style='width:100%;' type='submit' value='Sauvegarder' name='update' />
-					<input id='button' style='width:100%;' type='submit' value='Supprimer' name='delete' />
+					<input id='button' style='width:100%;' type='submit' value='Supprimer' name='delete' $dis />
 				</td>
 			</form>
 		</tr>";
@@ -349,7 +350,7 @@ $jd= json_decode($json_source);
 				<input id='textmin' type='text' name='lastname' />
 			</td>
 			<td>
-				<input id='textmin' type='text' name='password' />
+				<input id='textmin' type='password' name='password' />
 			</td>
 			<td>
 				<input id='textmin' type='text' name='email' />
@@ -361,16 +362,7 @@ $jd= json_decode($json_source);
 				<input id='textmin' type='text' name='level' />
 			</td>
 			<td>
-			<select style='width:110%;' id='textmin' name='lib'>
-			";
-			for ($j=0;$j<sizeof($list_idlib);$j++) {
-				$b .= "<option value='".$list_idlib[$j]."'>".$list_idlib[$j]."</option>";
-			}
-			$b .= "
-			</select>
-			</td>
-			<td>
-				<input style='width:100%;' id='button' type='submit' value='Ajouter un nouvel utilisateur' name='add' />
+				<input id='button' type='submit' value='Ajouter un nouvel utilisateur' name='add' />
 			</td>
 		</form>
 	</tr>";
@@ -382,7 +374,7 @@ $jd= json_decode($json_source);
 	
 	
 	function setWidth($s) {
-		return "style='width:".(strlen($s)+4)."%;'";
+		return "style='width:".(strlen($s)+4)."px;'";
 	}
 ?>
 

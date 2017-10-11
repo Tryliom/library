@@ -50,7 +50,7 @@ public class RestHandler {
 			@FormParam("edition") String edition, @FormParam("editeur") String editeur, @FormParam("library_id") String lib) {
 		try {
 			Boolean b = DBExecutor.execQuery("INSERT INTO book(title, author, date, description, edition, editeur, library_id) VALUES (\""+title+"\", \""+author+"\", \""+date+"\", "
-					+ "\""+desc+"\", "+edition+", \""+editeur+"\", "+lib+");");
+					+ "\""+desc+"\", "+ edition+", \""+editeur+"\", "+lib+");");
 			if (!b)
 				throw new Exception("Paramètres concernant le livre incorrect ou mal entré");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
@@ -146,14 +146,13 @@ public class RestHandler {
 		}
 	}
 	
-	
 	@GET
 	@Path("/user/get")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUser() {
 		try {
 			Vector<String> list = DBExecutor.selectAll("user");
-			HashMap<Integer, String> hash = Utils.putInMap("id username name lastname password email tel library_id token level_access".split(" "));	
+			HashMap<Integer, String> hash = Utils.putInMap("id username name lastname password email tel token level_access".split(" "));	
 			
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
 		} catch (Exception e) {
@@ -167,7 +166,7 @@ public class RestHandler {
 	public Response getUserById(@PathParam("id") String id) {
 		try {
 			Vector<String> list = DBExecutor.selectById("user", id);
-			HashMap<Integer, String> hash = Utils.putInMap("id username name lastname password email tel library_id token level_access".split(" "));	
+			HashMap<Integer, String> hash = Utils.putInMap("id username name lastname password email tel token level_access".split(" "));	
 			
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
 		} catch (Exception e) {
@@ -192,11 +191,14 @@ public class RestHandler {
 	@POST
 	@Path("/user/search")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response searchUser(@FormParam("username") String pseudo, @FormParam("library_id") String lib) {		
+	public Response searchUser(@FormParam("username") String pseudo) {		
 		try {			
-			String sql = "SELECT id FROM User WHERE username = '"+pseudo+"' AND library_id = "+lib;
+			String sql = "SELECT id FROM User WHERE username = '"+pseudo+"'";
 			Vector<String> list = DBExecutor.selectQuery(sql);
-			return getResponseWithHeaders(JSONGenerator.getJson("user", list), HttpResponseCode.OK);
+			if (!list.isEmpty())
+				return getResponseWithHeaders(JSONGenerator.getJson("user", list), HttpResponseCode.OK);
+			else
+				return getResponseWithHeaders("Pseudo inexistant", HttpResponseCode.NOK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
@@ -213,8 +215,6 @@ public class RestHandler {
 			
 			Boolean level = DBExecutor.execQuery("UPDATE user SET token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\" AND level_access >= 7");
 			
-			
-			
 			if (!exist)
 				throw new Exception("Compte inexistant (Le pseudo n'existe pas)");
 			else if (!auth)
@@ -228,9 +228,9 @@ public class RestHandler {
 	}
 	
 	@PUT
-	@Path("/user/member/update/{username}/{password}/{token}/{library_id}")
+	@Path("/user/member/update/{username}/{password}/{token}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response userMemberExist(@PathParam("username") String pseudo, @PathParam("password") String pass, @PathParam("token") String token, @PathParam("library_id") String lib) {		
+	public Response userMemberExist(@PathParam("username") String pseudo, @PathParam("password") String pass, @PathParam("token") String token) {		
 		try {			
 			Boolean exist = DBExecutor.execQuery("UPDATE user SET username = \""+pseudo+"\" WHERE username = \""+pseudo+"\"");			
 			Boolean auth = DBExecutor.execQuery("UPDATE user SET token = \""+token+"\" WHERE username = \""+pseudo+"\" AND password = \""+pass+"\"");
@@ -249,10 +249,10 @@ public class RestHandler {
 	@Path("/user/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addUser(@FormParam("username") String username, @FormParam("name") String name, @FormParam("lastname") String lastname, @FormParam("password") String pass, @FormParam("email") String email,
-			@FormParam("tel") String tel, @FormParam("token") String token, @FormParam("library_id") String lib) {
+			@FormParam("tel") String tel, @FormParam("token") String token) {
 		try {
-			Boolean b = DBExecutor.execQuery("INSERT INTO user(username, name, lastname, password, email, tel, token, library_id) SELECT \""+username+"\", \""+name+"\", \""+lastname+"\", "
-					+ "\""+pass+"\", \""+email+"\", \""+tel+"\", \""+token+"\", "+lib+" WHERE (SELECT count(*) FROM user WHERE username = \""+username+"\")=0");
+			Boolean b = DBExecutor.execQuery("INSERT INTO user(username, name, lastname, password, email, tel, token) SELECT \""+username+"\", \""+name+"\", \""+lastname+"\", "
+					+ "\""+pass+"\", \""+email+"\", \""+tel+"\", \""+token+"\" WHERE (SELECT count(*) FROM user WHERE username = \""+username+"\")=0");
 			if (!b)
 				throw new Exception("Pseudo déjà pris");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
@@ -267,9 +267,23 @@ public class RestHandler {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response editUser(@PathParam("email") String email, @PathParam("tel") String tel, @PathParam("id") String id) {
 		try {
-			Boolean b = DBExecutor.execQuery("UPDATE user SET email = \""+email+"\", tel = \""+tel+"\" WHERE id = "+id+";");
+			Boolean b = DBExecutor.execQuery("UPDATE user SET email = \""+email+"\", tel = \""+tel+"\" WHERE id = "+id);
 			if (!b)
-				throw new Exception("L'email ou le numéro de téléphone n'ont pas pu être mis à jour");
+				throw new Exception("ID non trouvé");
+			return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@PUT
+	@Path("/user/change/{pass}/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response changePassUser(@PathParam("pass") String pass, @PathParam("id") String id) {
+		try {
+			Boolean b = DBExecutor.execQuery("UPDATE user SET password = \""+pass+"\" WHERE id = "+id);
+			if (!b)
+				throw new Exception("ID non trouvé");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
@@ -279,11 +293,19 @@ public class RestHandler {
 	@POST
 	@Path("/user/edit/admin")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response editUserByAdmin(@FormParam("username") String username, @FormParam("name") String name, @FormParam("lastname") String lastname, 
+	public Response editUserByAdmin(@FormParam("username") String username, @FormParam("name") String name, @FormParam("lastname") String lastname, @FormParam("password") String pass,
 			@FormParam("level_access") String level, @FormParam("email") String email, @FormParam("tel") String tel, @FormParam("id") String id) {
 		try {
+			String sql = "";
+			if (pass.isEmpty()) {
+				sql = "UPDATE user SET email = \""+email+"\", tel = \""+tel+"\", username = \""+username+"\", name = \""+name+"\","
+						+ " lastname = \""+lastname+"\", level_access = "+level+" WHERE id = "+id;
+			} else {
+				sql = "UPDATE user SET email = \""+email+"\", tel = \""+tel+"\", username = \""+username+"\", name = \""+name+"\","
+						+ " lastname = \""+lastname+"\", password=\""+Utils.encryptPassword(pass)+"\",level_access = "+level+" WHERE id = "+id;
+			}
 			Boolean b = DBExecutor.execQuery("UPDATE user SET email = \""+email+"\", tel = \""+tel+"\", username = \""+username+"\", name = \""+name+"\", "
-					+ "lastname = \""+lastname+"\", level_access = "+(Integer.parseInt(level)>6 ? "6" : level)+" WHERE id = "+id+";");
+					+ "lastname = \""+lastname+"\", level_access = "+(Integer.parseInt(level)>6 ? "6" : level)+" WHERE id = "+id);
 			if (!b)
 				throw new Exception("Champs insérés erronés");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
@@ -295,11 +317,11 @@ public class RestHandler {
 	@POST
 	@Path("/user/edit/superadmin")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response editUserBySuperAdmin(@FormParam("username") String username, @FormParam("name") String name, @FormParam("lastname") String lastname, 
-			@FormParam("level_access") String level, @FormParam("email") String email, @FormParam("tel") String tel, @FormParam("id") String id, @FormParam("library_id") String lib) {
-		try {
+	public Response editUserBySuperAdmin(@FormParam("username") String username, @FormParam("name") String name, @FormParam("lastname") String lastname, @FormParam("password") String pass,
+			@FormParam("level_access") String level, @FormParam("email") String email, @FormParam("tel") String tel, @FormParam("id") String id) {
+		try {;
 			Boolean b = DBExecutor.execQuery("UPDATE user SET email = \""+email+"\", tel = \""+tel+"\", username = \""+username+"\", name = \""+name+"\","
-					+ " lastname = \""+lastname+"\", level_access = "+level+", library_id = "+lib+" WHERE id = "+id+";");
+					+ " lastname = \""+lastname+"\", "+(pass.isEmpty() ? "" : "password=\""+Utils.encryptPassword(pass)+"\", ")+"level_access = "+level+" WHERE id = "+id);
 			if (!b)
 				throw new Exception("Données insérées erronées");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);
@@ -307,6 +329,22 @@ public class RestHandler {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
 	}
+	
+	@GET
+	@Path("/renter/get/{nb_page}/{library_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getRenter(@PathParam("nb_page") String nb_page, @PathParam("library_id") String lib) {
+		try {
+			int nbPage = Integer.parseInt(nb_page);
+			String sql = "SELECT * FROM book WHERE library_id = "+lib+" OR "+lib+" = -1 AND user_id IS NOT NULL LIMIT "+(100*(nbPage-1))+", 100";
+			Vector<String> list = DBExecutor.selectQuery(sql);
+			HashMap<Integer, String> hash = Utils.putInMap("id title author date description edition editor user_id library_id".split(" "));
+			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
 	
 	@PUT
 	@Path("/user/return/{book_id}/{user_id}/{library_id}")
@@ -330,11 +368,9 @@ public class RestHandler {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response takeBook(@PathParam("book_id") String bid, @PathParam("user_id") String uid, @PathParam("library_id") String lib) {
 		try {
-			Boolean b = DBExecutor.execQuery("UPDATE book SET user_id = "+uid+" WHERE id = \""+bid+"\" AND library_id = "+lib+";");
-			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Boolean c = DBExecutor.execQuery("INSERT INTO renter(book_id, user_id, taken_date, max_return_date, library_id) VALUES ("+bid+", "+uid+", "
-					+ "'"+formater.format(new Date().getTime())+"', '"+formater.format(new Date().getTime()+(60000*60*48))+"', "+lib+");");
-			if (!b || !c)
+			Boolean c = DBExecutor.execQuery("INSERT INTO renter(book_id, user_id, status, library_id) VALUES ("+bid+", "+uid+", "
+					+ "3, "+lib+")");
+			if (!c)
 				throw new Exception("Données insérées erronées");
 			else
 				return getResponseWithHeaders("true", HttpResponseCode.OK);
@@ -343,6 +379,86 @@ public class RestHandler {
 		}
 	}
 	
+	@PUT
+	@Path("/admin/valid/{renter_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response validRenter(@PathParam("book_id") String bid, @PathParam("user_id") String uid, @PathParam("library_id") String lib) {
+		try {
+			Boolean b = DBExecutor.execQuery("UPDATE book SET user_id = "+uid+" WHERE id = \""+bid+"\" AND library_id = "+lib+";");
+			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Boolean c = DBExecutor.execQuery("INSERT INTO renter(book_id, user_id, taken_date, max_return_date, status, library_id) VALUES ("+bid+", "+uid+", "
+					+ "'"+formater.format(new Date().getTime())+"', '"+formater.format(new Date().getTime()+(60000*60*48))+"', 3, "+lib+");");
+			if (!b || !c)
+				throw new Exception("Données insérées erronées");
+			else
+				return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+		
+	@GET
+	@Path("/renter/getall")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getRenter() {
+		try {
+			Vector<String> list = DBExecutor.selectQuery("SELECT max_return_date, book_id, user_id FROM renter WHERE status != 0");
+			
+			HashMap<Integer, String> hash = Utils.putInMap("max_return_date book_id user_id".split(" "));
+			
+			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+		
+	@GET
+	@Path("/renter/user/get/{user_id}/{book_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getLastRenterForUserAndBook(@PathParam("user_id") String user_id, @PathParam("book_id") String book_id) {
+		try {
+			Vector<String> list = DBExecutor.selectQuery("SELECT * FROM renter WHERE user_id = "+user_id+" AND book_id = "+book_id);
+			
+			HashMap<Integer, String> hash = Utils.putInMap("id book_id user_id taken_date max_return_date return_date status library_id".split(" "));
+			
+			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@GET
+	@Path("/renter/user/cancel/{renter_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response cancelRenter(@PathParam("renter_id") String id) {
+		try {
+			Vector<String> list = DBExecutor.selectQuery("SELECT COUNT(*) FROM renter WHERE id = "+id);
+			if (list.size()>0) {
+				Boolean b = DBExecutor.execQuery("DELETE renter WHERE id = "+id);
+				return getResponseWithHeaders("true", HttpResponseCode.OK);
+			} else {
+				return getResponseWithHeaders("Cet emprunt n'existe pas !", HttpResponseCode.OK);
+			}
+			
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	@GET
+	@Path("/renter/get/tovalid")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getRenterListToValid() {
+		try {
+			Vector<String> list = DBExecutor.selectQuery("SELECT max_return_date, book_id, user_id FROM renter WHERE status = 3");
+			
+			HashMap<Integer, String> hash = Utils.putInMap("max_return_date book_id user_id".split(" "));
+			
+			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
 	
 	@GET
 	@Path("/user/verif/member/{token}")
@@ -354,21 +470,6 @@ public class RestHandler {
 			HashMap<Integer, String> hash = Utils.putInMap("username".split(" "));	
 			
 			return getResponseWithHeaders(hash.size()>0 ? JSONGenerator.getJsonWithTable(list, hash) : "", HttpResponseCode.OK);
-		} catch (Exception e) {
-			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
-		}
-	}
-	
-	@GET
-	@Path("/renter/get/{library_id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getRenter(@PathParam("library_id") String lib) {
-		try {
-			Vector<String> list = DBExecutor.selectQuery("SELECT (NOW()-max_return_date) AS max_return_date, book_id, user_id FROM renter WHERE return_date IS NULL AND NOW()-max_return_date>0 AND library_id = "+lib);
-			
-			HashMap<Integer, String> hash = Utils.putInMap("max_return_date book_id user_id".split(" "));
-			
-			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
@@ -395,7 +496,7 @@ public class RestHandler {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteUser(@PathParam("id") String id) {
 		try {
-			Boolean b = DBExecutor.execQuery("DELETE FROM user WHERE id = "+id+";");
+			Boolean b = DBExecutor.execQuery("DELETE FROM user WHERE id = "+id);
 			if (!b)
 				throw new Exception("Utilisateur inconnu");
 			return getResponseWithHeaders("true", HttpResponseCode.OK);

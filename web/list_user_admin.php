@@ -21,9 +21,9 @@ if (isset($_REQUEST['add'])) {
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p id='text' style='color:#33ff33'>Livre ajouté !</p>";
+		echo "<p id='text' style='color:#33ff33'>Utilisateur ajouté !</p>";
 	} else {
-		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur, raison: $s</p>";
 	}
 }
 
@@ -31,6 +31,8 @@ if (isset($_REQUEST['update'])) {
 	$pseudo = $_REQUEST['pseudo'];
 	$name = $_REQUEST['name'];
 	$lastname = $_REQUEST['lastname'];
+	// Pas besoin d'hasher le pass
+	$pass = $_REQUEST['pass'];
 	$email = $_REQUEST['email'];
 	$tel = $_REQUEST['tel'];
 	$level = $_REQUEST['level'];
@@ -40,13 +42,13 @@ if (isset($_REQUEST['update'])) {
 	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/edit/admin");
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&email=$email&tel=$tel&level_access=$level&id=$uid");
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&password=$pass&email=$email&tel=$tel&level_access=$level&id=$uid");
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
 		echo "<p id='text' style='color:#33ff33'>Utilisateur modifié !</p>";
 	} else {
-		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur, raison: $s</p>";
 	}
 }
 
@@ -79,41 +81,40 @@ for ($i=0;$i<sizeof($jd);$i++) {
 	$email = $jd[$i]->email;
 	$tel = $jd[$i]->tel;
 	$level = $jd[$i]->level_access;
-	$lib = $jd[$i]->library_id;
+	$dis = ($jd[$i]->token === $_SESSION['token'] ? "disabled" : $level>=7 ? "disabled" : "");
 
-	if ($lib===$_SESSION['lib'])
-		$m .= "
-		<form method=post>
-			<input type='hidden' value='$uid' name='id'/>
-			<input type='hidden' value='5' name='$choice'/>
-			<td ".setWidth($pseudo).">
-				<input id='textmin' type='text' name='pseudo' value='$pseudo' />
-			</td>
-			<td ".setWidth($name).">
-				<input id='textmin' type='text' name='name' value='$name' />
-			</td>
-			<td ".setWidth($lastname).">
-				<input id='textmin' type='text' name='lastname' value='$lastname' />
-			</td>
-			<td ".setWidth("HIDDEN").">
-				<input id='textmin' type='text' name='pass' value='HIDDEN' disabled />
-			</td>
-			<td ".setWidth($email).">
-				<input id='textmin' type='text' name='email' value='$email' />
-			</td>
-			<td ".setWidth($tel).">
-				<input id='textmin' type='text' name='tel' value='$tel' />
-			</td>
-			<td ".setWidth($level)."))>
-				<input id='textmin' type='text' name='level' value='$level' />
-				".(setColor(getTextByLvl($level)))."
-			</td>
-			<td>
-				<input id='button' style='width:100%;' type='submit' value='Sauvegarder' name='update' />
-				<input id='button' style='width:100%;' type='submit' value='Supprimer' name='delete' />
-			</td>
-		</form>
-	</tr>";
+	$m .= "
+	<form method=post>
+		<input type='hidden' value='$uid' name='id'/>
+		<input type='hidden' value='5' name='$choice'/>
+		<td ".setWidth($pseudo).">
+			<input id='textmin' type='text' name='pseudo' value='$pseudo' />
+		</td>
+		<td ".setWidth($name).">
+			<input id='textmin' type='text' name='name' value='$name' />
+		</td>
+		<td ".setWidth($lastname).">
+			<input id='textmin' type='text' name='lastname' value='$lastname' />
+		</td>
+		<td ".setWidth("HIDDEN").">
+			<input id='textmin' type='password' name='pass' value=''/>
+		</td>
+		<td ".setWidth($email).">
+			<input id='textmin' type='text' name='email' value='$email' />
+		</td>
+		<td ".setWidth($tel).">
+			<input id='textmin' type='text' name='tel' value='$tel' />
+		</td>
+		<td ".setWidth($level)."))>
+			<input id='textmin' type='text' name='level' value='$level' />
+			".(setColor(getTextByLvl($level)))."
+		</td>
+		<td>
+			<input id='button' style='width:100%;' type='submit' value='Sauvegarder' name='update' $dis/>
+			<input id='button' style='width:100%;' type='submit' value='Supprimer' name='delete' $dis/>
+		</td>
+	</form>
+</tr>";
 }
 
 
@@ -131,7 +132,7 @@ $b = "
 			<input id='textmin' type='text' name='lastname' />
 		</td>
 		<td>
-			<input id='textmin' type='text' name='password' />
+			<input id='textmin' type='password' name='password' />
 		</td>
 		<td>
 			<input id='textmin' type='text' name='email' />
