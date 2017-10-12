@@ -178,6 +178,23 @@ table#list{
 	border:0;
 }
 
+#user
+{
+	background:transparent url("../images/user.png") no-repeat center top;
+	height: 128px;
+	width: 128px;
+	cursor:pointer;
+	border:0;
+}
+
+#library
+{
+	background:transparent url("../images/library.png") no-repeat center top;
+	height: 128px;
+	width: 128px;
+	cursor:pointer;
+	border:0;
+}
 
 
 

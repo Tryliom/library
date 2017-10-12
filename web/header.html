@@ -6,12 +6,12 @@
 		$_SESSION['token'] = null;
 		header("Location: login.php");
 	}
-	echo "[ <input id='home' title='Home' type=submit name=home href='index.php' value=''/> ~";
+	echo "<form action='index.php'><input id='home' title='Home' type='submit' name='home' value=''/></form>";
 	if (isset($_SESSION['lib'])) {
 		if (isset($_SESSION['token']) && isValid($_SESSION['token'])) {
-			echo "<a href='user.php' ".isPage('user.php').">Espace utilisateur</a> ~";
+			echo "<form action='user.php'><input id='user' title='Espace utilisateur' type='submit' name='user' value=''/></form>";
 		} else {
-			echo "<a href='login.php' ".isPage('login.php').">Login / Register</a> ~";
+			echo "<form action='login.php'><input id='user' title='Login' type='submit' name='login' value=''/></form>";
 		}
 		echo "<a href='library.php' ".isPage('library.php').">Library</a>";
 	}
