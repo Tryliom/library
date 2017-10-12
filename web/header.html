@@ -2,7 +2,11 @@
 <div id=all>
 <nav>
 	<?php	
-	echo "[ <a href='index.php' ".isPage('index.php').">Home</a> ~";
+	if (isset($_REQUEST['logout'])) {
+		$_SESSION['token'] = null;
+		header("Location: login.php");
+	}
+	echo "[ <input id='home' title='Home' type=submit name=home href='index.php' value=''/> ~";
 	if (isset($_SESSION['lib'])) {
 		if (isset($_SESSION['token']) && isValid($_SESSION['token'])) {
 			echo "<a href='user.php' ".isPage('user.php').">Espace utilisateur</a> ~";
@@ -19,8 +23,12 @@
 		$username = $jd[0]->username;
 		$level= $jd[0]->level_access;
 		
-		echo "<p style='color:#2b2; font-size:15px;'>Connecté en tant que<a style='color:#2b2; text-decoration:none; font-size:15px;' href='user.php'>".$username." ".setColor(getTextByLvl($level))."</a></p>";
-		
+		echo "<p style='color:#2b2; font-size:15px;'>Connecté en tant que<a style='color:#2b2; text-decoration:none; font-size:15px;' href='user.php'>".$username."</a></p>".setColor(getTextByLvl($level));
+		echo "
+			<form action='' method=post>
+				<input id='logout' title='Se déconnecter' type=submit name=logout value=''/>
+			</form>
+		";
 	}
 	
 	echo "</nav>";

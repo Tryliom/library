@@ -5,11 +5,6 @@
 require_once("bdd.php");
 require_once("lib.php");
 
-if (isset($_REQUEST['logout'])) {
-	$_SESSION['token'] = null;
-	header("Location: login.php");
-}
-
 if (isset($_REQUEST['save'])) {
 	$email = $_REQUEST['email'];
 	$tel = $_REQUEST['tel'];
@@ -80,12 +75,12 @@ echo "<div>
 	<td id=user><input type='text' name='tel' value='".$tel."' /></td>
 </tr>
 <tr>
-	<td>Mot de passe : </td>
+	<td>Nouveau mot de passe : </td>
 	<td id=user><input type='text' name='pass' placeholder='Remplir à choix' /></td>
 </tr>
 <tr>
-	<td><input id=button type=submit name=logout value='Se déconnecter'/></td>
-	<td><input id=button type=submit name=save value='Sauvegarder'/></td>
+	<td></td>
+	<td><input id='save' title='Sauvegarder' type=submit name=save value=''/></td>
 </tr>
 </table></form>
 

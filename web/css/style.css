@@ -83,6 +83,8 @@ table#list{
 }
 
 #button:hover {
+	padding:2px 20px;
+	border: 2px solid #555;
 	background-color: white;
     color: black;
 	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -103,9 +105,78 @@ table#list{
 	margin:0;
 }
 
+#add
+{
+	background:transparent url("../images/add.png") no-repeat center top;
+	padding:16px 32px 0 0;
+	cursor:pointer;
+	border:0;
+}
 
+#cancel
+{
+	background:transparent url("../images/cancel.png") no-repeat center top;
+	padding:16px 32px 0 0;
+	cursor:pointer;
+	border:0;
+}
 
+#config
+{
+	background:transparent url("../images/config.png") no-repeat center top;
+	padding:16px 32px 0 0;
+	cursor:pointer;
+	border:0;
+}
 
+#delete
+{
+	background:transparent url("../images/delete.png") no-repeat center top;
+	padding:16px 32px 0 0;
+	cursor:pointer;
+	border:0;
+}
+
+#edit
+{
+	background:transparent url("../images/edit.png") no-repeat center top;
+	padding:16px 32px 0 0;
+	cursor:pointer;
+	border:0;
+}
+
+#save
+{
+	background:transparent url("../images/save.png") no-repeat center top;
+	padding:16px 32px 0 0;
+	cursor:pointer;
+	border:0;
+}
+
+#search
+{
+	background:transparent url("../images/search.png") no-repeat center top;
+	padding:16px 32px 0 0;
+	cursor:pointer;
+	border:0;
+}
+
+#logout
+{
+	background:transparent url("../images/logout.png") no-repeat center top;
+	padding:16px 32px 0 0;
+	cursor:pointer;
+	border:0;
+}
+
+#home
+{
+	background:transparent url("../images/home.png") no-repeat center top;
+	height: 128px;
+	width: 128px;
+	cursor:pointer;
+	border:0;
+}
 
 
 

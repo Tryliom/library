@@ -83,7 +83,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 		if ($status == 2)
 			$m .= "<input id='button' style='width:100%;' type='submit' value='Renouveler' name='$n' $dis />";
 		else
-			$m .= "<input id='button' style='width:100%;' type='submit' value='Annuler' name='$n' $dis />";
+			$m .= "<input id='cancel' title=Annuler' type='submit' value='' name='$n' $dis />";
 	$m .= "</td>
 	</form></tr>";
 }
@@ -96,27 +96,3 @@ if ($m==="")
 		echo "$h $m $b";
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
