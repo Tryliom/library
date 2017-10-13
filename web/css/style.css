@@ -172,13 +172,13 @@ table#list{
 #home
 {
 	background:transparent url("../images/home.png") no-repeat center top;
-	height: 128px;
-	width: 128px;
+	padding:128px 128px 0 0;
+	margin-top:20px;
 	cursor:pointer;
 	border:0;
 }
 
-#user
+#userI
 {
 	background:transparent url("../images/user.png") no-repeat center top;
 	height: 128px;

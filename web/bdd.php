@@ -19,17 +19,17 @@ function setColor($s) {
 	$s = substr($s, 3);
 	switch ($c) {
 		case 'a':
-			return "<div style='color:#3f3;'>Rôle: $s</div>";
+			return "<div style='color:#3f3;'>[$s]</div>";
 		case 'b':
-			return "<div style='color:#aaf;'>Rôle: $s</div>";		
+			return "<div style='color:#aaf;'>[$s]</div>";		
 		case 'c':
-			return "<div style='color:#f44;'>Rôle: $s</div>";
+			return "<div style='color:#f44;'>[$s]</div>";
 		case 'd':
-			return "<div style='color:#f3d;'>Rôle: $s</div>";
+			return "<div style='color:#f3d;'>[$s]</div>";
 		case 'e':
-			return "<div style='color:#3dd;'>Rôle: $s</div>";
+			return "<div style='color:#3dd;'>[$s]</div>";
 		case 'f':
-			return "<div style='color:#111;'>Rôle: $s</div>";
+			return "<div style='color:#111;'>[$s]</div>";
 	}
 }
 

@@ -9,13 +9,13 @@
 	echo "<form action='index.php'><input id='home' title='Home' type='submit' name='home' value=''/></form>";
 	if (isset($_SESSION['lib'])) {
 		if (isset($_SESSION['token']) && isValid($_SESSION['token'])) {
-			echo "<form action='user.php'><input id='user' title='Espace utilisateur' type='submit' name='user' value=''/></form>";
+			echo "<form action='user.php'><input id='userI' title='Espace utilisateur' type='submit' name='user' value=''/></form>";
 		} else {
-			echo "<form action='login.php'><input id='user' title='Login' type='submit' name='login' value=''/></form>";
+			echo "<form action='login.php'><input id='userI' title='Login' type='submit' name='login' value=''/></form>";
 		}
-		echo "<a href='library.php' ".isPage('library.php').">Library</a>";
+		echo "<form action='library.php'><input id='library' title='Bibliothèque' type='submit' name='library' value=''/></form>";
 	}
-	if (!isset($_SESSION['lib']) && !isset($_SESSION['token'])) { echo " <a href='admin_panel.php' ".isPage('admin_panel.php').">Admin Panel</a> ]"; } else { echo "]"; } 
+	if (!isset($_SESSION['lib']) && !isset($_SESSION['token'])) { echo " <a href='admin_panel.php' ".isPage('admin_panel.php').">Admin Panel</a> ]"; }
 	
 	if (isset($_SESSION['token'])) {
 		$json_source = file_get_contents('http://localhost:6080/user/get/token/'.$_SESSION['token']);
@@ -23,7 +23,7 @@
 		$username = $jd[0]->username;
 		$level= $jd[0]->level_access;
 		
-		echo "<p style='color:#2b2; font-size:15px;'>Connecté en tant que<a style='color:#2b2; text-decoration:none; font-size:15px;' href='user.php'>".$username."</a></p>".setColor(getTextByLvl($level));
+		echo "<p style='color:#2b2; font-size:15px;'>Connecté en tant que ".$username."</p>".setColor(getTextByLvl($level));
 		echo "
 			<form action='' method=post>
 				<input id='logout' title='Se déconnecter' type=submit name=logout value=''/>
