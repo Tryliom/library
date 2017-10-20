@@ -71,6 +71,12 @@ public class JSONGenerator {
 		return jsonObject;
 	}
 	
+	/**
+	 * Create a JSON document for table 
+	 * @param list			Elements for create the document
+	 * @param numByName		Table for choose which elements goes where
+	 * @return				JSON document in text format
+	 */
 	public static String getJsonWithTable(Vector<String> list, HashMap<Integer, String> numByName) {
 		String s = "";
 		try {

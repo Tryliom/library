@@ -1,5 +1,10 @@
 package me.alexishaldy.enumerator;
 
+/**
+ * Used to sort response code
+ * @author haldy
+ *
+ */
 public enum HttpResponseCode {
 	OK(200), 
 	NOK(400);

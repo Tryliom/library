@@ -3,7 +3,6 @@
 
 <?php
 require_once("bdd.php");
-require_once("lib.php");
 
 if (isset($_REQUEST['save'])) {
 	$email = $_REQUEST['email'];

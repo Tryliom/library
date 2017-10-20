@@ -23,7 +23,10 @@ import me.alexishaldy.util.Utils;
 @SuppressWarnings("restriction")
 public class Server {
 	private static HttpServer hs;
- 	
+ 	/**
+ 	 * This method is used to open the webserver for all
+ 	 * @param args Argument
+ 	 */
     public static void main(String[] args) throws IOException, IllegalArgumentException, URISyntaxException {
     	
     	// Get the host from the properties file, or set a default one
@@ -54,6 +57,9 @@ public class Server {
         return UriBuilder.fromUri("http://" + host + "/").port(port).build();
     }
     
+    /**
+     * This method is used to stop the webserver
+     */
     public static void stopServer() {
     	if (hs!=null) {
     		hs.stop(0);

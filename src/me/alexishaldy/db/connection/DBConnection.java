@@ -73,8 +73,20 @@ public abstract class DBConnection {
 	 */
 	public abstract Map<String, Boolean> getSystemDBs() throws DBException;
 
+	/**
+	 * This method is used for do anything in sql request
+	 * @param query			The request
+	 * @return				Result of query
+	 * @throws DBException	DBException Throws an exception in case a problem with the DB has occurred
+	 */
 	public abstract boolean execQuery(String query) throws DBException;
 	
+	/**
+	 * This method is used for SELECT in sql request
+	 * @param query			The select request
+	 * @return				The result of query
+	 * @throws DBException	DBException Throws an exception in case a problem with the DB has occurred
+	 */
 	public abstract Vector<String> selectQuery(String query) throws DBException;
 
 	

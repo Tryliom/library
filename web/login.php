@@ -3,10 +3,6 @@
 
 <?php
 require_once("bdd.php");
-require_once("lib.php");
-
-if (!$valid)
-	return;
 
 if (isset($_SESSION['token']))
 	header("Location: user.php");
