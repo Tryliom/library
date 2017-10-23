@@ -2,6 +2,7 @@ package me.alexishaldy.db.pool;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Properties;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -9,6 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import me.alexishaldy.db.connection.DBConnection;
 import me.alexishaldy.db.connection.DBConnectionAdapter;
 import me.alexishaldy.exception.DBException;
+import me.alexishaldy.util.Utils;
 
 /**
  * This class defines a pool of database connections
@@ -58,13 +60,14 @@ public class DBConnectionPool {
 		_popMutex = new ReentrantLock();
 		_cvEmpty = _pushMutex.newCondition();
 		_cvFull = _popMutex.newCondition();
-		
+		Properties pro = Utils.getDBProperties();
 		_pool = new ArrayDeque<DBConnection>();			
-		String host = "localhost";
-		String port = "3306";
-		String user = "root";
-		String pass = "";
-		int max_conn = 10;
+		String host = pro.getProperty("dbhost");
+		String port = pro.getProperty("dbport");
+		String user = pro.getProperty("username");
+		String pass = pro.getProperty("password");
+		String max = pro.getProperty("maxconnect");
+		int max_conn = Utils.getInt(max, -1);
 
 		System.out.println("Connecting to " + host + ":" + port + " with username <" + user + ">, pass <" + pass + ">");
 

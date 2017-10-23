@@ -9,3 +9,5 @@ dbport:		3306
 # Specify the <host>:<port> where the REST service will be running
 host:	localhost
 port:	6080
+# Max connections
+maxconnect: 10

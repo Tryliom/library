@@ -24,8 +24,6 @@ public class Utils {
 	public final static String SEP = System.getProperty("file.separator");
 	public static final String DB_CONF = "conf" + SEP + "db.properties";
 	public static final String SWAGGER_FILE = "web" + SEP + "swagger.json";
-	public static HashMap<String, String> listAuthors = new HashMap<String, String>();
-	public static Thread currThread = null;
 	
 	/**
 	 * Get the DB connection properties
@@ -140,6 +138,32 @@ public class Utils {
 		if (exception != null)
 			throw exception;
 		return properties;
+	}
+	/**
+	 * Verify if the String s is a int or not
+	 * @param s		String to verify
+	 * @return		Is int or not
+	 */
+	public static boolean isInt(String s) {
+		try {
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	/**
+	 * Try to convert String s to int, if this is not an int, the defaultValue is return
+	 * @param s				String to convert
+	 * @param defaultValue	Value return if String s is not an int
+	 * @return				Int value
+	 */
+	public static Integer getInt(String s, int defaultValue) {
+		try {
+			return Integer.parseInt(s);
+		} catch (Exception e) {
+			return defaultValue;
+		}
 	}
 }
 
