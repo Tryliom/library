@@ -1,0 +1,9 @@
+digraph "me.alexishaldy.rest.JSONGenerator.getJson"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="me.alexishaldy.rest.JSONGenerator.getJson",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="me.alexishaldy.rest.Rest\lHandler.searchUser",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classme_1_1alexishaldy_1_1rest_1_1_rest_handler.html#ab77eba8b56e6b2518b3a4265df1d172f"];
+}

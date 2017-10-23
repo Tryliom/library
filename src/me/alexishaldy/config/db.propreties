@@ -1,0 +1,11 @@
+# Specify the database connection settings
+
+# <username> and <password> to access to the database
+username:	root
+password:	
+# <host>:<port> to establish a connection to the database
+dbhost:		localhost
+dbport:		3306
+# Specify the <host>:<port> where the REST service will be running
+host:	localhost
+port:	6080
