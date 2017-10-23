@@ -22,7 +22,7 @@ import java.util.Vector;
 public class Utils {
 	
 	public final static String SEP = System.getProperty("file.separator");
-	public static final String DB_CONF =  "config" + SEP + "db.properties";
+	public static final String DB_CONF = "config" + SEP + "db.properties";
 	public static final String SWAGGER_FILE = "web" + SEP + "swagger.json";
 	
 	/**
