@@ -3,6 +3,7 @@ package me.alexishaldy.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Properties;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -27,13 +28,15 @@ public class Server {
  	 * This method is used to open the webserver for all
  	 * @param args Argument
  	 */
-    public static void main(String[] args) throws IOException, IllegalArgumentException, URISyntaxException {
+    public static void main(String[] args) throws Exception {
+    	
+		Properties pro = Utils.getDBProperties();
     	
     	// Get the host from the properties file, or set a default one
-    	String host = "localhost";
+    	String host =  pro.getProperty("host");
 
     	// Get the port from the properties file, or set a default one if it is not found or not correct
-    	int port = 6080;    	
+    	int port = Utils.getInt(pro.getProperty("port"), 6080);    	
 
         // Define handler path
         ResourceConfig resourceConfig = new PackagesResourceConfig("me.alexishaldy.rest");

@@ -14,13 +14,13 @@ public class ServerTest {
 		String s[] = "test test".split(" ");
 		try {
 			Server.main(s);
-		} catch (IllegalArgumentException | IOException | URISyntaxException e) {
+		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 		try {
 			Server.main(s);
 			fail();
-		} catch (IllegalArgumentException | IOException | URISyntaxException e) {}
+		} catch (Exception e) {}
 		Server.stopServer();
 	}
 

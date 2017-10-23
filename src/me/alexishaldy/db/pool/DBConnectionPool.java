@@ -60,8 +60,8 @@ public class DBConnectionPool {
 		_popMutex = new ReentrantLock();
 		_cvEmpty = _pushMutex.newCondition();
 		_cvFull = _popMutex.newCondition();
+		_pool = new ArrayDeque<DBConnection>();
 		Properties pro = Utils.getDBProperties();
-		_pool = new ArrayDeque<DBConnection>();			
 		String host = pro.getProperty("dbhost");
 		String port = pro.getProperty("dbport");
 		String user = pro.getProperty("username");
