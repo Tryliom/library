@@ -530,7 +530,7 @@ public class RestHandler {
 			Boolean b = DBExecutor.execQuery("UPDATE book SET user_id = "+uid+" WHERE id = \""+bid+"\" AND library_id = "+lib+";");
 			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Boolean c = DBExecutor.execQuery("INSERT INTO renter(book_id, user_id, taken_date, max_return_date, status, library_id) VALUES ("+bid+", "+uid+", "
-					+ "'"+formater.format(new Date().getTime())+"', '"+formater.format(new Date().getTime()+(60000*60*48))+"', 3, "+lib+");");
+					+ "'"+formater.format(new Date().getTime())+"', '"+formater.format(new Date().getTime()+(60000*60*24*14))+"', 3, "+lib+");");
 			if (!b || !c)
 				throw new Exception("Données insérées erronées");
 			else
