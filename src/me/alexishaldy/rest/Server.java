@@ -1,8 +1,6 @@
 package me.alexishaldy.rest;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Properties;
 
 import javax.ws.rs.core.UriBuilder;
