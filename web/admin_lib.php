@@ -9,8 +9,12 @@ echo "
 <form name='book' method='post'><table id='user' cellspacing=15><h1>Gestion des livres</h1>
 
 <tr>
-	<td><input id='bookmanager' type='submit' name='list_book_admin' value='Liste des livres' /></td>
-	<td><input id='bookmanager' type='submit' name='list_renter_admin' value='Liste des livres empruntés' /></td>
+	<td><input id='bookmanager' type='submit' name='list_book_admin' value='Tous les livres' /></td>
+	<td><input id='bookmanager' type='submit' name='list_renter_admin' value='Livres empruntés' /></td>
+</tr>
+<tr>
+	<td><input id='bookmanager' type='submit' name='list_renter_tovalid' value='Demandes à valider' /></td>
+	<td><input id='bookmanager' type='submit' name='list_renter_reserve' value='Réservations' /></td>
 </tr>
 
 </table></form>
@@ -20,8 +24,8 @@ echo "
 <form name='book' method='post'><table id='user' cellspacing=15><h1>Gestion des utilisateurs</h1>
 
 <tr>
-	<td><input id='bookmanager' type='submit' name='list_user_admin' value='Liste des utilisateurs' /></td>
-	<td><input id='bookmanager' type='submit' name='warn_user_admin' value='Alertes des utilisateurs' /></td>
+	<td><input id='bookmanager' type='submit' name='list_user_admin' value='Tous les utilisateurs' /></td>
+	<td><input id='bookmanager' type='submit' name='warn_user_admin' value='Livres non rendus' /></td>
 </tr>
 
 </table></form>
@@ -43,6 +47,12 @@ if (isset($_POST['list_user_admin'])) {
 }
 if (isset($_POST['warn_user_admin'])) {
 	$choice="warn_user_admin";
+}
+if (isset($_POST['list_renter_tovalid'])) {
+	$choice="list_renter_tovalid";
+}
+if (isset($_POST['list_renter_reserve'])) {
+	$choice="list_renter_reserve";
 }
 
 if (!empty($choice))

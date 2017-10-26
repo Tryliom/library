@@ -40,8 +40,13 @@ table td#user, table p#user {
 	text-align:left;
 }
 
-table#list{
+table#list {
 	width:70%;
+	background-color:#eeeeff;
+}
+
+table#list tr:nth-child(odd) {
+	background-color:#ccccff;
 }
 
 #bookmanager {
@@ -141,6 +146,14 @@ table#list{
 #save
 {
 	background:transparent url("../images/save.png") no-repeat center top;
+	padding:16px 32px 0 0;
+	cursor:pointer;
+	border:0;
+}
+
+#valid
+{
+	background:transparent url("../images/valid.png") no-repeat center top;
 	padding:16px 32px 0 0;
 	cursor:pointer;
 	border:0;

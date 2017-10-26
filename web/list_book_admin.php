@@ -69,7 +69,7 @@ if (isset($_REQUEST['delete'])) {
 require_once('page.php');
 $json_source = file_get_contents('http://localhost:6080/book/get/'.$page.'/'.$_SESSION['lib']);
 $jd= json_decode($json_source);
-$h = "<table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Emprunté ?</th><th>Option</th><tr>";
+$h = "<table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Emprunté ?</th><th>Option</th>";
 $m = "";
 for ($i=0;$i<sizeof($jd);$i++) {
 	$bid = $jd[$i]->id;
@@ -81,7 +81,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 	$editor = $jd[$i]->editor;
 	$user_id = $jd[$i]->user_id;
 	$lib = $jd[$i]->library_id;
-		$m .= "
+		$m .= "<tr>
 		<form method=post>
 			<input type='hidden' value='$bid' name='id'/>
 			<input type='hidden' value='5' name='$choice'/>

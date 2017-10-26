@@ -70,7 +70,7 @@ if (isset($_REQUEST['delete'])) {
 
 $json_source = file_get_contents('http://localhost:6080/user/get/');
 $jd= json_decode($json_source);
-$h = "<table id='list' cellspacing='10'><th>Pseudo</th><th>Prénom</th><th>Nom</th><th>Mot de passe</th><th>Email</th><th>Téléphone</th><th>Niveau d'accès</th><th>Options</th><tr>";
+$h = "<table id='list' cellspacing='10'><th>Pseudo</th><th>Prénom</th><th>Nom</th><th>Mot de passe</th><th>Email</th><th>Téléphone</th><th>Niveau d'accès</th><th>Options</th>";
 $m = "";
 for ($i=0;$i<sizeof($jd);$i++) {
 	$uid = $jd[$i]->id;
@@ -83,7 +83,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 	$level = $jd[$i]->level_access;
 	$dis = ($jd[$i]->token === $_SESSION['token'] ? "disabled" : $level>=7 ? "disabled" : "");
 
-	$m .= "
+	$m .= "<tr>
 	<form method=post>
 		<input type='hidden' value='$uid' name='id'/>
 		<input type='hidden' value='5' name='$choice'/>
@@ -107,7 +107,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 		</td>
 		<td ".setWidth($level)."))>
 			<input id='textmin' type='text' name='level' value='$level' />
-			".(setColor(getTextByLvl($level)))."
+			".(Utils::setColor(Utils::getTextByLvl($level)))."
 		</td>
 		<td>
 			<input id='button' style='width:100%;' type='submit' value='Sauvegarder' name='update' $dis/>

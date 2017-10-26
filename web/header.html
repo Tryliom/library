@@ -24,7 +24,7 @@
 		<img height='64' width='64' src='images/home.png'>
 	</a>
 	";
-	if (isset($_SESSION['token']) && isValid($_SESSION['token'])) {
+	if (isset($_SESSION['token']) && Utils::isValid($_SESSION['token'])) {
 		echo "
 		<a href='user.php' title='Espace utilisateur'>
 			<img height='64' width='64' src='images/".$us."_64.png'>
@@ -38,7 +38,7 @@
 		";
 	}
 
-	if (isset($_SESSION['lib']) && isset($_SESSION['token']) && isValid($_SESSION['token'])) {
+	if (isset($_SESSION['lib']) && isset($_SESSION['token']) && Utils::isValid($_SESSION['token'])) {
 		echo "
 		<a href='library.php' title='Bibliothèque'>
 			<img height='64' width='64' src='images/library.png'>

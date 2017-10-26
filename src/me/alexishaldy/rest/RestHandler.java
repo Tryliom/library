@@ -592,7 +592,7 @@ public class RestHandler {
 		try {
 			Vector<String> list = DBExecutor.selectQuery("SELECT COUNT(*) FROM renter WHERE id = "+id);
 			if (list.size()>0) {
-				Boolean b = DBExecutor.execQuery("DELETE renter WHERE id = "+id);
+				Boolean b = DBExecutor.execQuery("DELETE FROM renter WHERE id = "+id);
 				return getResponseWithHeaders("true", HttpResponseCode.OK);
 			} else {
 				return getResponseWithHeaders("Cet emprunt n'existe pas !", HttpResponseCode.OK);
@@ -605,16 +605,18 @@ public class RestHandler {
 	
 	/**
 	 * This method is used to get the list of request for a book to valid
-	 * @return Get the list of renter with max_return_date, book_id and user_id from the table
+	 * @param page	The page number (int)
+	 * @param id	The library ID
+	 * @return 		Get the list of renter with max_return_date, book_id and user_id from the table
 	 */
 	@GET
-	@Path("/renter/get/tovalid")
+	@Path("/renter/get/tovalid/{page}/{library_id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getRenterListToValid() {
+	public Response getRenterListToValid(@PathParam("page") String page, @PathParam("library_id") String id) {
 		try {
-			Vector<String> list = DBExecutor.selectQuery("SELECT max_return_date, book_id, user_id FROM renter WHERE status = 3");
+			Vector<String> list = DBExecutor.selectQuery("SELECT id, book_id, user_id FROM renter WHERE status = 3 AND library_id = "+id+" LIMIT "+(100*(Integer.parseInt(page)-1))+", 100");
 			
-			HashMap<Integer, String> hash = Utils.putInMap("max_return_date book_id user_id".split(" "));
+			HashMap<Integer, String> hash = Utils.putInMap("id book_id user_id".split(" "));
 			
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
 		} catch (Exception e) {

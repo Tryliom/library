@@ -1,5 +1,5 @@
 <?php
-if (isset($_SESSION['token']) && isValid($_SESSION['token']) && isset($_SESSION['lib']))
+if (isset($_SESSION['token']) && Utils::isValid($_SESSION['token']) && isset($_SESSION['lib']))
 	;
 else
 	header("Location: login.php");

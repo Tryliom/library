@@ -44,7 +44,7 @@ $lastname = $jd[0]->lastname;
 $email = $jd[0]->email;
 $tel = $jd[0]->tel;
 $levelAccess = $jd[0]->level_access;
-$rank = getTextByLvl($levelAccess);
+$rank = Utils::getTextByLvl($levelAccess);
 echo "<div>
 
 <form action='' method=post><table id='user' cellspacing='10'>
@@ -63,7 +63,7 @@ echo "<div>
 </tr>
 <tr>
 	<td>Grade : </td>
-	<td><p id=user>".setColor($rank)."</p></td>
+	<td><p id=user>".Utils::setColor($rank)."</p></td>
 </tr>
 <tr>
 	<td>Email : </td>
