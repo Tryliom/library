@@ -45,37 +45,38 @@ $email = $jd[0]->email;
 $tel = $jd[0]->tel;
 $levelAccess = $jd[0]->level_access;
 $rank = Utils::getTextByLvl($levelAccess);
+$b =  "style='border-bottom:1px solid rgba(50, 50, 50, 0.2); border-left:1px solid rgba(50, 50, 50, 0.2);'";
 echo "<div>
 
 <form action='' method=post><table id='user' cellspacing='10'>
 <h1>Mon compte</h1>
 <tr>
-	<td>Pseudo : </td>
+	<td $b>Pseudo : </td>
 	<td><p id=user>".$username."</p></td>
 </tr>
 <tr>
-	<td>Prénom : </td>
+	<td $b>Prénom : </td>
 	<td><p id=user>".$name."</p></td>
 </tr>
 <tr>
-	<td>Nom : </td>
+	<td $b>Nom : </td>
 	<td><p id=user>".$lastname."</p></td>
 </tr>
 <tr>
-	<td>Grade : </td>
+	<td $b>Grade : </td>
 	<td><p id=user>".Utils::setColor($rank)."</p></td>
 </tr>
 <tr>
-	<td>Email : </td>
-	<td id=user><input type='email' name='email' value='".$email."' /></td>
+	<td $b>Email : </td>
+	<td id=user><input id='textmin' type='email' name='email' value='".$email."' /></td>
 </tr>
 <tr>
-	<td>Numéro de téléphone (Suisse) : </td>
-	<td id=user><input type='text' name='tel' value='".$tel."' /></td>
+	<td $b>Numéro de téléphone (Suisse) : </td>
+	<td id=user><input id='textmin' type='text' name='tel' value='".$tel."' /></td>
 </tr>
 <tr>
-	<td>Nouveau mot de passe : </td>
-	<td id=user><input type='text' name='pass' placeholder='Remplir à choix' /></td>
+	<td $b>Nouveau mot de passe : </td>
+	<td id=user><input id='textmin' type='text' name='pass' placeholder='Remplir à choix' /></td>
 </tr>
 <tr>
 	<td></td>

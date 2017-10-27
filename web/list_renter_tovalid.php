@@ -20,7 +20,7 @@ if (isset($_REQUEST['return'])) {
 		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
 	}
 }
-$h = "<table id='list' cellspacing='5'><th>Titre</th><th>Numéro d'édition</th><th>Utilisateur</th><th>Option</th>";
+$h = "<table id='list' cellspacing='0'><th>Titre</th><th>Numéro d'édition</th><th>Utilisateur</th><th>Option</th>";
 $m = "";
 $json_source = file_get_contents('http://localhost:6080/renter/get/tovalid/1/'.$_SESSION['lib']);
 $jd= json_decode($json_source);

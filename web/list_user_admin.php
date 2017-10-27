@@ -70,7 +70,7 @@ if (isset($_REQUEST['delete'])) {
 
 $json_source = file_get_contents('http://localhost:6080/user/get/');
 $jd= json_decode($json_source);
-$h = "<table id='list' cellspacing='10'><th>Pseudo</th><th>Prénom</th><th>Nom</th><th>Mot de passe</th><th>Email</th><th>Téléphone</th><th>Niveau d'accès</th><th>Options</th>";
+$h = "<table id='list' cellspacing='0'><th>Pseudo</th><th>Prénom</th><th>Nom</th><th>Mot de passe</th><th>Email</th><th>Téléphone</th><th>Niveau d'accès</th><th>Options</th>";
 $m = "";
 for ($i=0;$i<sizeof($jd);$i++) {
 	$uid = $jd[$i]->id;
@@ -87,31 +87,30 @@ for ($i=0;$i<sizeof($jd);$i++) {
 	<form method=post>
 		<input type='hidden' value='$uid' name='id'/>
 		<input type='hidden' value='5' name='$choice'/>
-		<td ".setWidth($pseudo).">
-			<input id='textmin' type='text' name='pseudo' value='$pseudo' />
+		<td>
+			<input id='textmin' type='text' name='pseudo' value='$pseudo'/>
 		</td>
-		<td ".setWidth($name).">
-			<input id='textmin' type='text' name='name' value='$name' />
+		<td>
+			<input id='textmin' type='text' name='name' value='$name'/>
 		</td>
-		<td ".setWidth($lastname).">
-			<input id='textmin' type='text' name='lastname' value='$lastname' />
+		<td>
+			<input id='textmin' type='text' name='lastname' value='$lastname'/>
 		</td>
-		<td ".setWidth("HIDDEN").">
+		<td>
 			<input id='textmin' type='password' name='pass' value=''/>
 		</td>
-		<td ".setWidth($email).">
-			<input id='textmin' type='text' name='email' value='$email' />
+		<td>
+			<input id='textmin' type='text' name='email' value='$email'/>
 		</td>
-		<td ".setWidth($tel).">
-			<input id='textmin' type='text' name='tel' value='$tel' />
+		<td>
+			<input id='textmin' type='text' name='tel' value='$tel'/>
 		</td>
-		<td ".setWidth($level)."))>
-			<input id='textmin' type='text' name='level' value='$level' />
+		<td>
+			<input id='textmin' type='text' name='level' value='$level'/>
 			".(Utils::setColor(Utils::getTextByLvl($level)))."
 		</td>
 		<td>
-			<input id='button' style='width:100%;' type='submit' value='Sauvegarder' name='update' $dis/>
-			<input id='button' style='width:100%;' type='submit' value='Supprimer' name='delete' $dis/>
+			".($dis!="disabled" ? (Utils::getButtonImage("save", "Sauvegarder", "update").Utils::getButtonImage("delete", "Supprimer", "delete")) : "")."
 		</td>
 	</form>
 </tr>";
@@ -123,41 +122,32 @@ $b = "
 	<form method=post>
 		<input type='hidden' value='5' name='$choice'/>
 		<td>
-			<input id='textmin' type='text' name='pseudo' />
+			<input id='textmin' type='text' name='pseudo' placeholder='Pseudo'/>
 		</td>
 		<td>
-			<input id='textmin' type='text' name='name' />
+			<input id='textmin' type='text' name='name' placeholder='Prénom'/>
 		</td>
 		<td>
-			<input id='textmin' type='text' name='lastname' />
+			<input id='textmin' type='text' name='lastname' placeholder='Nom de famille'/>
 		</td>
 		<td>
-			<input id='textmin' type='password' name='password' />
+			<input id='textmin' type='password' name='password' placeholder='Mot de passe'/>
 		</td>
 		<td>
-			<input id='textmin' type='text' name='email' />
+			<input id='textmin' type='text' name='email' placeholder='Email'/>
 		</td>
 		<td>
-			<input id='textmin' type='text' name='tel' />
+			<input id='textmin' type='text' name='tel' placeholder='Téléphone'/>
 		</td>
 		<td>
-			<input id='textmin' type='text' name='level' />
+			<input id='textmin' type='text' name='level' placeholder=\"Niveau d'accès (0 à 7)\"/>
 		</td>
 		<td>
-			<input style='width:100%;' id='button' type='submit' value='Ajouter un nouvel utilisateur' name='add' />
+			".Utils::getButtonImage("add", "Ajouter un nouvel utilisateur", "add")."
 		</td>
 	</form>
 </tr>";
-if ($m==="") 
-	echo "<p id='text'>Aucun livres disponibles</p>";
-else
-	echo "$h $m $b";
-
-
-
-function setWidth($s) {
-	return "style='width:".(strlen($s)+4)."%;'";
-}
+echo "$h $m $b";
 ?>
 
 

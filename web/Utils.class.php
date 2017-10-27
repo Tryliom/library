@@ -103,5 +103,11 @@ class Utils {
 		<input id='$src' type='submit' value='' title='$title' name='$name' />
 		";
 	}
+
+	public static function getImage($src, $title, $size = 32) {
+		return "
+		<img src='images/$src.png' height='".$size."px' width='".$size."px' alt='$title'/>
+		";
+	}
 }
 ?>
