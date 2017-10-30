@@ -43,7 +43,7 @@ if (isset($_REQUEST['reserve'])) {
 require_once('page.php');
 $json_source = file_get_contents('http://localhost:6080/book/get/'.$page.'/'.$_SESSION['lib']);
 $jd= json_decode($json_source);
-$h = "<table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Option</th><tr>";
+$h = "<table id='list' cellspacing='0'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Option</th><tr>";
 $m = "";
 for ($i=0;$i<sizeof($jd);$i++) {
 	$bid = $jd[$i]->id;
@@ -77,9 +77,9 @@ for ($i=0;$i<sizeof($jd);$i++) {
 	<input type='hidden' value='$bid' name='id'/>
 	<input type='hidden' value='5' name='$choice'/>
 	<input type='hidden' value='$page' name='page'/>
-	<td id='textdisp'>$title</td><td id='textdisp'>$author</td><td id='textdisp'>$date</td><td id='textdisp'>$edition</td><td id='textdisp'>$editor</td><td id='textdisp'>$desc</td>
+	<td>$title</td><td>$author</td><td>$date</td><td>$edition</td><td>$editor</td><td>$desc</td>
 	<td>
-		<input id='button' style='width:100%;' type='submit' value='$name' name='$n' $dis />";
+		<input id='button' type='submit' value='$name' name='$n' $dis />";
 	if ($user_id>0 && $user_id!=$id) {
 		$json_source2 = file_get_contents('http://localhost:6080/renter/getall/'.$bid);		
 		$jd2= json_decode($json_source2);
@@ -96,7 +96,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 }
 $b = "</table>";
 if ($m==="") 
-	echo "<p id='text'>Aucun livres disponibles</p>";
+	echo "<p id='text' style='color:white;'>Aucun livres disponibles</p>";
 else
 	echo "$h $m $b";
 ?>

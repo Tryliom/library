@@ -1,5 +1,6 @@
 package me.alexishaldy.rest;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -517,24 +518,68 @@ public class RestHandler {
 	
 	/**
 	 * This method is used for the admin to valid a request from a user to get a book
-	 * @param bid 	ID of book
-	 * @param uid	ID of user
-	 * @param lib	ID of library
+	 * @param rid 	ID of renter
 	 * @return		Success or not
 	 */
 	@PUT
 	@Path("/admin/valid/{renter_id}")
 	@Produces(MediaType.APPLICATION_JSON)	
-	public Response validRenter(@PathParam("book_id") String bid, @PathParam("user_id") String uid, @PathParam("library_id") String lib) {
+	public Response validRenter(@PathParam("renter_id") String rid) {
 		try {
-			Boolean b = DBExecutor.execQuery("UPDATE book SET user_id = "+uid+" WHERE id = \""+bid+"\" AND library_id = "+lib+";");
 			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Boolean c = DBExecutor.execQuery("INSERT INTO renter(book_id, user_id, taken_date, max_return_date, status, library_id) VALUES ("+bid+", "+uid+", "
-					+ "'"+formater.format(new Date().getTime())+"', '"+formater.format(new Date().getTime()+(60000*60*24*14))+"', 3, "+lib+");");
-			if (!b || !c)
+			Boolean c = DBExecutor.execQuery("UPDATE renter SET taken_date = '"+formater.format(new Date().getTime())+"', "
+					+ "max_return_date = '"+formater.format(new Date().getTime()+(60000*60*24*14))+"', status = 2 WHERE id = "+rid);
+			if (!c)
 				throw new Exception("Données insérées erronées");
 			else
 				return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	/**
+	 * This method is used for the user to renew a book his get
+	 * @param rid 	ID of renter
+	 * @return		Success or not
+	 */
+	@PUT
+	@Path("/renter/renew/{renter_id}")
+	@Produces(MediaType.APPLICATION_JSON)	
+	public Response renewRenter(@PathParam("renter_id") String rid) {
+		try {
+			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Vector<String> list = DBExecutor.selectQuery("SELECT max_return_date FROM renter WHERE id = "+rid);
+			Date d = formater.parse(list.firstElement().substring(0, list.firstElement().length()-2));
+			Boolean c = DBExecutor.execQuery("UPDATE renter SET max_return_date = '"+formater.format(d.getTime() + (60000*60*24*7))+"', status = 1 WHERE id = "+rid);
+			if (!c)
+				throw new Exception("Données insérées erronées");
+			else
+				return getResponseWithHeaders("true", HttpResponseCode.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	/**
+	 * This method is used to cancel a request about to take a book
+	 * @param id 	renter ID to delete
+	 * @return		Sucess or not
+	 */	
+	@GET
+	@Path("/renter/cancel/{renter_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response cancelRenter(@PathParam("renter_id") String id) {
+		try {
+			Vector<String> list = DBExecutor.selectQuery("SELECT COUNT(*) FROM renter WHERE id = "+id);
+			if (list.size()>0) {
+				Boolean b = DBExecutor.execQuery("DELETE FROM renter WHERE id = "+id);
+				return getResponseWithHeaders("true", HttpResponseCode.OK);
+			} else {
+				return getResponseWithHeaders("Cet emprunt n'existe pas !", HttpResponseCode.OK);
+			}
+			
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
@@ -575,29 +620,6 @@ public class RestHandler {
 			HashMap<Integer, String> hash = Utils.putInMap("id book_id user_id taken_date max_return_date return_date status library_id".split(" "));
 			
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
-		} catch (Exception e) {
-			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
-		}
-	}
-	
-	/**
-	 * This method is used to cancel a request about to take a book
-	 * @param id 	renter ID to delete
-	 * @return		Sucess or not
-	 */	
-	@GET
-	@Path("/renter/user/cancel/{renter_id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response cancelRenter(@PathParam("renter_id") String id) {
-		try {
-			Vector<String> list = DBExecutor.selectQuery("SELECT COUNT(*) FROM renter WHERE id = "+id);
-			if (list.size()>0) {
-				Boolean b = DBExecutor.execQuery("DELETE FROM renter WHERE id = "+id);
-				return getResponseWithHeaders("true", HttpResponseCode.OK);
-			} else {
-				return getResponseWithHeaders("Cet emprunt n'existe pas !", HttpResponseCode.OK);
-			}
-			
 		} catch (Exception e) {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}

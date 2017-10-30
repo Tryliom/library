@@ -173,7 +173,7 @@ if (isset($_REQUEST['book_list']) && isset($_REQUEST['update'])) {
 $json_source = file_get_contents('http://localhost:6080/library/get/');
 $jd= json_decode($json_source);
 	$h = "<h1>Gestion des librairies</h1>
-	<table id='list' cellspacing='10'>
+	<table id='list' cellspacing='0'>
 		<tr>
 			<th>ID</th>
 			<th>Nom</th>
@@ -190,18 +190,17 @@ $jd= json_decode($json_source);
 			<tr>
 				<form method='post'>
 					<input type='hidden' name='lib_list' />
-					<td ".setWidth('ID').">
+					<td>
 						<input id='textmin' type='text' value='$lid' name='id' />
 					</td>
-					<td ".setWidth('Nom').">
+					<td>
 						<input id='textmin' type='text' name='name' value='$name' />
 					</td>
-					<td ".setWidth('Adresse').">
+					<td>
 						<input id='textmin' type='text' name='adress' value='$adress' />
 					</td>
 					<td> 
-						<input id='button' type='submit' value='Sauvegarder' name='update' />
-						<input id='button' type='submit' value='Supprimer' name='delete' /> 
+						".Utils::getButtonImage("save", "Sauvegarder", "update").Utils::getButtonImage("delete", "Supprimer", "delete")."
 					</td>
 				</form>
 			</tr>";
@@ -219,8 +218,8 @@ $jd= json_decode($json_source);
 				<td>
 					<input id='textmin' type='text' name='adress' />
 				</td>
-				<td>
-					<input id='button' type='submit' value='Ajouter une nouvelle librairie' name='add' />
+				<td id='textdisp'>
+					".Utils::getButtonImage("add", "Ajouter une nouvelle bibliothèque", "add")."
 				</td>	
 			</tr>
 		</form>
@@ -233,7 +232,7 @@ $jd= json_decode($json_source);
 	require_once('page.php');	
 	$json_source = file_get_contents('http://localhost:6080/book/get/'.$page.'/-1');
 	$jd= json_decode($json_source);
-	$h = "<table id='list' cellspacing='5'><th>Titre</th><th>Auteur</th><th>Date</th><th>Édition</th><th>Editeur</th><th>Description</th><th>Librarie ID</th><th>Options</th>";
+	$h = "<table id='list' cellspacing='0'><th>Titre</th><th>Auteur</th><th>Date</th><th>Édition</th><th>Editeur</th><th>Description</th><th>Librarie ID</th><th>Options</th>";
 	$m = "";
 	for ($i=0;$i<sizeof($jd);$i++) {
 		$bid = $jd[$i]->id;
@@ -249,16 +248,15 @@ $jd= json_decode($json_source);
 		<form method=post>
 		<input type='hidden' name='book_list' />
 		<input type='hidden' value='$bid' name='id'/>
-		<td ".setWidth($title)."><input id='textmin' type='text' name='title' value='$title' /></td>
-		<td ".setWidth($author)."><input id='textmin' type='text' name='author' value='$author' /></td>
-		<td ".setWidth($date)."><input id='textmin' type='text' name='date' value='$date' /></td>
-		<td ".setWidth($edition)."><input id='textmin' type='text' name='edition' value='$edition' /></td>
-		<td ".setWidth($editor)."><input id='textmin' type='text' name='editor' value='$editor' /></td>
-		<td ".setWidth($desc)."><input id='textmin' type='text' name='desc' value=\"$desc\" /></td>
-		<td ".setWidth($lib)."><input id='textmin' type='text' name='lib' value='$lib' /></td>
-		<td> 
-			<input style='width:100%;' id='button' type='submit' value='Sauvegarder' name='update' />
-			<input style='width:100%;' id='button' type='submit' value='Supprimer' name='delete' />
+		<td><input id='textmin' type='text' name='title' value='$title' /></td>
+		<td><input id='textmin' type='text' name='author' value='$author' /></td>
+		<td><input id='textmin' type='text' name='date' value='$date' /></td>
+		<td><input id='textmin' type='text' name='edition' value='$edition' /></td>
+		<td><input id='textmin' type='text' name='editor' value='$editor' /></td>
+		<td><input id='textmin' type='text' name='desc' value=\"$desc\" /></td>
+		<td><input id='textmin' type='text' name='lib' value='$lib' /></td>
+		<td id='textdisp'> 
+			".Utils::getButtonImage("save", "Sauvegarder", "update").Utils::getButtonImage("delete", "Supprimer", "delete")."
 		</td>
 		</form></tr>";
 	}
@@ -280,7 +278,9 @@ $jd= json_decode($json_source);
 	$b .= "
 	</select>
 	</td>
-	<td><input style='width:100%;' id='button' type='submit' value='Ajouter un livre' name='add' /></td></tr></form></table>";
+	<td id='textdisp'>
+		".Utils::getButtonImage("add", "Ajouter un nouveau livre", "add")."
+	</td></tr></form></table>";
 	echo "$h $m $b";
 	
 	
@@ -289,7 +289,7 @@ $jd= json_decode($json_source);
 	$json_source = file_get_contents('http://localhost:6080/user/get/');
 	$jd= json_decode($json_source);
 	$h = "<h1>Gestion des utilisateurs</h1>
-	<table id='list' cellspacing='5'><th>Pseudo</th><th>Prénom</th><th>Nom</th><th>Mot de passe</th><th>Email</th><th>Téléphone</th><th>Niveau d'accès</th><th>Librairie ID</th><th>Options</th><tr>";
+	<table id='list' cellspacing='0'><th>Pseudo</th><th>Prénom</th><th>Nom</th><th>Mot de passe</th><th>Email</th><th>Téléphone</th><th>Niveau d'accès</th><th>Options</th>";
 	$m = "";
 	for ($i=0;$i<sizeof($jd);$i++) {
 		$uid = $jd[$i]->id;
@@ -301,35 +301,34 @@ $jd= json_decode($json_source);
 		$tel = $jd[$i]->tel;
 		$level = $jd[$i]->level_access;
 		$dis = ($jd[$i]->token === $_SESSION['token_admin'] ? "disabled" : "");
-		$m .= "
+		$m .= "<tr>
 			<form method=post>
 				<input type='hidden' value='$uid' name='id'/>
 				<input type='hidden' name='user'/>
-				<td ".setWidth($pseudo).">
+				<td>
 					<input id='textmin' type='text' name='pseudo' value='$pseudo' />
 				</td>
-				<td ".setWidth($name).">
+				<td>
 					<input id='textmin' type='text' name='name' value='$name' />
 				</td>
-				<td ".setWidth($lastname).">
+				<td>
 					<input id='textmin' type='text' name='lastname' value='$lastname' />
 				</td>
-				<td ".setWidth("pass").">
+				<td>
 					<input id='textmin' type='password' name='pass' value=''/>
 				</td>
-				<td ".setWidth($email).">
+				<td>
 					<input id='textmin' type='text' name='email' value='$email' />
 				</td>
-				<td ".setWidth($tel).">
+				<td>
 					<input id='textmin' type='text' name='tel' value='$tel' />
 				</td>
-				<td ".setWidth($level)."))>
+				<td>
 					<input id='textmin' type='text' name='level' value='$level' />
-					".(setColor(getTextByLvl($level)))."
+					".(Utils::setColor(Utils::getTextByLvl($level)))."
 				</td>
 				<td>
-					<input id='button' style='width:100%;' type='submit' value='Sauvegarder' name='update' />
-					<input id='button' style='width:100%;' type='submit' value='Supprimer' name='delete' $dis />
+					".($dis!=="disabled" ? Utils::getButtonImage("save", "Sauvegarder", "update").Utils::getButtonImage("delete", "Supprimer", "delete") : (Utils::getButtonImage("save", "Sauvegarder", "update")))."
 				</td>
 			</form>
 		</tr>";
@@ -361,8 +360,8 @@ $jd= json_decode($json_source);
 			<td>
 				<input id='textmin' type='text' name='level' />
 			</td>
-			<td>
-				<input id='button' type='submit' value='Ajouter un nouvel utilisateur' name='add' />
+			<td id='textdisp'>
+				".Utils::getButtonImage("add", "Ajouter un nouvel utilisateur", "add")."
 			</td>
 		</form>
 	</tr>";
@@ -377,28 +376,3 @@ $jd= json_decode($json_source);
 		return "style='width:".(strlen($s)+4)."px;'";
 	}
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

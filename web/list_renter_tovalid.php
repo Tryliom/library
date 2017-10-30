@@ -3,21 +3,31 @@ if (strpos($_SERVER['PHP_SELF'], 'list_renter.php') !== false) {
     header("Location: index.php");
 }
 
-if (isset($_REQUEST['return'])) {
-	$bid = $_REQUEST['id'];
-	$uid = $_REQUEST['uid'];
-	$lib = $_SESSION['lib'];
+if (isset($_REQUEST['accept'])) {
+	$rid = $_REQUEST['id'];
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/return/$bid/$uid/$lib");
+	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/admin/valid/$rid");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
-		echo "<p id='text' style='color:#33ff33'>Vous avez rendu le livre !</p>";
+		echo "<p id='text' style='color:#33ff33'>Demande d'emprunt validée !</p>";
 	} else {
-		echo "<p id='text' style='color:#ff3333'>Erreur $s</p>";
+		echo "<p id='text' style='color:#ff3333'>Erreur, raison: $s</p>";
+	}
+}
+if (isset($_REQUEST['cancel'])) {
+	$rid = $_REQUEST['id'];
+	$url = "http://localhost:6080/renter/cancel/$rid";
+
+	$s = file_get_contents($url);
+	
+	if ($s==="true") {
+		echo "<p id='text' style='color:#33ff33'>La demande a bien été annulée !</p>";
+	} else {
+		echo "<p id='text' style='color:#ff3333'>Erreur, raison: $s</p>";
 	}
 }
 $h = "<table id='list' cellspacing='0'><th>Titre</th><th>Numéro d'édition</th><th>Utilisateur</th><th>Option</th>";
@@ -37,9 +47,9 @@ for ($i=0;$i<sizeof($jd);$i++) {
 			<form method='post'>
 			<input type='hidden' value='$rid' name='id'/>
 			<input type='hidden' value='5' name='$choice'/>
-			<td id='textdisp'>$title</td>
-			<td id='textdisp'>$edition</td>
-			<td id='textdisp'>$username</td>
+			<td>$title</td>
+			<td>$edition</td>
+			<td>$username</td>
 			<td>
 				".Utils::getButtonImage("valid", "Accepter", "accept").Utils::getButtonImage("cancel", "Refuser", "cancel")."
 			</td>
