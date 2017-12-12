@@ -40,7 +40,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 	$rid = $jd[$i]->id;
 	$title = Utils::getInfoBook($bid, "title");
 	$edition = Utils::getInfoBook($bid, "edition");
-	$username = Utils::getInfoUser($uid, "name")." ".Utils::getInfoUser($uid, "lastname");
+	$username = Utils::getInfoUser($uid, "username");
 	
 	if ($uid>0)
 		$m .= "<tr>

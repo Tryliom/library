@@ -44,7 +44,7 @@ $lastname = $jd[0]->lastname;
 $email = $jd[0]->email;
 $tel = $jd[0]->tel;
 $levelAccess = $jd[0]->level_access;
-$rank = Utils::getTextByLvl($levelAccess);
+$rank = Utils::getLvl($levelAccess, true);
 $b =  "style='border-bottom:1px solid rgba(50, 50, 50, 0.2); border-left:1px solid rgba(50, 50, 50, 0.2);'";
 echo "<div>
 

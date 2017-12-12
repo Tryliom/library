@@ -11,13 +11,12 @@ if (isset($_REQUEST['add'])) {
 	$tel = $_REQUEST['tel'];
 	$level = $_REQUEST['level'];
 	$pass = sha1($_REQUEST['password']);
-	$lid = $_SESSION['lib'];
 	$ch = curl_init();
 
 	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/add");
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&email=$email&tel=$tel&level_access=$level&library_id=$lid&password=$pass&token=42");
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&email=$email&tel=$tel&level_access=$level&password=$pass&token=42");
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
@@ -106,8 +105,17 @@ for ($i=0;$i<sizeof($jd);$i++) {
 			<input id='textmin' type='text' name='tel' value='$tel'/>
 		</td>
 		<td>
-			<input id='textmin' type='text' name='level' value='$level'/>
-			".(Utils::setColor(Utils::getTextByLvl($level)))."
+			<select style='width:100%;' id='textmin' name='level'>
+			";
+			$list = Utils::getListRank();
+			for ($j=0;$j<sizeof($list);$j++) {
+				$d = "";
+				if (Utils::getLvl($list[$j], false)==$level)
+					$d = "selected=\"selected\"";
+				$m .= "<option value='".Utils::getLvl($list[$j], false)."' $d>".$list[$j]."</option>";
+			}
+			$m .= "
+			</select>
 		</td>
 		<td>
 			".($dis!="disabled" ? (Utils::getButtonImage("save", "Sauvegarder", "update").Utils::getButtonImage("delete", "Supprimer", "delete")) : "")."
@@ -140,7 +148,17 @@ $b = "
 			<input id='textmin' type='text' name='tel' placeholder='Téléphone'/>
 		</td>
 		<td>
-			<input id='textmin' type='text' name='level' placeholder=\"Niveau d'accès (0 à 7)\"/>
+			<select style='width:100%;' id='textmin' name='level'>
+			";
+			$list = Utils::getListRank();
+			for ($j=0;$j<sizeof($list);$j++) {
+				$d = "";
+				if (Utils::getLvl($list[$j], false)==0)
+					$d = "selected=\"selected\"";
+				$b .= "<option value='".Utils::getLvl($list[$j], false)."' $d>".$list[$j]."</option>";
+			}
+			$b .= "
+			</select>
 		</td>
 		<td>
 			".Utils::getButtonImage("add", "Ajouter un nouvel utilisateur", "add")."

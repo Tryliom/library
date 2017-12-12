@@ -5,9 +5,6 @@
 require_once("bdd.php");
 if (isset($_SESSION['lib']) && isset($_REQUEST['disconnect'])) {
 	$_SESSION['lib'] = null;
-	if (isset($_SESSION['token'])) {
-		$_SESSION['token'] = null;
-	}
 	header("Location: index.php");
 }
 require_once("lib.php");

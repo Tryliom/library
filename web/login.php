@@ -4,7 +4,7 @@
 <?php
 require_once("bdd.php");
 
-if (isset($_SESSION['token']))
+if (isset($_SESSION['token']) && Utils::isValid($_SESSION['token']))
 	header("Location: user.php");
 
 // Vérification création ou connexion

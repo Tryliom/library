@@ -194,10 +194,10 @@ $jd= json_decode($json_source);
 						<input id='textmin' type='text' value='$lid' name='id' />
 					</td>
 					<td>
-						<input id='textmin' type='text' name='name' value='$name' />
+						<input id='textmin' type='text' name='name' value=\"$name\" />
 					</td>
 					<td>
-						<input id='textmin' type='text' name='adress' value='$adress' />
+						<input id='textmin' type='text' name='adress' value=\"$adress\" />
 					</td>
 					<td> 
 						".Utils::getButtonImage("save", "Sauvegarder", "update").Utils::getButtonImage("delete", "Supprimer", "delete")."

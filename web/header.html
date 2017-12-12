@@ -49,23 +49,21 @@
 	
 	if (isset($_SESSION['token']) && Utils::isValid($_SESSION['token'])) {
 		echo "
-		<p style='color:#2b2; font-size:15px; float:right;'>
-			".Utils::getInfoUser($user_id, "username")."
-		</p>
+		<form style='display:inline; float:right;' action='' method=post>
+			<input id='logout' title='Se déconnecter' type=submit name=logout value=''/>
+		</form>
 		<a style='float:right;' href='user.php' title='Espace utilisateur'>
 			<img height='32' width='32' src='images/".$us."_32.png'>
 		</a>
+				<p style='color:#2b2; font-size:32px; float:right; margin:0 auto;'>
+			".strtoupper(Utils::getInfoUser($user_id, "username"))."
+		</p>
 		";
-		if (Utils::hasAlert($user_id))
+		/* if (Utils::hasAlert($user_id))
 		echo "
 			".Utils::getImage("alert", "Vous devez rendre 1 ou plusieurs livres !")."
 		";
-
-		echo "
-			<form style='display:inline; float:right;' action='' method=post>
-				<input id='logout' title='Se déconnecter' type=submit name=logout value=''/>
-			</form>
-		";
+		*/
 	}
 
 	echo "
