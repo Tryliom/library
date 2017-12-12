@@ -30,6 +30,8 @@ class Utils {
 				return "<div style='color:#3dd;'>[$s]</div>";
 			case 'f':
 				return "<div style='color:#111;'>[$s]</div>";
+			case '6':
+				return "<div style='color:#FF8C00;'>[$s]</div>";
 		}
 	}
 
@@ -44,13 +46,13 @@ class Utils {
 		if ($nb==true) {
 			switch ($lvl) {
 				case 7: return "§cSuperAdmin";
-				case 6: return "§cAdmin";
+				case 6: return "§6Admin";
 				case 0: return "§bMembre";
 			}
 		} else {
 			switch ($lvl) {
 				case "§cSuperAdmin": return 7;
-				case "§cAdmin": return 6;
+				case "§6Admin": return 6;
 				case "§bMembre": return 0;
 				case "SuperAdmin": return 7;
 				case "Admin": return 6;

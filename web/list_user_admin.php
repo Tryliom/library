@@ -87,25 +87,25 @@ for ($i=0;$i<sizeof($jd);$i++) {
 		<input type='hidden' value='$uid' name='id'/>
 		<input type='hidden' value='5' name='$choice'/>
 		<td>
-			<input id='textmin' type='text' name='pseudo' value='$pseudo'/>
+			<input id='textmin' type='text' name='pseudo' value='$pseudo' $dis/>
 		</td>
 		<td>
-			<input id='textmin' type='text' name='name' value='$name'/>
+			<input id='textmin' type='text' name='name' value='$name' $dis/>
 		</td>
 		<td>
-			<input id='textmin' type='text' name='lastname' value='$lastname'/>
+			<input id='textmin' type='text' name='lastname' value='$lastname' $dis/>
 		</td>
 		<td>
-			<input id='textmin' type='password' name='pass' value=''/>
+			<input id='textmin' type='password' name='pass' value='' $dis/>
 		</td>
 		<td>
-			<input id='textmin' type='text' name='email' value='$email'/>
+			<input id='textmin' type='text' name='email' value='$email' $dis/>
 		</td>
 		<td>
-			<input id='textmin' type='text' name='tel' value='$tel'/>
+			<input id='textmin' type='text' name='tel' value='$tel' $dis/>
 		</td>
 		<td>
-			<select style='width:100%;' id='textmin' name='level'>
+			<select style='width:100%;' id='textmin' name='level' $dis>
 			";
 			$list = Utils::getListRank();
 			for ($j=0;$j<sizeof($list);$j++) {

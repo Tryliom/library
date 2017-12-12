@@ -324,8 +324,17 @@ $jd= json_decode($json_source);
 					<input id='textmin' type='text' name='tel' value='$tel' />
 				</td>
 				<td>
-					<input id='textmin' type='text' name='level' value='$level' />
-					".(Utils::setColor(Utils::getTextByLvl($level)))."
+					<select style='width:100%;' id='textmin' name='level'>
+						";
+						$list = Utils::getListRank();
+						for ($j=0;$j<sizeof($list);$j++) {
+							$d = "";
+							if (Utils::getLvl($list[$j], false)==$level)
+								$d = "selected=\"selected\"";
+							$m .= "<option value='".Utils::getLvl($list[$j], false)."' $d>".$list[$j]."</option>";
+						}
+						$m .= "
+					</select>
 				</td>
 				<td>
 					".($dis!=="disabled" ? Utils::getButtonImage("save", "Sauvegarder", "update").Utils::getButtonImage("delete", "Supprimer", "delete") : (Utils::getButtonImage("save", "Sauvegarder", "update")))."
@@ -358,7 +367,17 @@ $jd= json_decode($json_source);
 				<input id='textmin' type='text' name='tel' />
 			</td>
 			<td>
-				<input id='textmin' type='text' name='level' />
+				<select style='width:100%;' id='textmin' name='level'>
+					";
+					$list = Utils::getListRank();
+					for ($j=0;$j<sizeof($list);$j++) {
+						$d = "";
+						if (Utils::getLvl($list[$j], false)==0)
+							$d = "selected=\"selected\"";
+						$b .= "<option value='".Utils::getLvl($list[$j], false)."' $d>".$list[$j]."</option>";
+					}
+					$b .= "
+				</select>
 			</td>
 			<td id='textdisp'>
 				".Utils::getButtonImage("add", "Ajouter un nouvel utilisateur", "add")."
