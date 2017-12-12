@@ -49,7 +49,6 @@ public abstract class DBConnection {
 	
 	/**
 	 * This method allows getting the information contain in a table
-	 * @param db 		Database where the table is placed
 	 * @param tableName	Name of the table whose information is being requested
 	 * @return			Table content retrieved from the database
 	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred

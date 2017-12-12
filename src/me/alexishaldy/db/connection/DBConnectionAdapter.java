@@ -160,7 +160,6 @@ public class DBConnectionAdapter extends DBConnection {
 	 * This method allows retrieving the information contained in a table from the database
 	 * The method derives from the base class <code>DBConnection</code>
 	 * @see DBConnection
-	 * @param db		Name of the database
 	 * @param tableName	Name of the table whose information is going to be retrieved
 	 * return			Table content retrieved from the database
 	 */

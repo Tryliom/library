@@ -6,11 +6,12 @@
 		$_SESSION['token'] = null;
 		header("Location: login.php");
 	}
+	$user_id;
 	if (isset($_SESSION['token']) && Utils::isValid($_SESSION['token'])) {
 		$json_source = file_get_contents('http://localhost:6080/user/get/token/'.$_SESSION['token']);
 		$jd= json_decode($json_source);
 		$us = "user_admin_32";
-		$username = $jd[0]->username;
+		$user_id = $jd[0]->id;
 		$level = $jd[0]->level_access;
 		global $us;
 		if ($level<6)		
@@ -49,12 +50,17 @@
 	if (isset($_SESSION['token']) && Utils::isValid($_SESSION['token'])) {
 		echo "
 		<p style='color:#2b2; font-size:15px; float:right;'>
-			".$username."
+			".Utils::getInfoUser($user_id, "username")."
 		</p>
 		<a style='float:right;' href='user.php' title='Espace utilisateur'>
 			<img height='32' width='32' src='images/".$us."_32.png'>
 		</a>
 		";
+		if (Utils::hasAlert($user_id))
+		echo "
+			".Utils::getImage("alert", "Vous devez rendre 1 ou plusieurs livres !")."
+		";
+
 		echo "
 			<form style='display:inline; float:right;' action='' method=post>
 				<input id='logout' title='Se déconnecter' type=submit name=logout value=''/>

@@ -109,5 +109,13 @@ class Utils {
 		<img src='images/$src.png' height='".$size."px' width='".$size."px' alt='$title'/>
 		";
 	}
+
+	public static function hasAlert($user_id) {
+		$s = file_get_contents('http://localhost:6080/renter/hasalert/'.$user_id);
+		if ($s==="true")
+			return true;
+		else
+			return false;		
+	}
 }
 ?>

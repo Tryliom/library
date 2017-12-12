@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import me.alexishaldy.db.connection.DBExecutor;
 import me.alexishaldy.enumerator.HttpResponseCode;
+import me.alexishaldy.exception.DBException;
 import me.alexishaldy.util.Utils;
 
 
@@ -118,6 +119,9 @@ public class RestHandlerTest {
 	
 	@Test
 	public void searchBook() {
+		try {
+			DBExecutor.execQuery("INSERT INTO Book(title, author, date, description, edition, editeur, library_id) VALUES(\"La vie\",\"NaN\",2007,\"For testing the life, this men make all...\",2,\"TestDum\",4)");
+		} catch (Exception e1) {}
 		// NOK
 		try {
 		if (rh.searchBook("title", "La vie", "NaN").getStatus()!=400)
@@ -148,7 +152,7 @@ public class RestHandlerTest {
 		}
 		// OK
 		try {
-			if (rh.searchBook("title_author", "La vie¨NaN", "4").getStatus()!=200)
+			if (rh.searchBook("title_author", "La vie¨NaN", "2").getStatus()!=200)
 				fail();
 		} catch (Exception e) {
 			fail(e.getMessage());

@@ -25,6 +25,7 @@ public class Server {
  	/**
  	 * This method is used to open the webserver for all
  	 * @param args Argument
+ 	 * @exception	Exception	Exception if the adress is already used
  	 */
     public static void main(String[] args) throws Exception {
     	

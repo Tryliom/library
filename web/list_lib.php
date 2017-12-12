@@ -38,7 +38,7 @@ if (isset($_REQUEST['update']) && isset($_REQUEST['user'])) {
 	$tel = $_REQUEST['tel'];
 	$level = $_REQUEST['level'];
 	$uid = $_REQUEST['id'];
-	$lib = $_REQUEST['lib'];
+	$lib = $_REQUEST['lib']; //  Notice: Undefined index: lib in C:\wamp64\www\Test\remoteGIT\web\list_lib.php on line 41
 	$ch = curl_init();
 
 	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/edit/superadmin");

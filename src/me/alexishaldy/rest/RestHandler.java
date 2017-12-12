@@ -176,8 +176,12 @@ public class RestHandler {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getBook(@PathParam("nb_page") String nb_page, @PathParam("library_id") String lib) {
 		try {
+			/**
+			 * Number of 
+			 */
+			final int NBBOOKS = 20;
 			int nbPage = Integer.parseInt(nb_page);
-			String sql = "SELECT * FROM book WHERE library_id = "+lib+" OR "+lib+" = -1 LIMIT "+(100*(nbPage-1))+", "+100;
+			String sql = "SELECT * FROM book WHERE library_id = "+lib+" OR "+lib+" = -1 LIMIT "+(NBBOOKS*(nbPage-1))+", "+NBBOOKS;
 			Vector<String> list = DBExecutor.selectQuery(sql);
 			HashMap<Integer, String> hash = Utils.putInMap("id title author date description edition editor user_id library_id".split(" "));
 			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
@@ -581,6 +585,50 @@ public class RestHandler {
 			}
 			
 		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	/**
+	 * This method is used for the system to know if the user has a book he must return
+	 * @param uid 	ID of user
+	 * @return		Success or not
+	 */
+	@GET
+	@Path("/renter/hasalert/{user_id}")
+	@Produces(MediaType.APPLICATION_JSON)	
+	public Response alertRenter(@PathParam("user_id") String uid) {
+		try {
+			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Vector<String> list = DBExecutor.selectQuery("SELECT true FROM renter WHERE max_return_date<NOW() AND user_id = "+uid);
+			if (list.size()>0)
+				return getResponseWithHeaders("true", HttpResponseCode.OK);
+			else
+				throw new Exception("Pas d'alertes");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	/**
+	 * This method is used for the system to know if the max_return_date of renter ID is old
+	 * @param rid 	ID of renter
+	 * @return		Success or not
+	 */
+	@GET
+	@Path("/renter/mustreturn/{renter_id}")
+	@Produces(MediaType.APPLICATION_JSON)	
+	public Response mustReturn(@PathParam("renter_id") String rid) {
+		try {
+			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Vector<String> list = DBExecutor.selectQuery("SELECT true FROM renter WHERE max_return_date<NOW() AND id = "+rid);
+			if (list.size()>0)
+				return getResponseWithHeaders("true", HttpResponseCode.OK);
+			else
+				throw new Exception("Il n'a pas dépassé la date limite");
+		} catch (Exception e) {
+			e.printStackTrace();
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
 	}

@@ -10,7 +10,6 @@ import me.alexishaldy.exception.DBException;
  * get a connection from the connection pool and then delegate to the DBConnection implementation
  * class.
  * @see DBConnection
- * @see DBConnectionAdapterTest
  * @author Ronald T. Fernandez
  * @version 1.0
  */
@@ -18,6 +17,8 @@ public class DBExecutor {
 	
 	/**
 	 * This method execute a sql insert, update and delete.
+	 * @param			sql			Sql request who UPDATE, DELETE, INSERT
+	 * @return 			boolean		Boolean if success or not
 	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred
 	 * @exception		Exception	A generic exception has occurred
 	 */
@@ -43,10 +44,10 @@ public class DBExecutor {
 	
 	/**
 	 * This method retrieves the list of items which are in a specific table name
-	 * @param 			table		Table name
-	 * @return 			item		Item in the table
-	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred
-	 * @exception		Exception	A generic exception has occurred
+	 * @param 			sql				Sql request who SELECT
+	 * @return			Vector	List of response
+	 * @exception 		DBException 	Throws an exception in case a problem with the DB has occurred
+	 * @exception		Exception		A generic exception has occurred
 	 */
 	public static Vector<String> selectQuery(final String sql) throws DBException, Exception {
 		// Get a connection from the pool
@@ -71,7 +72,7 @@ public class DBExecutor {
 	/**
 	 * This method retrieves the list of items which are in a specific table name
 	 * @param 			table		Table name
-	 * @return 			item		Item in the table
+	 * @return			Vector	List of response 
 	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred
 	 * @exception		Exception	A generic exception has occurred
 	 */
@@ -97,8 +98,9 @@ public class DBExecutor {
 	
 	/**
 	 * This method retrieves the list of tables which are in a specific database name
-	 * @param 			db		Database name
-	 * @return 			tables	Table names in the database
+	 * @param 			id			ID of an object in the table
+	 * @param 			table		Table names in the database
+	 * @return			Vector	List of response
 	 * @exception 		DBException Throws an exception in case a problem with the DB has occurred
 	 * @exception		Exception	A generic exception has occurred
 	 */

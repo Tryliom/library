@@ -160,6 +160,14 @@ table#list tr:nth-child(odd) {
 	border:0;
 }
 
+#alert
+{
+	background:transparent url("../images/alert.png") no-repeat center top;
+	padding:16px 32px 0 0;
+	cursor:pointer;
+	border:0;
+}
+
 #save
 {
 	background:transparent url("../images/save.png") no-repeat center top;
