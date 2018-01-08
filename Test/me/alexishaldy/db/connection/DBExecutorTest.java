@@ -2,8 +2,6 @@ package me.alexishaldy.db.connection;
 
 import static org.junit.Assert.fail;
 
-import java.util.Vector;
-
 import org.junit.Test;
 
 public class DBExecutorTest {

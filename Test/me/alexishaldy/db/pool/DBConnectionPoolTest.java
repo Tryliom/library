@@ -1,14 +1,11 @@
 package me.alexishaldy.db.pool;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import me.alexishaldy.db.connection.DBConnection;
-import me.alexishaldy.db.connection.DBConnectionAdapter;
-import me.alexishaldy.db.connection.DBConnectionAdapterTest;
 
 public class DBConnectionPoolTest {
 	static DBConnectionPool db = null;

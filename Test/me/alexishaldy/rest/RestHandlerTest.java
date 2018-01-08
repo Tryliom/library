@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import me.alexishaldy.db.connection.DBExecutor;
 import me.alexishaldy.enumerator.HttpResponseCode;
-import me.alexishaldy.exception.DBException;
 import me.alexishaldy.util.Utils;
 
 

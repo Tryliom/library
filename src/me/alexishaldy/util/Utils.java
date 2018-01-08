@@ -37,7 +37,7 @@ public class Utils {
 	
 	/**
 	 * This method is used to encrypt password in sha1
-	 * @param password 	Password to hash
+	 * @param password 	Password to hash.
 	 * @return			Password hashed
 	 */
 	public static String encryptPassword(String password)
