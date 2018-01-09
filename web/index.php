@@ -7,14 +7,10 @@ if (isset($_SESSION['lib']) && isset($_REQUEST['disconnect'])) {
 	$_SESSION['lib'] = null;
 	header("Location: index.php");
 }
+
+echo "<h1>Accueil de la bibliothèque</h1>";
+
 require_once("lib.php");
-
-if (!$valid)
-	return;
-
-echo "<h1>Accueil de la librairie</h1>";
-
-echo "<form method=post><input id='button' type='submit' name='disconnect' value='Se déconnecter de la librairie actuelle' /></form>";
 
 
 require_once("footer.html");

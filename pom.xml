@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Bib</groupId>
-	<artifactId>Bib</artifactId>
+	<artifactId>lib</artifactId>
 	<version>1.5</version>
-	<name>Bib</name>
+	<name>lib</name>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -95,12 +95,6 @@
 				<version>2.4</version>
 				<configuration>
 					<archive>
-<!--						<manifestEntries>
-							<Implementation-Title>Bib</Implementation-Title>
-							<Implementation-Version>1.5</Implementation-Version>
-							<Main-Class>me.alexishaldy.rest.Server</Main-Class>
-						</manifestEntries>
--->
 						<manifest>
 						    <mainClass>me.alexishaldy.rest.Server</mainClass>
 							<addClasspath>true</addClasspath>
@@ -110,6 +104,39 @@
 						</manifest>
 					</archive>
 				</configuration>
+			</plugin>
+			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-shade-plugin</artifactId>
+			    <version>3.1.0</version>
+			    <executions>
+			        <execution>
+				        <phase>package</phase>
+			            <goals>
+			                <goal>shade</goal>
+			            </goals>
+			            <configuration>
+			                <filters>
+						        <filter>
+						            <artifact>*:*</artifact>
+						            <excludes>
+						                <exclude>META-INF/*.SF</exclude>
+						                <exclude>META-INF/*.DSA</exclude>
+						                <exclude>META-INF/*.RSA</exclude>
+						            </excludes>
+						        </filter>
+						    </filters>
+			                <shadedArtifactAttached>true</shadedArtifactAttached>
+			                <transformers>
+			                    <transformer implementation=
+			                      "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+			                        <mainClass>me.alexishaldy.rest.Server</mainClass>
+			                </transformer>
+			            </transformers>
+			        </configuration>
+			        </execution>
+			    </executions>
 			</plugin>
 
 			<plugin>
@@ -192,8 +219,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-server</artifactId>
-			<version>1.19.4</version>
+			<artifactId>jersey-bundle</artifactId>
+			<version>1.19</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

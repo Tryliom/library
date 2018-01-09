@@ -4,70 +4,17 @@
 require_once("bdd.php");
 
 
-if (isset($_SESSION['token_admin']) && isset($_REQUEST['logout'])) {
-	$_SESSION['token_admin'] = null;
+if (isset($_SESSION['token']) && isset($_REQUEST['logout'])) {
+	$_SESSION['token'] = null;
 }
 
 
-if (isset($_SESSION['token_admin'])) {
-	echo "<h1 style='color:#f77;'>Mode Admin</h1>
-<form name='lg' method='post'><table>
-<tr>
-	<td><input id='button' type='submit' name='logout' value='Se déconnecter' /></td>
-</tr>
-
-</table></form>";
+if (isset($_SESSION['token']) && Utils::isValidSA($_SESSION['token'])) {
+	echo "<h1 style='color:#f77;'>Panel administrateur</h1>";
 	require_once("list_lib.php");
-	
 } else {
-	if (isset($_REQUEST['login'])) {
-		$w = 1;
-		if (empty($_REQUEST['username']) || empty($_REQUEST['pass'])) {
-			echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: Champ(s) vide(s)</p>";
-			$w = 4;
-		} 
-		if ($w === 1) {
-			// Généré une new token et le garder co
-			$token = generateToken(32);
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/admin/update/".$_REQUEST['username']."/".sha1($_REQUEST['pass'])."/$token");
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			$s = curl_exec ($ch);
-			curl_close ($ch);
-			if ($s=="true") {
-				$_SESSION['token_admin'] = $token;				
-				header("Location: admin_panel.php");
-			} else {
-				echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: $s</p>";
-			}
-		} else
-			echo "<p style='color:#ff2222'>Erreur lors de la connexion au compte: Pseudo ou mot de passe vide</p>";
-	}
-
-	echo "<div>
-
-	<form action='' method=post><table cellspacing='10'>
-	<h1>Se connecter</h1>
-	<tr>
-		<td>Pseudo : </td>
-		<td><input type=text name=username value='".getPost("username")."'/></td>
-	</tr>
-	<tr>
-		<td>Mot de passe : </td>
-		<td><input type=password name=pass value='".getPost("pass")."'/></td>
-	</tr>
-	<tr>
-		<td></td>
-		<td><input id=button type=submit name=login value='Connexion'/></td>
-
-	</tr>
-	</table></form>
-
-
-	</div>";
+	header("Location: index.php");
 }
-
 
 require_once("footer.html");
 

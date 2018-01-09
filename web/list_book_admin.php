@@ -117,8 +117,5 @@ $b = "<tr><form method=post>
 	<td id='textdisp'>
 		".Utils::getButtonImage("add", "Ajouter un nouveau livre", "add")."
 	</td></tr></form>";
-if ($m==="") 
-	echo "<p id='text'>Aucun livres disponibles</p>";
-else
 	echo "$h $m $b";
 ?>

@@ -4,7 +4,6 @@ if (strpos($_SERVER['PHP_SELF'], 'admin_lib.php') !== false) {
 }
 echo "
 <div>
-<h1 style='color:#f77;'>Mode Admin</h1>
 <table cellspacing='30'><tr><td>
 <form name='book' method='post'><table id='user' cellspacing=15><h1>Gestion des livres</h1>
 

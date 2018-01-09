@@ -14,6 +14,19 @@ class Utils {
 		return $b;
 	}
 
+	public static function isValidSA($token) {
+		$b=false;
+		$json_source = file_get_contents('http://localhost:6080/user/verif/admin/'.$token);
+		$jd= json_decode($json_source);
+		$name = empty($jd) ? "" : $jd[0]->username;
+		if (empty($name)) {
+			$b=false;
+		} else
+			$b=true;
+		return $b;
+	}
+
+
 	public static function setColor($s) {
 		$c = substr($s, 2, 1);
 		$s = substr($s, 3);

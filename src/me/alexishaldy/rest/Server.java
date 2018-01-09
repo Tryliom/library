@@ -1,6 +1,8 @@
 package me.alexishaldy.rest;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.ws.rs.core.UriBuilder;
@@ -39,6 +41,9 @@ public class Server {
 
         // Define handler path
         ResourceConfig resourceConfig = new PackagesResourceConfig("me.alexishaldy.rest");
+        final Map<String, Object> config = new HashMap<String, Object>();
+        config.put("com.sun.jersey.api.json.POJOMappingFeature", true);
+        resourceConfig.setPropertiesAndFeatures(config);
 
         // Set the handlers for the REST server
         URI uri = getURI(host, port);

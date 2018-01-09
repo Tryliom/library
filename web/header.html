@@ -65,12 +65,12 @@
 		";
 		*/
 	}
-
-	echo "
+	if (isset($_SESSION['token']) && Utils::isValidSA($_SESSION['token'])) {
+		echo "
 		<a href='admin_panel.php' title='Panel administrateur'>
 			<img height='64' width='64' src='images/admin.png'>
 		</a>
 		";
-
+	}
 	echo "</nav>";
 ?>
