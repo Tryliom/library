@@ -9,8 +9,8 @@ Ce projet sert à pouvoir gérer une bibliothèque en ligne, via une base de don
 Si vous voulez le déplacer, le jar et le dosser config sont indispensable
 
 ## Génèrer la Javadoc
-* Exécuter le javadoc.bat
-* Aller dans Doc\JavaDoc
-* Ouvrir index.html
+* Exécuter le **javadoc.bat**
+* Aller dans **Doc\JavaDoc**
+* Ouvrir **index.html**
 
 Pour plus d'informations, veuillez consulter le **Guide.docx** disponible dans **Doc\Guide**
