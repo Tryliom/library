@@ -1,5 +1,9 @@
 <?php
 $valid = false;
+if (isset($_SESSION['lib']) && isset($_REQUEST['disconnect'])) {
+	$_SESSION['lib'] = null;
+	header("Location: index.php");
+}
 if (isset($_REQUEST['choose'])) {
 	$_SESSION['lib'] = $_REQUEST['id'];
 }
@@ -19,10 +23,10 @@ for ($i=0;$i<sizeof($jd);$i++) {
 		$valid = true;
 		$wd = "height:40px;";
 	}
-	echo "<tr><td><form method='POST' action='index.php'>";
+	echo "<tr><td><form method='POST' action='#'>";
 	if ($did)
-		echo "<input name='id' type='hidden' value='".$data->id."'>"; 
-	echo "</td><td><input id='button' style='width:100%; $wd' 
+		echo "<input name='id' type='hidden' value='".$data->id."'>";
+	echo "</td><td><input id='button' style='width:100%; $wd'
 	name='".$n."' type='submit' value='".$v."'></form></td></tr>";
 }
 echo "</table>";

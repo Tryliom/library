@@ -248,11 +248,11 @@ $jd= json_decode($json_source);
 		<form method=post>
 		<input type='hidden' name='book_list' />
 		<input type='hidden' value='$bid' name='id'/>
-		<td><input id='textmin' type='text' name='title' value='$title' /></td>
-		<td><input id='textmin' type='text' name='author' value='$author' /></td>
-		<td><input id='textmin' type='text' name='date' value='$date' /></td>
-		<td><input id='textmin' type='text' name='edition' value='$edition' /></td>
-		<td><input id='textmin' type='text' name='editor' value='$editor' /></td>
+		<td><input id='textmin' type='text' name='title' value=\"$title\" /></td>
+		<td><input id='textmin' type='text' name='author' value=\"$author\" /></td>
+		<td><input id='textmin' type='text' name='date' value=\"$date\" /></td>
+		<td><input id='textmin' type='text' name='edition' value=\"$edition\" /></td>
+		<td><input id='textmin' type='text' name='editor' value=\"$editor\" /></td>
 		<td><input id='textmin' type='text' name='desc' value=\"$desc\" /></td>
 		<td><input id='textmin' type='text' name='lib' value='$lib' /></td>
 		<td id='textdisp'> 
