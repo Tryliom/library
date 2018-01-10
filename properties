@@ -1,0 +1,4 @@
+# Mysql folder (Verify if is it valid)
+mysql = C:\wamp64\bin\mysql\mysql5.7.19\bin
+# Name of file with backup of mysql db
+name_lib = lib.sql
