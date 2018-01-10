@@ -2,6 +2,5 @@
 /target/
 /.metadata/
 commit.bat
-.*
 /Doc/server/
 /Doc/JavaDoc/
