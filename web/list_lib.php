@@ -172,10 +172,9 @@ if (isset($_REQUEST['book_list']) && isset($_REQUEST['update'])) {
 
 $json_source = file_get_contents('http://localhost:6080/library/get/');
 $jd= json_decode($json_source);
-	$h = "<h1>Gestion des librairies</h1>
+	$h = "<h1>Gestion des bibliothèques</h1>
 	<table id='list' cellspacing='0'>
 		<tr>
-			<th>ID</th>
 			<th>Nom</th>
 			<th>Adresse</th>
 			<th>Options</th>
@@ -185,14 +184,12 @@ $jd= json_decode($json_source);
 		$lid = $jd[$i]->id;
 		$adress = $jd[$i]->adress;
 		$name = $jd[$i]->name;
-		$list_idlib .= $lid."g";
+		$list_idlib .= $jd[$i]->name."§";
 		$m .= "
 			<tr>
 				<form method='post'>
 					<input type='hidden' name='lib_list' />
-					<td>
-						<input id='textmin' type='text' value='$lid' name='id' />
-					</td>
+					<input type='hidden' value='$lid' name='id' />
 					<td>
 						<input id='textmin' type='text' name='name' value=\"$name\" />
 					</td>
@@ -209,9 +206,6 @@ $jd= json_decode($json_source);
 		<form method=post>	
 			<input type='hidden' name='lib_add' />
 			<tr>
-				<td>
-					<input id='textmin' type='text' name='id' disabled/>
-				</td>
 				<td>
 					<input id='textmin' type='text' name='name' />
 				</td>
@@ -232,7 +226,7 @@ $jd= json_decode($json_source);
 	require_once('page.php');	
 	$json_source = file_get_contents('http://localhost:6080/book/get/'.$page.'/-1');
 	$jd= json_decode($json_source);
-	$h = "<table id='list' cellspacing='0'><th>Titre</th><th>Auteur</th><th>Date</th><th>Édition</th><th>Editeur</th><th>Description</th><th>Librarie ID</th><th>Options</th>";
+	$h = "<table id='list' cellspacing='0'><th>Titre</th><th>Auteur</th><th>Date</th><th>Édition</th><th>Editeur</th><th>Description</th><th>Bibliothèque</th><th>Options</th>";
 	$m = "";
 	for ($i=0;$i<sizeof($jd);$i++) {
 		$bid = $jd[$i]->id;
@@ -254,7 +248,20 @@ $jd= json_decode($json_source);
 		<td><input id='textmin' type='text' name='edition' value=\"$edition\" /></td>
 		<td><input id='textmin' type='text' name='editor' value=\"$editor\" /></td>
 		<td><input id='textmin' type='text' name='desc' value=\"$desc\" /></td>
-		<td><input id='textmin' type='text' name='lib' value='$lib' /></td>
+		<td>
+		<select style='width:100%;' id='textmin' name='lib'>
+		";
+		$list_idlib2 = preg_split("[§]", $list_idlib);
+		for ($j=0;$j<sizeof($list_idlib2);$j++) {
+			$s = "";
+			if (Utils::getInfoLibrary($lib, "name")==$list_idlib2[$j])
+				$s = "selected";
+			if ($list_idlib2[$j]!=="")
+				$m .= "<option $s value=\"".Utils::getIdLibrary($list_idlib2[$j])."\">".$list_idlib2[$j]."</option>";
+		}
+		$m .= "
+		</select>
+		</td>
 		<td id='textdisp'> 
 			".Utils::getButtonImage("save", "Sauvegarder", "update").Utils::getButtonImage("delete", "Supprimer", "delete")."
 		</td>
@@ -271,9 +278,10 @@ $jd= json_decode($json_source);
 	<td>
 	<select style='width:100%;' id='textmin' name='lib'>
 	";
-	$list_idlib = preg_split("[g]", $list_idlib);
-	for ($j=0;$j<sizeof($list_idlib);$j++) {
-		$b .= "<option value='".$list_idlib[$j]."'>".$list_idlib[$j]."</option>";
+	$list_idlib2 = preg_split("[§]", $list_idlib);
+	for ($j=0;$j<sizeof($list_idlib2);$j++) {
+		if ($list_idlib2[$j]!=="")
+			$b .= "<option value='".Utils::getIdLibrary($list_idlib2[$j])."'>".$list_idlib2[$j]."</option>";
 	}
 	$b .= "
 	</select>
@@ -300,7 +308,7 @@ $jd= json_decode($json_source);
 		$email = $jd[$i]->email;
 		$tel = $jd[$i]->tel;
 		$level = $jd[$i]->level_access;
-		$dis = ($jd[$i]->token === $_SESSION['token_admin'] ? "disabled" : "");
+		$dis = ($jd[$i]->token === $_SESSION['token'] ? "disabled" : "");
 		$m .= "<tr>
 			<form method=post>
 				<input type='hidden' value='$uid' name='id'/>

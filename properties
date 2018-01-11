@@ -2,3 +2,5 @@
 mysql = C:\wamp64\bin\mysql\mysql5.7.19\bin
 # Name of file with backup of mysql db
 name_lib = lib.sql
+# Start Java app after execute jar.bat (0 = false, 1 = true)
+autostart = 1

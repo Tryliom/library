@@ -789,6 +789,46 @@ public class RestHandler {
 			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
 		}
 	}
+	
+	/**
+	 * This method is used to get a specificatly library with his ID
+	 * @param lib	ID of library
+	 * @return		Table with all library (title author date description edition editor)
+	 */
+	@GET
+	@Path("/library/get/id/{library_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getLibraryById(@PathParam("library_id") String lib) {
+		try {
+			Vector<String> list = DBExecutor.selectQuery("SELECT id, name, adress FROM library WHERE id = "+lib);
+			
+			HashMap<Integer, String> hash = Utils.putInMap("id name adress".split(" "));	
+			
+			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
+	
+	/**
+	 * This method is used to get a specificatly library with his ID
+	 * @param lib	ID of library
+	 * @return		Table with all library (title author date description edition editor)
+	 */
+	@GET
+	@Path("/library/get/name/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getLibraryByName(@PathParam("name") String lib) {
+		try {
+			Vector<String> list = DBExecutor.selectQuery("SELECT id FROM library WHERE name = '"+lib+"'");
+			
+			HashMap<Integer, String> hash = Utils.putInMap("id".split(" "));	
+			
+			return getResponseWithHeaders(JSONGenerator.getJsonWithTable(list, hash), HttpResponseCode.OK);
+		} catch (Exception e) {
+			return getResponseWithHeaders(e.getMessage(), HttpResponseCode.NOK);
+		}
+	}
 
 	/**
 	 * This method is used to get all book in a library which anyone has rent

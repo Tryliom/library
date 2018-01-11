@@ -1,4 +1,6 @@
 @echo off
+for /f "tokens=1,3" %%a in (properties) do set %%a=%%b
+
 set BIBN=lib.jar
 call mvn compiler:compile
 call mvn package -Dmaven.javadoc.skip=true -Dmaven.test.skip=true
@@ -14,4 +16,5 @@ echo java -jar %BIBN% > Doc\server\start.bat
 echo pause >> Doc\server\start.bat
 del "target\*.jar"
 echo Jar created ! Go to Doc\server and execute start.bat !
-timeout /t 10>nul
+cd Doc\server\
+if 0 == %autostart% (timeout /t 10>nul) else (start start.bat)

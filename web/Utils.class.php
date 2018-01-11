@@ -128,6 +128,30 @@ class Utils {
 			return $jd[0]->level_access;
 	}
 
+	public static function getInfoLibrary($id, $info) {
+		$json_source = file_get_contents('http://localhost:6080/library/get/id/'.$id);
+		$jd= json_decode($json_source);
+		if (sizeof($jd)===0)
+			return "Not found";
+		if ($info=="id")
+			return $jd[0]->id;
+		if ($info=="name")
+			return $jd[0]->name;
+		if ($info=="adress")
+			return $jd[0]->adress;
+	}
+
+	public static function getIdLibrary($name) {
+		$json_source = file_get_contents('http://localhost:6080/library/get/name/'.str_replace("+", "%20", urlencode($name)));
+		$jd= json_decode($json_source);
+		if (sizeof($jd)===0) {
+			echo $json_source.'<br>'.'http://localhost:6080/library/get/name/'.str_replace("+", "%20", urlencode($name)).'<br>';
+			return "Not found";			
+		}
+		return $jd[0]->id;
+	}
+
+
 	public static function getButtonImage($src, $title, $name) {
 		return "
 		<input id='$src' type='submit' value='' title='$title' name='$name' />

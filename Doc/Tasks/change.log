@@ -1,0 +1,11 @@
+10.01.2018
+Ajout d'un script pour importer la base de donnée
+Ajout d'un script pour exporter la base de donnée
+Amélioration des scripts et leurs ergonomie
+Ajout d'une nouvelle fonction getInfoLibrary dans Utils.class.php
+Ajout d'une nouvelle fonction getLibraryById() dans RestHandler.java
+Ajout d'une option dans le fichier propreties pour auto start le server Java une fois le script de sa création terminé
+Retirage de la colonne des ID des bibliothèques
+Liste déroulante pour choisir la bibliothèque par leur nom dans la gestion des livres
+Ajout d'une nouvelle fonction getIdLibrary dans Utils.class.php
+Ajout d'une nouvelle fonction getLibraryByName() dans RestHandler.java

@@ -15,6 +15,7 @@ import me.alexishaldy.rest.ServerTest;
 import me.alexishaldy.util.UtilsTest;
 
 
+
 @RunWith(Suite.class)
 @SuiteClasses({
   // Test class
