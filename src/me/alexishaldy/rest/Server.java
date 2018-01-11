@@ -31,7 +31,7 @@ public class Server {
  	 */
     public static void main(String[] args) throws Exception {
     	
-		Properties pro = Utils.getDBProperties();
+		Properties pro = Utils.getDBProperties("." + System.getProperty("file.separator"));
     	
     	// Get the host from the properties file, or set a default one
     	String host =  pro.getProperty("host");

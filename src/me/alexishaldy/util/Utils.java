@@ -31,8 +31,8 @@ public class Utils {
 	 * @throws Exception Throws an exception in case a problem during parsing
 	 * the file happened or the file does not exist.
 	 */
-	public static Properties getDBProperties() throws Exception{
-		return parseFile(DB_CONF);
+	public static Properties getDBProperties(String path) throws Exception{
+		return parseFile(path + DB_CONF);
 	}
 	
 	/**

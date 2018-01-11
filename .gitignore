@@ -4,3 +4,5 @@
 commit.bat
 /Doc/server/
 /Doc/JavaDoc/
+mysql_export.bat
+**/*.jar
