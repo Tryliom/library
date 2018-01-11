@@ -1,5 +1,6 @@
 package me.alexishaldy.db.pool;
 
+import java.net.URLDecoder;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Properties;
@@ -61,7 +62,8 @@ public class DBConnectionPool {
 		_cvEmpty = _pushMutex.newCondition();
 		_cvFull = _popMutex.newCondition();
 		_pool = new ArrayDeque<DBConnection>();
-		Properties pro = Utils.getDBProperties();
+		String path = URLDecoder.decode(getClass().getClassLoader().getResource("").getPath(), "UTF-8");
+		Properties pro = Utils.getDBProperties(path.split("classes")[0]);
 		String host = pro.getProperty("dbhost");
 		String port = pro.getProperty("dbport");
 		String user = pro.getProperty("username");
