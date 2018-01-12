@@ -88,5 +88,5 @@ echo "<div>
 </div>";
 
 
-require_once("footer.html");
+require_once("footer.php");
 ?>

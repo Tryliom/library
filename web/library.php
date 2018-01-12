@@ -17,5 +17,5 @@ switch ($level_access) {
 		require_once("admin_lib.php");
 		break;
 }
-require_once("footer.html");
+require_once("footer.php");
 ?>

@@ -62,7 +62,7 @@ echo "<div>
 
 echo "</td></tr></table>";
 
-require_once("footer.html");
+require_once("footer.php");
 
 
 function getPost($str) {

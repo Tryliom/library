@@ -16,7 +16,7 @@ if (isset($_SESSION['token']) && Utils::isValidSA($_SESSION['token'])) {
 	header("Location: index.php");
 }
 
-require_once("footer.html");
+require_once("footer.php");
 
 
 function generateToken($length) {

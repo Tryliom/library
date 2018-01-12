@@ -6,5 +6,5 @@ require_once("bdd.php");
 
 require_once("lib.php");
 
-require_once("footer.html");
+require_once("footer.php");
 ?>
