@@ -1,6 +1,6 @@
 <?php
 
-$json_source = file_get_contents('http://localhost:6080/user/get/token/'.$_SESSION['token']);
+$json_source = file_get_contents($urlhost.'user/get/token/'.$_SESSION['token']);
 $jd= json_decode($json_source);
 
 $id = $jd[0]->id;

@@ -9,7 +9,7 @@ if (isset($_REQUEST['return'])) {
 	$lib = $_SESSION['lib'];
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/return/$bid/$uid/$lib");
+	curl_setopt($ch, CURLOPT_URL,$urlhost."$bid/$uid/$lib");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$s = curl_exec ($ch);
@@ -22,7 +22,7 @@ if (isset($_REQUEST['return'])) {
 }
 $h = "<table id='list' cellspacing='10'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Option</th><tr>";
 $m = "";
-$json_source = file_get_contents('http://localhost:6080/renter/get/1/'.$_SESSION['lib']);
+$json_source = file_get_contents($urlhost.'renter/get/1/'.$_SESSION['lib']);
 $jd= json_decode($json_source);
 for ($i=0;$i<sizeof($jd);$i++) {
 	$bid = $jd[$i]->id;

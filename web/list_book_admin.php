@@ -13,7 +13,7 @@ if (isset($_REQUEST['add'])) {
 	$lid = $_SESSION['lib'];
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/book/add");
+	curl_setopt($ch, CURLOPT_URL,$urlhost."book/add");
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
 	curl_setopt($ch, CURLOPT_POSTFIELDS, "title=$title&author=$author&date=$date&description=$desc&edition=$edition&editeur=$editeur&library_id=$lid");
@@ -37,7 +37,7 @@ if (isset($_REQUEST['update'])) {
 	$id = $_REQUEST['id'];
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/book/edit");
+	curl_setopt($ch, CURLOPT_URL,$urlhost."book/edit");
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
 	curl_setopt($ch, CURLOPT_POSTFIELDS, "title=$title&author=$author&date=$date&description=$desc&edition=$edition&editeur=$editeur&library_id=$lid&id=$id");
@@ -54,7 +54,7 @@ if (isset($_REQUEST['delete'])) {
 	$id = $_REQUEST['id'];
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/book/delete/$id");
+	curl_setopt($ch, CURLOPT_URL,$urlhost."book/delete/$id");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$s = curl_exec ($ch);
@@ -67,7 +67,7 @@ if (isset($_REQUEST['delete'])) {
 }
 
 require_once('page.php');
-$json_source = file_get_contents('http://localhost:6080/book/get/'.$page.'/'.$_SESSION['lib']);
+$json_source = file_get_contents($urlhost.'book/get/'.$page.'/'.$_SESSION['lib']);
 $jd= json_decode($json_source);
 $h = "<table id='list' cellspacing='0'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Statut</th><th>Option</th>";
 $m = "";

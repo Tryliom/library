@@ -8,7 +8,7 @@
 	}
 	$user_id;
 	if (isset($_SESSION['token']) && Utils::isValid($_SESSION['token'])) {
-		$json_source = file_get_contents('http://localhost:6080/user/get/token/'.$_SESSION['token']);
+		$json_source = file_get_contents($urlhost.'user/get/token/'.$_SESSION['token']);
 		$jd= json_decode($json_source);
 		$us = "user_admin_32";
 		$user_id = $jd[0]->id;

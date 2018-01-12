@@ -1,10 +1,13 @@
 <?php
 
 class Utils {
+	public static function getUrl() {
+		return "http://localhost:6080/remoteGIT/";
+	}
 
 	public static function isValid($token) {
 		$b=false;
-		$json_source = file_get_contents('http://localhost:6080/user/verif/member/'.$token);
+		$json_source = file_get_contents(Utils::getUrl().'user/verif/member/'.$token);
 		$jd= json_decode($json_source);
 		$name = empty($jd) ? "" : $jd[0]->username;
 		if (empty($name)) {
@@ -16,7 +19,7 @@ class Utils {
 
 	public static function isValidSA($token) {
 		$b=false;
-		$json_source = file_get_contents('http://localhost:6080/user/verif/admin/'.$token);
+		$json_source = file_get_contents(Utils::getUrl().'user/verif/admin/'.$token);
 		$jd= json_decode($json_source);
 		$name = empty($jd) ? "" : $jd[0]->username;
 		if (empty($name)) {
@@ -79,7 +82,7 @@ class Utils {
 	}
 
 	public static function getInfoBook($id, $info) {
-		$json_source = file_get_contents('http://localhost:6080/book/getid/'.$id);
+		$json_source = file_get_contents(Utils::getUrl().'book/getid/'.$id);
 		$jd= json_decode($json_source);
 		if (sizeof($jd)===0)
 			return "Not found";
@@ -104,7 +107,7 @@ class Utils {
 	}
 
 	public static function getInfoUser($id, $info) {
-		$json_source = file_get_contents('http://localhost:6080/user/get/id/'.$id);
+		$json_source = file_get_contents(Utils::getUrl().'user/get/id/'.$id);
 		$jd= json_decode($json_source);
 		if (sizeof($jd)===0)
 			return "Not found";
@@ -129,7 +132,7 @@ class Utils {
 	}
 
 	public static function getInfoLibrary($id, $info) {
-		$json_source = file_get_contents('http://localhost:6080/library/get/id/'.$id);
+		$json_source = file_get_contents(Utils::getUrl().'library/get/id/'.$id);
 		$jd= json_decode($json_source);
 		if (sizeof($jd)===0)
 			return "Not found";
@@ -142,10 +145,9 @@ class Utils {
 	}
 
 	public static function getIdLibrary($name) {
-		$json_source = file_get_contents('http://localhost:6080/library/get/name/'.str_replace("+", "%20", urlencode($name)));
+		$json_source = file_get_contents(Utils::getUrl().'library/get/name/'.str_replace("+", "%20", urlencode($name)));
 		$jd= json_decode($json_source);
 		if (sizeof($jd)===0) {
-			echo $json_source.'<br>'.'http://localhost:6080/library/get/name/'.str_replace("+", "%20", urlencode($name)).'<br>';
 			return "Not found";			
 		}
 		return $jd[0]->id;
@@ -158,14 +160,14 @@ class Utils {
 		";
 	}
 
-	public static function getImage($src, $title, $size = 32) {
+	public static function getImage($src, $title, $size = 16) {
 		return "
-		<img src='images/$src.png' height='".$size."px' width='".$size."px' alt='$title'/>
+		<img src='images/$src.png' style='margin: 0 0 0 ".($size)."px;' height='".$size."px' width='".$size."px' alt='$title'/>
 		";
 	}
 
 	public static function hasAlert($user_id) {
-		$s = file_get_contents('http://localhost:6080/renter/hasalert/'.$user_id);
+		$s = file_get_contents(Utils::getUrl().'renter/hasalert/'.$user_id);
 		if ($s==="true")
 			return true;
 		else

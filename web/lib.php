@@ -8,7 +8,7 @@ if (isset($_REQUEST['choose'])) {
 	$_SESSION['lib'] = $_REQUEST['id'];
 }
 echo "<h1>Bibliothèques disponibles</h1><table id='user' style='width:30%;'>";
-$json_source = file_get_contents('http://localhost:6080/library/get');
+$json_source = file_get_contents($urlhost.'library/get');
 $jd= json_decode($json_source);
 for ($i=0;$i<sizeof($jd);$i++) {
 	$data = $jd[$i];

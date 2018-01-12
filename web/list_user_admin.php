@@ -13,7 +13,7 @@ if (isset($_REQUEST['add'])) {
 	$pass = sha1($_REQUEST['password']);
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/add");
+	curl_setopt($ch, CURLOPT_URL,$urlhost."user/add");
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
 	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&email=$email&tel=$tel&level_access=$level&password=$pass&token=42");
@@ -38,7 +38,7 @@ if (isset($_REQUEST['update'])) {
 	$uid = $_REQUEST['id'];
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/edit/admin");
+	curl_setopt($ch, CURLOPT_URL,$urlhost."user/edit/admin");
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
 	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&password=$pass&email=$email&tel=$tel&level_access=$level&id=$uid");
@@ -55,7 +55,7 @@ if (isset($_REQUEST['delete'])) {
 	$id = $_REQUEST['id'];
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/delete/$id");
+	curl_setopt($ch, CURLOPT_URL,$urlhost."user/delete/$id");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$s = curl_exec ($ch);
@@ -67,7 +67,7 @@ if (isset($_REQUEST['delete'])) {
 	}
 }
 
-$json_source = file_get_contents('http://localhost:6080/user/get/');
+$json_source = file_get_contents($urlhost.'user/get/');
 $jd= json_decode($json_source);
 $h = "<table id='list' cellspacing='0'><th>Pseudo</th><th>Prénom</th><th>Nom</th><th>Mot de passe</th><th>Email</th><th>Téléphone</th><th>Niveau d'accès</th><th>Options</th>";
 $m = "";

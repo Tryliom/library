@@ -7,7 +7,7 @@ if (isset($_REQUEST['accept'])) {
 	$rid = $_REQUEST['id'];
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/admin/valid/$rid");
+	curl_setopt($ch, CURLOPT_URL,$urlhost."admin/valid/$rid");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$s = curl_exec ($ch);
@@ -20,7 +20,7 @@ if (isset($_REQUEST['accept'])) {
 }
 if (isset($_REQUEST['cancel'])) {
 	$rid = $_REQUEST['id'];
-	$url = "http://localhost:6080/renter/cancel/$rid";
+	$url = $urlhost."renter/cancel/$rid";
 
 	$s = file_get_contents($url);
 	
@@ -32,7 +32,7 @@ if (isset($_REQUEST['cancel'])) {
 }
 $h = "<table id='list' cellspacing='0'><th>Titre</th><th>Numéro d'édition</th><th>Utilisateur</th><th>Option</th>";
 $m = "";
-$json_source = file_get_contents('http://localhost:6080/renter/get/tovalid/1/'.$_SESSION['lib']);
+$json_source = file_get_contents($urlhost.'renter/get/tovalid/1/'.$_SESSION['lib']);
 $jd= json_decode($json_source);
 for ($i=0;$i<sizeof($jd);$i++) {
 	$bid = $jd[$i]->book_id;

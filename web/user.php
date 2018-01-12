@@ -9,16 +9,16 @@ if (isset($_REQUEST['save'])) {
 	$tel = $_REQUEST['tel'];
 	$pass = isset($_REQUEST['pass']);
 	$s = "";
-	$json_source = file_get_contents('http://localhost:6080/user/get/token/'.$_SESSION['token']);
+	$json_source = file_get_contents($urlhost.'user/get/token/'.$_SESSION['token']);
 	$jd= json_decode($json_source);
 	$id = $jd[0]->id;
 	$ch = curl_init();
 	$p = $pass && !empty($_REQUEST['pass']);
 	if ($p) {
 		$pass = sha1($_REQUEST['pass']);
-		curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/change/$pass/$id");
+		curl_setopt($ch, CURLOPT_URL,$urlhost."user/change/$pass/$id");
 	} else {
-		curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/edit/$email/$tel/$id");
+		curl_setopt($ch, CURLOPT_URL,$urlhost."user/edit/$email/$tel/$id");
 	}
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -34,7 +34,7 @@ if (isset($_REQUEST['save'])) {
 
 
 
-$json_source = file_get_contents('http://localhost:6080/user/get/token/'.$_SESSION['token']);
+$json_source = file_get_contents($urlhost.'user/get/token/'.$_SESSION['token']);
 $jd= json_decode($json_source);
 
 $id = $jd[0]->id;

@@ -9,3 +9,12 @@ Retirage de la colonne des ID des bibliothèques
 Liste déroulante pour choisir la bibliothèque par leur nom dans la gestion des livres
 Ajout d'une nouvelle fonction getIdLibrary dans Utils.class.php
 Ajout d'une nouvelle fonction getLibraryByName() dans RestHandler.java
+Ajout de la variable $urlhost dans bdd.php pour changer les débuts d'url pour la rest api si on veut changer le port ou autre
+
+11.01.2018
+Ajout de Tomcat server pour qu'il lance auto le serveur Java REST
+Modification de tout le web pour qu'on puisse changer le début de l'url en modifiant juste la fonction getUrl() dans Utils.class.php
+
+12.01.2018
+Changement de la taille des icônes
+Panel administrateur refait pour partager en 3 sections les gestionnaires

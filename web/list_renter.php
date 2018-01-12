@@ -5,7 +5,7 @@ if (strpos($_SERVER['PHP_SELF'], 'list_renter.php') !== false) {
 
 if (isset($_REQUEST['cancel'])) {
 	$rid = $_REQUEST['renter_id'];
-	$url = "http://localhost:6080/renter/cancel/$rid";
+	$url = $urlhost."renter/cancel/$rid";
 
 	$s = file_get_contents($url);
 	
@@ -20,7 +20,7 @@ if (isset($_REQUEST['renew'])) {
 	$rid = $_REQUEST['renter_id'];
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/renter/renew/$rid");
+	curl_setopt($ch, CURLOPT_URL,$urlhost."renter/renew/$rid");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$s = curl_exec ($ch);
@@ -35,7 +35,7 @@ if (isset($_REQUEST['renew'])) {
 $h = "<table id='list' cellspacing='0'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>État</th><th>Option</th>";
 $m = "";
 
-$json_source = file_get_contents('http://localhost:6080/renter/get/1/'.$_SESSION['lib']);
+$json_source = file_get_contents($urlhost.'renter/get/1/'.$_SESSION['lib']);
 $jd= json_decode($json_source);
 for ($i=0;$i<sizeof($jd);$i++) {
 	$bid = $jd[$i]->id;
@@ -52,7 +52,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 	$status = 0;
 	$n = "renew";
 	$rid = "";
-	$json_source2 = file_get_contents('http://localhost:6080/renter/user/get/'.$id.'/'.$bid);		
+	$json_source2 = file_get_contents($urlhost.'renter/user/get/'.$id.'/'.$bid);		
 	$jd2= json_decode($json_source2);
 	if (sizeof($jd2) == 0)
 		continue;

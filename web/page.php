@@ -33,7 +33,7 @@ echo '<style>
 	$json_source = "";
 	$j = 1;	
 	for ($j=1;true;$j++) {
-		$json_source = file_get_contents('http://localhost:6080/book/get/'.$j.'/'.$libadmin);
+		$json_source = file_get_contents($urlhost.'book/get/'.$j.'/'.$libadmin);
 		$jd= json_decode($json_source);
 		if (sizeof($jd)===0 || $j>($page+6))			
 			break;

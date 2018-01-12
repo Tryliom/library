@@ -21,7 +21,7 @@ if ($w === 1) {
 		// Généré une new token et le garder co
 		$token = generateToken(32);
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/member/update/".$_REQUEST['username']."/".sha1($_REQUEST['pass'])."/$token");
+		curl_setopt($ch, CURLOPT_URL,$urlhost."user/member/update/".$_REQUEST['username']."/".sha1($_REQUEST['pass'])."/$token");
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$s = curl_exec ($ch);

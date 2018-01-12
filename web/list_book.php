@@ -10,7 +10,7 @@ if (isset($_REQUEST['take'])) {
 	$lib = $_SESSION['lib'];
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/take/$bid/$uid/$lib");
+	curl_setopt($ch, CURLOPT_URL,$urlhost."user/take/$bid/$uid/$lib");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$s = curl_exec ($ch);
@@ -28,7 +28,7 @@ if (isset($_REQUEST['reserve'])) {
 	$lib = $_SESSION['lib'];
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL,"http://localhost:6080/user/take/$bid/$uid/$lib");
+	curl_setopt($ch, CURLOPT_URL,$urlhost."user/take/$bid/$uid/$lib");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$s = curl_exec ($ch);
@@ -41,7 +41,7 @@ if (isset($_REQUEST['reserve'])) {
 }
 
 require_once('page.php');
-$json_source = file_get_contents('http://localhost:6080/book/get/'.$page.'/'.$_SESSION['lib']);
+$json_source = file_get_contents($urlhost.'book/get/'.$page.'/'.$_SESSION['lib']);
 $jd= json_decode($json_source);
 $h = "<table id='list' cellspacing='0'><th>Titre</th><th>Auteur</th><th>Date</th><th>Numéro d'édition</th><th>Editeur</th><th>Description</th><th>Option</th><tr>";
 $m = "";
@@ -58,7 +58,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 	
 	$nm="";
 	$status = 0;
-	$json_source2 = file_get_contents('http://localhost:6080/renter/user/get/'.$id.'/'.$bid);		
+	$json_source2 = file_get_contents($urlhost.'renter/user/get/'.$id.'/'.$bid);		
 	$jd2= json_decode($json_source2);
 	for ($j = 0;$j<sizeof($jd2);$j++) {
 		$status = $jd2[$j]->status;
@@ -81,7 +81,7 @@ for ($i=0;$i<sizeof($jd);$i++) {
 	<td>
 		<input id='button' type='submit' value='$name' name='$n' $dis />";
 	if ($user_id>0 && $user_id!=$id) {
-		$json_source2 = file_get_contents('http://localhost:6080/renter/getall/'.$bid);		
+		$json_source2 = file_get_contents($urlhost.'renter/getall/'.$bid);		
 		$jd2= json_decode($json_source2);
 		$date = "";
 		for ($j = 0;$j<sizeof($jd2);$j++) {
