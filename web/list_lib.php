@@ -38,13 +38,12 @@ if (isset($_REQUEST['update']) && isset($_REQUEST['user'])) {
 	$tel = $_REQUEST['tel'];
 	$level = $_REQUEST['level'];
 	$uid = $_REQUEST['id'];
-	$lib = $_REQUEST['lib']; //  Notice: Undefined index: lib in C:\wamp64\www\Test\remoteGIT\web\list_lib.php on line 41
 	$ch = curl_init();
 
 	curl_setopt($ch, CURLOPT_URL,$urlhost."user/edit/superadmin");
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // N'affiche pas le résultat dans la page
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&password=$pass&email=$email&tel=$tel&level_access=$level&id=$uid&library_id=$lib");
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "username=$pseudo&name=$name&lastname=$lastname&password=$pass&email=$email&tel=$tel&level_access=$level&id=$uid");
 	$s = curl_exec ($ch);
 	curl_close ($ch);
 	if ($s==="true") {
@@ -185,6 +184,12 @@ echo "
 </div>
 ";
 
+$json_source = file_get_contents($urlhost.'library/get/');
+$jd= json_decode($json_source);
+for ($i=0;$i<sizeof($jd);$i++) {
+	$list_idlib .= $jd[$i]->name."§";
+}
+
 if (isset($_GET['section'])) {
 	$_SESSION['list'] = $_GET['section'];
 }
@@ -208,7 +213,6 @@ if ($_SESSION['list']=="lib") {
 			$lid = $jd[$i]->id;
 			$adress = $jd[$i]->adress;
 			$name = $jd[$i]->name;
-			$list_idlib .= $jd[$i]->name."§";
 			$m .= "
 				<tr>
 					<form method='post'>
